@@ -53,19 +53,19 @@
                (assert (object ?w :urdf quadrotor02 ((3 -11 2)(0 0 0 1)) :urdf ,quad02-urdf))
              )))))))
 
-(defun add-landmarks()
+(defun add-manmade-objects()
   (roslisp:ros-info (sherpa-mission) "Add landmarks!")
   (btr::prolog
    `(and
      (bullet-world ?w)
-     (assert (object ?w :sphere sphere0 ((-3 2 0) (0 0 0 1)) ;;blue
-                     :color (0 0 1)  :mass 0.2 :radius 0.5))
-     (assert (object ?w :sphere sphere1 ((5.5 3 0) (0 0 0 1)) ;;yellow
-                     :color (1 1 0)  :mass 0.2 :radius 0.5))
-      (assert (object ?w :sphere sphere2 ((-8.5 -3 0) (0 0 0 1)) ;;red
-                      :color (1 0 0)  :mass 0.2 :radius 0.5)))))
+     (assert (object ?w :mesh jacket01 ((-3 2 0) (0 0 0 1)) ;; (1 0 0)red
+                     :mesh :jacket :color (1 0 0)  :mass 2))
+     (assert (object ?w :mesh capt01 ((5.5 3.7 0) (0 0 0 1)) ;; (1 0 0)red
+                     :mesh :cap :color (0 0 1)  :mass 2))
+     (assert (object ?w :mesh jacket02 ((-8.5 -3 0) (0 0 0 1)) ;;(0 0 1)blue
+                      :mesh :jacket :color (0 0 1)  :mass 2)))))
 
-(defun add-pointer()
+(defun add-pointers()
   (roslisp:ros-info (sherpa-mission) "Add pointer!")
   (btr::prolog
    `(and
