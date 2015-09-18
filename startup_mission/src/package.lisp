@@ -28,7 +28,7 @@
 
 (in-package :cl-user)
 
-(defpackage startup-mission
+(desig-props:def-desig-package startup-mission
     (:use #:desig
           #:cram-roslisp-common
           #:location-costmap
@@ -41,5 +41,5 @@
           #:cram-language-implementation)
         ;;  #:bullet-reasoning-utilities)
   (:shadowing-import-from #:btr object pose object-pose width height name)
-  (:shadowing-import-from #:cram-prolog fail))
-
+  (:shadowing-import-from #:cpl-impl #:fail)
+  (:desig-properties #:behindOf #:rightOf #:leftOf #:farFrom #:nextTo #:goTo #:lookAt #:lookFor #:agent))

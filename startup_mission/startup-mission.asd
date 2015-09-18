@@ -52,4 +52,7 @@
   ((:module "src"
     :components
     ((:file "package")
-     (:file "start-scenario" :depends-on ("package"))))))
+     (:file "costmap-knowledge" :depends-on("package"))
+     (:file "cost-functions" :depends-on ("package"))
+     (:file "reasoning" :depends-on ("package" "cost-functions"))
+     (:file "start-scenario" :depends-on ("package" "costmap-knowledge" "reasoning" ))))))

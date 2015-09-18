@@ -28,6 +28,8 @@
 
 (in-package :startup-mission)
 
+(defvar *obj-pose*)
+
 (defun start-world ()
   (roslisp:ros-info (sherpa-mission) "START WORLD!")
  ;; (roslisp-utilities:startup-ros)
@@ -53,7 +55,7 @@
                (assert (object ?w :urdf quadrotor02 ((3 -11 2)(0 0 0 1)) :urdf ,quad02-urdf))
              )))))))
 
-(defun add-manmade-objects()
+(defun spawn-manmade-objects()
   (roslisp:ros-info (sherpa-mission) "Add landmarks!")
   (btr::prolog
    `(and
@@ -75,15 +77,30 @@
      (assert (object ?w :sphere col02 ((3 -0.2 3) (0 0 0 1)) ;;yellow
                      :color (1 0 1)  :mass 0.2 :radius 0.2))
       (assert (object ?w :sphere col03 ((-5.2 -3.5 3) (0 0 0 1)) ;;red
-                      :color (1 0 1)  :mass 0.2 :radius 0.2)))))
-;;(defun start-demo ()
-;;  (sb-ext:gc :full t)
-;;  (cram-projection:with-projection-environment
-;;      projection-process-modules::quadrotor-bullet-projection-environment
-;;    (cpl-impl:top-level
-;;      (let((jacket-designator (find-object-behind-forest ... ... ...)))
-;;         (let ((cap-designator (find-object-behind
-;;   (sb-ext:gc :full t)
-;;  (cram-language-designator-support:with-designators
-;; ((
-;;  )
+                      :color (1 0 1)  :mass 0.2 :radius 0.2))))
+ (make-object-desig 'quadrotor01 'col03 'jacket02)
+  )
+
+(defun make-object-desig (quadrotor env-obj manmade-obj)
+    (let* ((liste (force-ll (prolog `(and (bullet-world ?w)
+                                       (contact ?w sem-map ,env-obj ?link)))))
+           (urdf-map (object *current-bullet-world* 'sem-map))
+           (hash-table (btr:links urdf-map))
+           (link (cdadar liste))
+           (obj-pose (pose (gethash link hash-table))))
+      (setf *obj-pose* obj-pose)
+    (make-designator :location `((agent ,quadrotor)
+                                 (rightOf ,obj-pose)
+                                 (lookFor ,manmade-obj)))))
+;;;;;;;;;;;;;PROJECTION;;;;;;;;;;;;;;
+(cpl-impl:def-cram-function detect-obj-jacket (jacket-obj-desig)
+;; (cram-language-designator-support:with-designators
+  ;;   ((left-side :location `((rightOf *obj-pose*)
+    ;;                        (lookFor ,jacket-obj-desig))))
+  (cpl-impl:top-level
+    (cram-projection:with-projection-environment
+        projection-process-modules::quadrotor-bullet-projection-environment
+       (let ((obj (find-object type)))
+ obj))))
+
+
