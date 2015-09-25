@@ -47,13 +47,13 @@
     (format "testing ~a~%" ?desig)
      ;; (desig-props ?desig (:to :see))
 		   (format "hello")
-    (desig-prop ?desig (rightOf ?obj-pose))
-   ;; (object-pose ?world ?obj ?obj-pose)
-  ;; (desig-prop ?desig (lookFor ?manmade))
-  ;; (object-pose ?world ?manmade ?obj1-pose)
+    (desig-props ?desig (rightOf ?obj))
+    (object-pose ?world ?obj ?obj-pose)
+   (desig-prop ?desig (lookFor ?manmade))
+   (object-pose ?world ?manmade ?obj1-pose)
    ;; (desig-prop ?man-made (type ?type))
    ;; (desig-prop ?man-made (color ?color))
-      (format "go further")
+   
     (costmap ?costmap)
     (costmap-add-function reasoning-generator
                           (make-reasoning-cost-function ?obj1-pose :X  < 0.3)

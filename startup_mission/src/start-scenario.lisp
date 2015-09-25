@@ -37,6 +37,7 @@
   (let* ((sem-urdf (cl-urdf:parse-urdf (roslisp:get-param "area_description")))
          (quad01-urdf (cl-urdf:parse-urdf (roslisp:get-param "robot_description01")))
          (quad02-urdf (cl-urdf:parse-urdf (roslisp:get-param "robot_description02")))
+        ;; (human-urdf (cl-urdf:parse-urdf (roslisp:get-param "human_description")))
          )
     (setf *list*
           (car 
@@ -50,9 +51,16 @@
                                :normal (0 0 1) :constant 0 :disable-collisions-with (?robot)))
                (debug-window ?w)
               (assert (object ?w :semantic-map sem-map ((0 0 0) (0 0 0 1)) :urdf ,sem-urdf))
-              ;;(btr::robot quadrotor)
+              
               (assert (object ?w :urdf quadrotor01 ((2 -11 1)(0 0 0 1)) :urdf ,quad01-urdf))
-               (assert (object ?w :urdf quadrotor02 ((3 -11 2)(0 0 0 1)) :urdf ,quad02-urdf))
+             
+             
+              (assert (object ?w :urdf quadrotor02 ((3 -11 2)(0 0 0 1)) :urdf ,quad02-urdf))
+               (btr::robot quadrotor01)
+               (btr::robot quadrotor02)
+              ;;  (assert (object ?w :urdf human ((0 -13 0)(0 0 -4 1)) :urdf ,human-urdf))
+               (assert (object ?w :mesh mountainarea ((2 -10 0) (0 0 -1 1))
+                     :mesh :berg :color (0.7 0.7 0.7)  :mass 2))
              )))))))
 
 (defun spawn-manmade-objects()
@@ -67,6 +75,15 @@
      (assert (object ?w :mesh jacket02 ((-8.5 -3 0) (0 0 0 1)) ;;(0 0 1)blue
                       :mesh :jacket :color (0 0 1)  :mass 2)))))
 
+(defun spawn-cone-and-manmade-object()
+   (btr::prolog
+   `(and
+     (bullet-world ?w)
+     (assert (object ?w :mesh jacket03
+                     ((-7 -8 0) (0 0 0 1)) 
+                     :mesh :jacket :color (1 0 0)  :mass 2))
+     (assert (object ?w :mesh cone ((-2.5 -10.3 -0.5) (0.1 0 -2.2 1))
+                     :mesh :cone :color (0.5 0.4 0.7)  :mass 2)))))
 (defun add-pointers()
   (roslisp:ros-info (sherpa-mission) "Add pointer!")
   (btr::prolog
@@ -80,7 +97,8 @@
                       :color (1 0 1)  :mass 0.2 :radius 0.2))))
  (make-object-desig 'quadrotor01 'col03 'jacket02)
   )
-
+;;(prolog `(and (bullet-world ?w) (assert (object ?w :mesh tanne ((-6.4 -3 0) (0 0 0 1))
+         ;;            :mesh :tanne :color (1 0 0)  :mass 3))))
 (defun make-object-desig (quadrotor env-obj manmade-obj)
     (let* ((liste (force-ll (prolog `(and (bullet-world ?w)
                                        (contact ?w sem-map ,env-obj ?link)))))
@@ -89,7 +107,7 @@
            (link (cdadar liste))
            (obj-pose (pose (gethash link hash-table))))
       (setf *obj-pose* obj-pose)
-    (make-designator :location `((agent ,quadrotor)
+    (make-designator :location `(;(agent ,quadrotor)
                                  (rightOf ,obj-pose)
                                  (lookFor ,manmade-obj)))))
 ;;;;;;;;;;;;;PROJECTION;;;;;;;;;;;;;;
@@ -103,4 +121,14 @@
        (let ((obj (find-object type)))
  obj))))
 
-
+(defun func*()
+  (let* ((liste (force-ll (prolog `(and (bullet-world ?w)
+                                        (contact ?w sem-map col03 ?link)))))
+         (urdf-map (object *current-bullet-world* 'sem-map))
+         (hash-table (btr:links urdf-map))
+         (link (cdadar liste))
+         (obj-pose (pose (gethash link hash-table)))
+         (loc  (make-designator :location `((rightOf ,obj-pose))))                                    
+         (obj (make-designator :object `((:name jacket02)
+                                         (:type cram-bullet-reasoning::manmade-object)
+                                         (:at ,loc))))) obj))                                           
