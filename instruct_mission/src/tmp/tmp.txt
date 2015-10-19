@@ -1,0 +1,5 @@
+cmd-type: order
+agent: blue hawk
+cmd: Go left
+action: move(left)
+
