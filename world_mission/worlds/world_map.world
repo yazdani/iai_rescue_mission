@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+  <world name="my_world">
+    <physics type="ode">
+      <gravity>0 0 -9.8</gravity>
+        <max_step_size>0.001</max_step_size>
+    </physics>
+
+    <scene>
+      <sky>
+        <clouds>
+          <speed>12</speed>
+        </clouds>
+      </sky>
+    </scene>
+
+    <gui>
+      <camera name="my_camera">
+        <pose>3 0.1 1.5 0 0 3.14</pose>
+      </camera>
+    </gui>
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <include>
+      <name>tree1</name>
+      <uri>model://tree</uri>
+      <pose>12.59 -4 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>tree2</name>
+      <uri>model://tree</uri>
+      <pose>15.99 -3 0 0 0 0</pose>
+    </include>
+
+  <include>
+      <name>tree3</name>
+      <uri>model://tree</uri>
+      <pose>13.99 0.42 0 0 0 0</pose>
+    </include>
+
+  <include>
+      <name>tree4</name>
+      <uri>model://tree</uri>
+      <pose>-14 10.99 0 0 0 0</pose>
+    </include>
+
+  <include>
+      <name>tree5</name>
+      <uri>model://tree</uri>
+      <pose>-6 7.4 0 0 0 0</pose>
+    </include>
+
+  <include>
+      <name>tree6</name>
+      <uri>model://tree</uri>
+      <pose>-8 3.99 0 0 0 0</pose>
+    </include>
+
+  <include>
+      <name>tree7</name>
+      <uri>model://tree</uri>
+      <pose>-10.99 1.46 0 0 0 0</pose>
+    </include>
+
+
+  <include>
+      <name>tree8</name>
+      <uri>model://tree</uri>
+      <pose>-15 1.99 0 0 0 0</pose>
+    </include>
+
+  <include>
+      <name>tree9</name>
+      <uri>model://tree</uri>
+      <pose>-13 4.99 0 0 0 0</pose>
+    </include>
+
+  <include>
+      <name>tree10</name>
+      <uri>model://tree</uri>
+      <pose>6.99 9.4 0 0 0 0</pose>
+    </include>
+
+  <include>
+      <name>tree11</name>
+      <uri>model://tree</uri>
+      <pose>3.99 6.46 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>tree12</name>
+      <uri>model://tree</uri>
+      <pose>-10 -10 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>tree13</name>
+      <uri>model://tree</uri>
+      <pose>-2 16.99 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>tree14</name>
+      <uri>model://tree</uri>
+      <pose>-1 0 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>tree15</name>
+      <uri>model://tree</uri>
+      <pose>0.99 14.99 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>tree16</name>
+      <uri>model://tree</uri>
+      <pose>-1 11.99 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>tree17</name>
+      <uri>model://tree</uri>
+      <pose>-5 11.99 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>tree18</name>
+      <uri>model://tree</uri>
+      <pose>-5.99 15.6 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>tree19</name>
+      <uri>model://tree</uri>
+      <pose>13 18.99 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>tree20</name>
+      <uri>model://tree</uri>
+      <pose>19.47 9.99 0 0 0 0</pose>
+    </include>
+  </world>
+</sdf>
+
