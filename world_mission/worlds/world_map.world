@@ -28,27 +28,33 @@
       <uri>model://sun</uri>
     </include>
 
+    <!--include>
+      <name>ground</name>
+      <uri>model://ground</uri>
+      <pose>0 0 0.1 0 0 0</pose>
+    </include-->
+
     <include>
-      <name>tree1</name>
-      <uri>model://tree</uri>
+      <name>rock1</name>
+      <uri>model://rock</uri>
       <pose>12.59 -4 0 0 0 0</pose>
     </include>
 
     <include>
-      <name>tree2</name>
-      <uri>model://tree</uri>
+      <name>rock2</name>
+      <uri>model://rock</uri>
       <pose>15.99 -3 0 0 0 0</pose>
     </include>
 
   <include>
-      <name>tree3</name>
-      <uri>model://tree</uri>
+      <name>rock3</name>
+      <uri>model://rock</uri>
       <pose>13.99 0.42 0 0 0 0</pose>
     </include>
 
   <include>
-      <name>tree4</name>
-      <uri>model://tree</uri>
+      <name>bigtree4</name>
+      <uri>model://bigtree</uri>
       <pose>-14 10.99 0 0 0 0</pose>
     </include>
 
@@ -78,8 +84,8 @@
     </include>
 
   <include>
-      <name>tree9</name>
-      <uri>model://tree</uri>
+      <name>rock9</name>
+      <uri>model://rock</uri>
       <pose>-13 4.99 0 0 0 0</pose>
     </include>
 
@@ -108,8 +114,8 @@
     </include>
 
  <include>
-      <name>tree14</name>
-      <uri>model://tree</uri>
+      <name>bigtree14</name>
+      <uri>model://bigtree</uri>
       <pose>-1 0 0 0 0 0</pose>
     </include>
 
@@ -137,16 +143,35 @@
     </include>
 
     <include>
-      <name>tree19</name>
-      <uri>model://tree</uri>
+      <name>bigtree19</name>
+      <uri>model://bigtree</uri>
       <pose>13 18.99 0 0 0 0</pose>
     </include>
 
     <include>
-      <name>tree20</name>
-      <uri>model://tree</uri>
+      <name>rock20</name>
+      <uri>model://rock</uri>
       <pose>19.47 9.99 0 0 0 0</pose>
     </include>
+
+    <include>
+      <name>bigtree21</name>
+      <uri>model://bigtree</uri>
+      <pose>-0.45 -12.0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>bigtree22</name>
+      <uri>model://bigtree</uri>
+      <pose>4.48 -15.0 0 0 0 0</pose>
+    </include>
+    
+     <include>
+      <name>rock23</name>
+      <uri>model://rock</uri>
+      <pose>4 -10.49 0 0 0 0</pose>
+    </include>
+
   </world>
 </sdf>
 
