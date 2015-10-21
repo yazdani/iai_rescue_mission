@@ -1,5 +1,6 @@
-cmd-type: order
 agent: blue hawk
-cmd: Go left
-action: move(left)
-
+action: move
+type: order
+directive: right
+item: 
+location: (2.0, 0.0, 0.0)

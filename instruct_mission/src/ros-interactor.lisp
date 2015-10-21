@@ -58,7 +58,7 @@
 (defun set-buffer ()
   (let ((in (open "~/work/ros/indigo/catkin_ws/src/iai_rescue_mission/instruct_mission/src/tmp/tmp.txt" :if-does-not-exist nil)))
     (if (< 0 (array-total-size instruct-mission::*buffer-vector*))
-        (setf *buffer-vector* (make-array 4 :fill-pointer 0)))
+        (setf *buffer-vector* (make-array 6 :fill-pointer 0)))
     (when in
       (loop for line = (read-line in nil)
             while line do
@@ -66,3 +66,4 @@
               (if (string-not-equal  line "")
                   (vector-push line *buffer-vector*)))  
       (close in))))
+

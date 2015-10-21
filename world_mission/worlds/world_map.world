@@ -28,6 +28,12 @@
       <uri>model://sun</uri>
     </include>
 
+    <include>
+      <name>human</name>
+      <uri>model://sphere</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
     <!--include>
       <name>ground</name>
       <uri>model://ground</uri>
@@ -116,7 +122,7 @@
  <include>
       <name>bigtree14</name>
       <uri>model://bigtree</uri>
-      <pose>-1 0 0 0 0 0</pose>
+      <pose>19 0 0 0 0 0</pose>
     </include>
 
  <include>

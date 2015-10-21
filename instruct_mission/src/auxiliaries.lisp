@@ -29,16 +29,31 @@
 (in-package :instruct-mission)
 
 (defun get-agent()
-   (cadr (split-sequence:split-sequence #\: (aref *buffer-vector* 0))))
+  (split-sequence::string-left-trim " " (cadr (split-sequence:split-sequence #\: (aref instruct-mission::*buffer-vector* 0)))))
 
 (defun get-cmd-type()
-   (cadr (split-sequence:split-sequence #\: (aref *buffer-vector* 2))))
+     (split-sequence::string-left-trim " " (cadr (split-sequence:split-sequence #\: (aref instruct-mission::*buffer-vector* 2)))))
 
-;;TODO
-(defun get-command()
-  (car (split-sequence:split-sequence #\( (cadr (split-sequence:split-sequence #\: (aref *buffer-vector* 1))))))
+(defun get-action()
+   (split-sequence::string-left-trim " " (cadr (split-sequence:split-sequence #\: (aref instruct-mission::*buffer-vector* 1)))))
 
 ;;TODO
 (defun get-direction()
-  (car (split-sequence:split-sequence #\( (string-left-trim '(#\Space)
-   (cadr (split-sequence:split-sequence #\: (aref *buffer-vector* 1)))))))
+     (split-sequence::string-left-trim " " (cadr (split-sequence:split-sequence #\: (aref instruct-mission::*buffer-vector* 3)))))
+
+(defun get-item()
+     (split-sequence::string-left-trim " " (cadr (split-sequence:split-sequence #\: (aref instruct-mission::*buffer-vector* 4)))))
+
+(defun get-location()
+     (string-to-pose (split-sequence::string-left-trim " " (cadr (split-sequence:split-sequence #\: (aref instruct-mission::*buffer-vector* 5))))))
+
+(defun string-to-pose(chain)
+  (let* ((tmp (string-right-trim "#\)" (string-left-trim "#\(" chain)))
+         (tmp1  (split-sequence::split-sequence #\, tmp))
+         (x  (with-input-from-string (in (car tmp1)) (read in)))
+         (y  (with-input-from-string (in (cadr tmp1)) (read in)))
+         (z  (with-input-from-string (in (caddr tmp1)) (read in)))
+         (vec (vector x y z)))
+    vec))
+    
+          

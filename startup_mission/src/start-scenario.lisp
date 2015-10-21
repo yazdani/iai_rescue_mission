@@ -30,6 +30,18 @@
 
 (defvar *obj-pose*)
 
+
+(defun create-action-desig1 ()
+  (if (string-equal (instruct-mission::get-item) "")
+      (make-designator :action `((agent ,(instruct-mission::get-agent))
+                                 (cmd-type ,(instruct-mission::get-cmd-type))
+                                 (action ,(instruct-mission::get-action))
+                                 (:loc ,(instruct-mission::get-direction))))
+      (make-designator :action `((agent ,(instruct-mission::get-agent))
+                                 (cmd-type ,(instruct-mission::get-cmd-type))
+                                 (action ,(instruct-mission::get-action))
+                                 (:loc ,(make-designator :location `((,(instruct-mission::get-direction) ,(instruct-mission::get-location)))))))))
+
 (defun start-world ()
   (roslisp:ros-info (sherpa-mission) "START WORLD!")
  ;; (roslisp-utilities:startup-ros)
