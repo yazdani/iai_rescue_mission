@@ -44,7 +44,9 @@
                cram-plan-library
                cram-bullet-reasoning-designators
               ;; cram-quadrotor-designators
+	       instruct_mission-msg
                cram-semantic-map-designators
+	       instruct-mission
                alexandria)
   ;; bullet-reasoning-utilities)
   :components

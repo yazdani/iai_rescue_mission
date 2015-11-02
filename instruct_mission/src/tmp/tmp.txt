@@ -1,6 +1,6 @@
-agent: blue hawk
+agent: red hawk
 action: move
 type: order
-directive: right
+directive: down
 item: 
 location: (2.0, 0.0, 0.0)

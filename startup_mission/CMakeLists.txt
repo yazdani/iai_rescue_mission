@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
   occupancy_grid_costmap
   semantic_map_costmap
   spatial_relations_costmap
+  instruct_mission
 )
 
 ## System dependencies are found with CMake's conventions
