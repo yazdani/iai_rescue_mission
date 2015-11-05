@@ -26,35 +26,11 @@
 ;;; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ;;; POSSIBILITY OF SUCH DAMAGE.
 
-(defsystem startup-mission
-  :author "yazdani"
-  :license "BSD"
-  :depends-on (spatial-relations-costmap
-               cram-designators
-               cram-location-costmap
-               cram-prolog
-               roslisp
-               semantic-map-costmap
-               cram-robot-pose-gaussian-costmap
-               cram-bullet-reasoning
-               cram-quadrotor-knowledge
-               cram-bullet-reasoning-belief-state
-               projection-process-modules
-               occupancy-grid-costmap
-               cram-plan-library
-               cram-bullet-reasoning-designators
-              ;; cram-quadrotor-designators
-	       instruct_mission-msg
-               cram-semantic-map-designators
-	       instruct-mission
-               alexandria)
-  ;; bullet-reasoning-utilities)
-  :components
-  ((:module "src"
-    :components
-    ((:file "package")
-     (:file "costmap-knowledge" :depends-on("package"))
-     (:file "cost-functions" :depends-on ("package"))
-     (:file "designators" :depends-on ("package"))
-     (:file "reasoning" :depends-on ("package" "cost-functions"))
-     (:file "start-scenario" :depends-on ("package" "costmap-knowledge" "reasoning"))))))
+(in-package :startup-mission)
+
+(defun test()
+ (make-designator :action `((robot ,(get-agent))
+                            (action ,(get-command))
+                            (direction ,(get-direction))
+                            (cmd-type ,(get-cmd-type)))))
+                            

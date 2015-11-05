@@ -1,0 +1,5 @@
+string agent
+string command
+string command-type
+float64[] gesture
+float64[] gps-location

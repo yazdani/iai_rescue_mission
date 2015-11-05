@@ -1,0 +1,31 @@
+#include <ros/ros.h>
+#include <actionlib/server/simple_action_server.h>
+#include <hector_quadrotor_msgs/followerAction.h>
+#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/Twist.h>
+#include <gazebo_msgs/GetModelState.h>
+#include <gazebo_msgs/SetModelState.h>
+#include <geometry_msgs/Twist.h>
+#include <sstream>
+#include <string>
+#include <std_msgs/String.h>
+#include <iostream>
+#include <tf/LinearMath/Quaternion.h>
+#include <stdio.h> 
+#include <math.h>
+
+
+class interAction
+{}
+
+int main (int argc, char **argv)
+{
+
+
+
+ gms_c = nh_.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
+
+return 0;
+
+}
