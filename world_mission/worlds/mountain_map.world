@@ -159,13 +159,13 @@
     </include>
 
  <include>
-      <name>bigtree06</name>
+      <name>bigtree07</name>
       <uri>model://bigtree</uri>
       <pose>-15 18.99 0 0 0 0</pose>
     </include>
 
  <include>
-      <name>bigtree07</name>
+      <name>bigtree08</name>
       <uri>model://bigtree</uri>
       <pose>-20.45 16.99 0 0 0 0</pose>
     </include>
