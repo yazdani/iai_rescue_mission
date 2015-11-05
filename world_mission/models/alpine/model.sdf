@@ -19,7 +19,7 @@
       <collision name="alpine_collision">
         <geometry>
           <mesh>
-            <uri>model://alpine/meshes/landscape.dae</uri>
+            <uri>model://alpine/meshes/alpine.dae</uri>
           </mesh>
         </geometry>
         <surface>
@@ -42,7 +42,7 @@
       <visual name="alpine_visual">
         <geometry>
           <mesh>
-            <uri>model://alpine/meshes/landscape.dae</uri>
+            <uri>model://alpine/meshes/alpine.dae</uri>
           </mesh>
         </geometry>
       </visual>
