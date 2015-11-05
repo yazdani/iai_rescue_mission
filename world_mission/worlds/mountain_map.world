@@ -30,195 +30,146 @@
 
     <include>
       <name>Mountain</name>
-      <uri>model://alpine</uri>
-      <pose>0 0 0 0 0 0</pose>
+      <uri>model://bigrock</uri>
+  <pose>0 0 0 0 0 0</pose>
     </include>
 
 
-<!--
+
     <include>
       <name>bigtree01</name>
       <uri>model://bigtree</uri>
-      <pose>-48 -49 0 0 0 0</pose>
+      <pose>19.99 6.41 0 0 0 0</pose>
     </include>
 
  <include>
       <name>bigtree02</name>
       <uri>model://bigtree</uri>
-      <pose>-39.4 -47 0 0 0 0</pose>
+      <pose>11.99 14.99 0 0 0 0</pose>
+    </include>
+
+
+  <include>
+      <name>tree01</name>
+      <uri>model://tree</uri>
+      <pose>19.02 10.99 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>tree02</name>
+      <uri>model://tree</uri>
+      <pose>18.99 14.99 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>tree03</name>
+      <uri>model://tree</uri>
+      <pose>15.99 12.99 0 0 0 0</pose>
+    </include>
+
+
+ <include>
+      <name>rock01</name>
+      <uri>model://rock</uri>
+      <pose>13 9.96 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>tree04</name>
+      <uri>model://tree</uri>
+      <pose>6.99 -13.45 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>tree05</name>
+      <uri>model://tree</uri>
+      <pose>-0.56 -0.5 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>rock02</name>
+      <uri>model://rock</uri>
+      <pose>-13.99 -18.04 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>rock03</name>
+      <uri>model://rock</uri>
+      <pose>-17.03 -16.61 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>rock04</name>
+      <uri>model://rock</uri>
+      <pose>-17.02 -19.06 0 0 0 0</pose>
     </include>
 
  <include>
       <name>bigtree03</name>
       <uri>model://bigtree</uri>
-      <pose>-44.57 -43 0 0 0 0</pose>
+      <pose>-21 0.99 0 0 0 0</pose>
     </include>
  <include>
       <name>bigtree04</name>
       <uri>model://bigtree</uri>
-      <pose>-41 -37 0 0 0 0</pose>
+      <pose>-29 8.99 0 0 0 0</pose>
     </include>
-<include>
+ <include>
       <name>bigtree05</name>
       <uri>model://bigtree</uri>
-      <pose>-46 -34 0 0 0 0</pose>
-    </include>
-<include>
-      <name>bigtree06</name>
-      <uri>model://bigtree</uri>
-      <pose>-41 -28 0 0 0 0</pose>
-    </include>
-  <include>
-      <name>bigtree07</name>
-      <uri>model://bigtree</uri>
-      <pose>-34 -26 0 0 0 0</pose>
-    </include>
-  <include>
-      <name>bigtree08</name>
-      <uri>model://bigtree</uri>
-      <pose>-47 -24 0 0 0 0</pose>
-    </include>
- <include>
-      <name>bigtree09</name>
-      <uri>model://bigtree</uri>
-      <pose>-41 -21 0 0 0 0</pose>
-    </include>
- <include>
-      <name>bigtree10</name>
-      <uri>model://bigtree</uri>
-      <pose>-34 -16.43 0 0 0 0</pose>
-    </include>
- <include>
-      <name>bigtree11</name>
-      <uri>model://bigtree</uri>
-      <pose>-45 -16 0 0 0 0</pose>
-    </include>
- <include>
-      <name>bigtree12</name>
-      <uri>model://bigtree</uri>
-      <pose>-38.52 -12 0 0 0 0</pose>
-    </include>
- <include>
-      <name>bigtree13</name>
-      <uri>model://bigtree</uri>
-      <pose>-33 -9.50 0 0 0 0</pose>
-    </include>
- <include>
-      <name>bigtree14</name>
-      <uri>model://bigtree</uri>
-      <pose>-45 -8.58 0 0 0 0</pose>
-    </include>
- <include>
-      <name>bigtree15</name>
-      <uri>model://bigtree</uri>
-      <pose>-39 -5.45 0 0 0 0</pose>
-    </include>
- <include>
-      <name>bigtree16</name>
-      <uri>model://bigtree</uri>
-      <pose>-45 -2 0 0 0 0</pose>
+      <pose>-38 0.99 0 0 0 0</pose>
     </include>
 
  <include>
-      <name>rock01</name>
-      <uri>model://rock</uri>
-      <pose>-40.99 -41.04 0 0 0 0</pose>
-    </include>
-
-<include>
-      <name>rock02</name>
-      <uri>model://rock</uri>
-      <pose>-41.05 -32.03 0 0 0 0</pose>
-    </include>
-
-<include>
-      <name>rock03</name>
-      <uri>model://rock</uri>
-      <pose>-38.99 -31.05 0 0 0 0</pose>
-    </include>
-<include>
-      <name>rock04</name>
-      <uri>model://rock</uri>
-      <pose>-36.99 -29.58 0 0 0 0</pose>
-    </include>
-<include>
       <name>rock05</name>
       <uri>model://rock</uri>
-      <pose>-39.99 -16.49 0 0 0 0</pose>
+      <pose>-32.99 3.96 0 0 0 0</pose>
     </include>
- 
+
+<include>
+      <name>rock06</name>
+      <uri>model://rock</uri>
+      <pose>-42.99 7.42 0 0 0 0</pose>
+    </include>
+
  <include>
-    <name>tree01</name>
+      <name>tree06</name>
       <uri>model://tree</uri>
-      <pose>-47.00 13.46 0 0 0 0</pose>
+      <pose>-33 15.99 0 0 0 0</pose>
     </include>
 
-<include>
-    <name>tree02</name>
+ <include>
+      <name>tree07</name>
       <uri>model://tree</uri>
-      <pose>-41.99 14.99 0 0 0 0</pose>
+      <pose>-27 15.99 0 0 0 0</pose>
     </include>
 
-<include>
-    <name>tree03</name>
+ <include>
+      <name>tree08</name>
       <uri>model://tree</uri>
-      <pose>-39.00 20.99 0 0 0 0</pose>
-    </include>
-<include>
-    <name>tree04</name>
-      <uri>model://tree</uri>
-      <pose>-47.00 22.99 0 0 0 0</pose>
+      <pose>-17 13.99 0 0 0 0</pose>
     </include>
 
-<include>
-    <name>tree05</name>
+ <include>
+      <name>tree09</name>
       <uri>model://tree</uri>
-      <pose>-33.00 23.99 0 0 0 0</pose>
-    </include>
-<include>
-    <name>tree06</name>
-      <uri>model://tree</uri>
-      <pose>-47.00 30.99 0 0 0 0</pose>
-    </include>
-<include>
-    <name>tree07</name>
-      <uri>model://tree</uri>
-      <pose>-35.99 29.45 0 0 0 0</pose>
+      <pose>-11 16.99 0 0 0 0</pose>
     </include>
 
-<include>
-    <name>bigtree17</name>
+ <include>
+      <name>bigtree06</name>
       <uri>model://bigtree</uri>
-      <pose>-42.00 34.99 0 0 0 0</pose>
-    </include>
-<include>
-    <name>bigtree18</name>
-      <uri>model://bigtree</uri>
-      <pose>-48.00 38.99 0 0 0 0</pose>
-    </include>
-<include>
-    <name>bigtree19</name>
-      <uri>model://bigtree</uri>
-      <pose>-47.60 47.40 0 0 0 0</pose>
-    </include>
-<include>
-    <name>bigtree20</name>
-      <uri>model://bigtree</uri>
-      <pose>-42.59 41.99 0 0 0 0</pose>
+      <pose>-10 22.50 0 0 0 0</pose>
     </include>
 
-<include>
-    <name>bigtree21</name>
+ <include>
+      <name>bigtree06</name>
       <uri>model://bigtree</uri>
-      <pose>-35.99 36.99 0 0 0 0</pose>
+      <pose>-15 18.99 0 0 0 0</pose>
     </include>
 
-<include>
-    <name>bigtree22</name>
+ <include>
+      <name>bigtree07</name>
       <uri>model://bigtree</uri>
-      <pose>-36.00 44.45 0 0 0 0</pose>
+      <pose>-20.45 16.99 0 0 0 0</pose>
     </include>
--->
+
   </world>
 </sdf>
 
