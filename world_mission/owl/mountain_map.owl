@@ -244,10 +244,13 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
    <!-- &knowrob;Properties in Classes -->
-
-    <owl:Class rdf:about="&knowrob;Entity">
+  <owl:Class rdf:about="&knowrob;Entity">
 	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
     </owl:Class>
+
+  <owl:Class rdf:about="&knowrob;Environment">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+  </owl:Class>
 
     <owl:Class rdf:about="&knowrob;Animate">
 	<rdfs:subClassOf rdf:resource="&knowrob;Entity"/>
@@ -270,9 +273,58 @@
     </owl:Class>
  
     <owl:Class rdf:about="&knowrob;Mountain">
-      <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+      <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
     </owl:Class>
-   <!-- &knowrob;Human -->
+
+  <owl:Class rdf:about="&knowrob;Stream">
+      <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
+    </owl:Class>
+
+  <rdf:Description rdf:about="&knowrob;BigTree">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/bigtree/meshes/tanne2.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+
+  <rdf:Description rdf:about="&knowrob;Tree">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/tree/meshes/tanne1.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+  <rdf:Description rdf:about="&knowrob;Stream">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/stream/meshes/stream.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+  <rdf:Description rdf:about="&knowrob;Rock">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/rock/meshes/rock.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+  <rdf:Description rdf:about="&knowrob;Mountain">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/alpine/meshes/alpine.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
 
     <!-- &knowrob;RotationMatrix3D -->
 
@@ -354,14 +406,6 @@
       <knowrob:vectorY rdf:datatype="&xsd;double">-0.875549</knowrob:vectorY>
       <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
     </owl:NamedIndividual>
-
-
-<!-- Beta-Version of Structure-\-> -->
-<!-- <owl:NamedIndividual rdf:about="&knowrob;Leaves"> -->
-<!--   <rdf:type rdf:resource="&knowrob;Tree"/> -->
-<!--   <knowrob:at-ContGeneric rdf:resource="&knowrob;Tree0"/> -->
-<!-- </owl:NamedIndividual> -->
-
 
 <owl:NamedIndividual rdf:about="&knowrob;mountain">
   <rdf:type rdf:resource="&knowrob;Mountain"/>

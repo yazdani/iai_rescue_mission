@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <sdf version="1.5">
-  <model name="bigrock_model">
-    <link name="bigrock_link">
+  <model name="genius_model">
+    <static>
+      true
+    </static>
+    <link name="genius_link">
       <inertial>
         <mass>0.390</mass>
         <inertia>
@@ -13,10 +16,10 @@
           <izz>0.00019</izz>
         </inertia>
       </inertial>
-  <!--    <collision name="bigrock_collision">
+      <collision name="genius_collision">
         <geometry>
           <mesh>
-            <uri>model://bigrock/meshes/mountain2.dae</uri>
+            <uri>model://genius/meshes/genius.dae</uri>
           </mesh>
         </geometry>
         <surface>
@@ -35,11 +38,11 @@
             </ode>
           </contact>
         </surface>
-      </collision>-->
-      <visual name="bigrock_visual">
+      </collision>
+      <visual name="victim_visual">
         <geometry>
           <mesh>
-            <uri>model://bigrock/meshes/mountain2.dae</uri>
+            <uri>model://genius/meshes/genius.dae</uri>
           </mesh>
         </geometry>
       </visual>

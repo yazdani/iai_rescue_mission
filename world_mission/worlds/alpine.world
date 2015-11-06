@@ -26,7 +26,7 @@
 
     <include>
       <uri>model://sun</uri>
-      <pose>0 0 1000.00 0 0 0</pose>
+      <pose>0 0 20 0 0 0</pose>
     </include>
 
 
@@ -39,149 +39,149 @@
    <include>
       <name>Stream</name>
       <uri>model://stream</uri>
-      <pose>-1 0 0 12.5 0 0 0</pose>
+      <pose>-1 0 2.5 0 0 0</pose>
     </include>
 
   <include>
       <name>bigtree01</name>
       <uri>model://bigtree</uri>
-      <pose>-34 51.42 2 0 0 0</pose>
+      <pose>-34 51.42 5 0 0 0</pose>
     </include> 
 
   <include>
       <name>bigtree02</name>
       <uri>model://bigtree</uri>
-      <pose>-55 31 0 0 0 0</pose>
+      <pose>-55 31 4 0 0 0</pose>
     </include> 
 
 
   <include>
       <name>rock01</name>
       <uri>model://rock</uri>
-      <pose>-32 17 0 0 0 0</pose>
+      <pose>-32 15 6 0 0 0</pose>
     </include> 
 
   <include>
       <name>rock02</name>
       <uri>model://rock</uri>
-      <pose>-28 31 4 0 0 0</pose>
+      <pose>-28 31 7 0 0 0</pose>
     </include> 
 
     <include>
       <name>bigtree03</name>
       <uri>model://bigtree</uri>
-      <pose>-32 17 2.5 0 0 0</pose>
+      <pose>-32 17 6 0 0 0</pose>
     </include>
 
     <include>
-      <name>bigtree04</name>
+      <name>rock03</name>
       <uri>model://rock</uri>
-      <pose>-17 38.49 5 0 0 0</pose>
+      <pose>-17 38.49 8 0 0 0</pose>
     </include>
 
     <include>
       <name>bigtree05</name>
       <uri>model://bigtree</uri>
-      <pose>-16 19 3.5 0 0 0</pose>
+      <pose>-16 19 7 0 0 0</pose>
     </include>
 
   <include>
       <name>bigtree06</name>
       <uri>model://bigtree</uri>
-      <pose>-5 33.0 4 0 0 0</pose>
+      <pose>-5 33.0 7 0 0 0</pose>
     </include>
 
    <include>
       <name>bigtree07</name>
       <uri>model://bigtree</uri>
-      <pose>-21 -3.0 3 0 0 0</pose>
+      <pose>-21 -3.0 6 0 0 0</pose>
     </include>
 
   <include>
       <name>bigtree08</name>
       <uri>model://bigtree</uri>
-      <pose>-30 -2 2 0 0 0</pose>
+      <pose>-30 -2 6 0 0 0</pose>
     </include>
 
 
   <include>
       <name>bigtree09</name>
       <uri>model://bigtree</uri>
-      <pose>-19 -8.45 4 0 0 0</pose>
+      <pose>-19 -8.45 7 0 0 0</pose>
     </include>
 
  <include>
       <name>bigtree10</name>
       <uri>model://bigtree</uri>
-      <pose>-26 -9 3 0 0 0</pose>
+      <pose>-26 -9 6 0 0 0</pose>
     </include>
 
 
  <include>
       <name>bigtree11</name>
       <uri>model://bigtree</uri>
-      <pose>-33 -12 2 0 0 0</pose>
+      <pose>-33 -12 7 0 0 0</pose>
     </include>
 
  <include>
       <name>bigtree12</name>
       <uri>model://bigtree</uri>
-      <pose>-26 -15 3 0 0 0</pose>
+      <pose>-26 -15 7 0 0 0</pose>
     </include>
 
  <include>
       <name>bigtree13</name>
       <uri>model://bigtree</uri>
-      <pose>-36.44 -26.43 3 0 0 0</pose>
+      <pose>-36.44 -26.43 6 0 0 0</pose>
     </include>
 
  <include>
       <name>tree01</name>
       <uri>model://tree</uri>
-      <pose>5 25 5 0 0 0</pose>
+      <pose>5 25 8 0 0 0</pose>
     </include>
 
  <include>
       <name>tree02</name>
       <uri>model://tree</uri>
-      <pose>13 32 3 0 0 0</pose>
+      <pose>13 32 8 0 0 0</pose>
     </include>
 
  <include>
       <name>tree03</name>
       <uri>model://tree</uri>
-      <pose>24.46 35 3 0 0 0</pose>
+      <pose>24.46 35 8 0 0 0</pose>
     </include>
 
  <include>
       <name>tree04</name>
       <uri>model://tree</uri>
-      <pose>27.48 23 5 0 0 0</pose>
+      <pose>27.48 23 8 0 0 0</pose>
     </include>
 
  <include>
       <name>tree05</name>
       <uri>model://tree</uri>
-      <pose>31.51 14 5 0 0 0</pose>
+      <pose>31.51 14 8 0 0 0</pose>
     </include>
 
  <include>
       <name>tree06</name>
       <uri>model://tree</uri>
-      <pose>31 7 5 0 0 0</pose>
+      <pose>31 7 8 0 0 0</pose>
     </include>
 
  <include>
       <name>tree06</name>
       <uri>model://tree</uri>
-      <pose>38 14 5 0 0 0</pose>
+      <pose>38 14 8 0 0 0</pose>
     </include>
 
 
  <include>
       <name>tree07</name>
       <uri>model://tree</uri>
-      <pose>39 22 5 0 0 0</pose>
+      <pose>39 22 8 0 0 0</pose>
     </include>
 
 

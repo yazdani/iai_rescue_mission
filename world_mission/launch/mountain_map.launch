@@ -1,0 +1,114 @@
+
+<launch>
+<include file="$(find gazebo_ros)/launch/empty_world.launch">   
+ <arg name="world_name" value="$(find world_mission)/worlds/mountain_map.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+<param name="mountain_description"
+       command="$(find xacro)/xacro.py '$(find world_mission)/urdf-xml/mountain_map/mountain_map.urdf.xml'"/>
+
+<param name="initial_package" type="string" value="knowrob_map_data" />
+<param name="initial_goal" type="string" value="owl_parse('package://world_mission/owl/mountain_map.owl')" />
+<node name="json_prolog" pkg="json_prolog" type="json_prolog_node" cwd="node" output="screen" />
+
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster00" 
+    args="0 0 0 0 0 0 /map_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster000" 
+    args="0 0 0 0 0 0 /mountain_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster01" 
+    args="0 0 0 0 0 0 /bigtree01_link /map 200">
+</node>
+ <node pkg="tf" type="static_transform_publisher" name="area_link_broadcaster02" 
+    args="0 0 0 0 0 0 /bigtree02_link /map 200">
+  </node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster03" 
+    args="0 0 0 0 0 0 /bigtree03_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster04" 
+    args="0 0 0 0 0 0 /bigtree04_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster05" 
+    args="0 0 0 0 0 0 /bigtree05_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster06" 
+    args="0 0 0 0 0 0 /bigtree06_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster07" 
+    args="0 0 0 0 0 0 /bigtree07_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster08" 
+    args="0 0 0 0 0 0 /bigtree08_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster09" 
+    args="0 0 0 0 0 0 /rock01_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster10" 
+    args="0 0 0 0 0 0 /rock02_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster11" 
+    args="0 0 0 0 0 0 /rock03_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster12" 
+    args="0 0 0 0 0 0 /rock04_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster13" 
+    args="0 0 0 0 0 0 /rock05_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster14" 
+    args="0 0 0 0 0 0 /rock06_link /map 200">
+</node>
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster15" 
+    args="0 0 0 0 0 0 /tree01_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster16" 
+    args="0 0 0 0 0 0 /tree02_link /map 200">
+</node>
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster17" 
+    args="0 0 0 0 0 0 /tree03_link /map 200">
+</node>
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster18" 
+    args="0 0 0 0 0 0 /tree04_link /map 200">
+</node>
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster19" 
+    args="0 0 0 0 0 0 /tree05_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster20" 
+    args="0 0 0 0 0 0 /tree06_link /map 200">
+</node>
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster21" 
+    args="0 0 0 0 0 0 /tree07_link /map 200">
+</node>
+
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster22" 
+    args="0 0 0 0 0 0 /tree08_link /map 200">
+</node>
+
+<node pkg="tf" type="static_transform_publisher" name="mountain_broadcaster23" 
+    args="0 0 0 0 0 0 /tree09_link /map 200">
+</node>
+</launch>

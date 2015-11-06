@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <sdf version="1.5">
-  <model name="alpine_model">
-    <link name="alpine_link">
+  <model name="victim_model">
+    <static>
+      true
+    </static>
+    <link name="victim_link">
       <inertial>
         <mass>0.390</mass>
         <inertia>
@@ -13,10 +16,10 @@
           <izz>0.00019</izz>
         </inertia>
       </inertial>
-      <collision name="alpine_collision">
+      <collision name="victim_collision">
         <geometry>
           <mesh>
-            <uri>model://alpine/meshes/landscape.dae</uri>
+            <uri>model://victim/meshes/victim.dae</uri>
           </mesh>
         </geometry>
         <surface>
@@ -36,10 +39,10 @@
           </contact>
         </surface>
       </collision>
-      <visual name="alpine_visual">
+      <visual name="victim_visual">
         <geometry>
           <mesh>
-            <uri>model://alpine/meshes/landscape.dae</uri>
+            <uri>model://victim/meshes/victim.dae</uri>
           </mesh>
         </geometry>
       </visual>
