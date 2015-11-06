@@ -26,30 +26,26 @@
 ;;; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ;;; POSSIBILITY OF SUCH DAMAGE.
 
-(defsystem startup-mission
-  :author "yazdani"
-  :license "BSD"
-  :depends-on (spatial-relations-costmap
-               cram-designators
-               cram-roslisp-common
-               cram-location-costmap
-               cram-prolog
-               roslisp
-               semantic-map-costmap
-               cram-robot-pose-gaussian-costmap
-               cram-bullet-reasoning
-               cram-quadrotor-knowledge
-               cram-bullet-reasoning-belief-state
-               projection-process-modules
-               occupancy-grid-costmap
-               cram-plan-library
-               cram-bullet-reasoning-designators
-               cram-quadrotor-designators
-               cram-semantic-map-designators
-               alexandria)
-  ;; bullet-reasoning-utilities)
-  :components
-  ((:module "src"
-    :components
-    ((:file "package")
-     (:file "start-scenario" :depends-on ("package"))))))
+(in-package :startup-mission)
+
+(defun model-path (name)
+  (physics-utils:parse-uri
+   (concatenate
+    'string
+    "package://world_model_description/urdf/"
+    name)))
+
+(defun fill-knowledge-list (name)
+ (roslisp:ros-info (sherpa-spatial-relations) "Start filling knowledge list")
+ (simple-knowledge::clear-object-list)
+ (cond ((eq name
+ (simple-knowledge::add-object-to-spawn
+  :name "base-camp"
+  :type 'base-camp
+  :collision-parts nil
+  :pose (tf:make-pose-stamped
+	 "/map"
+	 0.0
+	 (tf:make-3d-vector -2 -2 -1)
+	 (tf:make-quaternion 0 0 0 1))
+  :file (model-path "sherpa_base_camp.urdf"))))))

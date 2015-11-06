@@ -30,27 +30,11 @@
 
 (defvar *obj-pose*)
 
-
-(defun create-action-desig1 ()
-  (if (string-equal (instruct-mission::get-item) "")
-      (make-designator :action `((agent ,(instruct-mission::get-agent))
-                                 (cmd-type ,(instruct-mission::get-cmd-type))
-                                 (action ,(instruct-mission::get-action))
-                                 (:loc ,(instruct-mission::get-direction))))
-      (make-designator :action `((agent ,(instruct-mission::get-agent))
-                                 (cmd-type ,(instruct-mission::get-cmd-type))
-                                 (action ,(instruct-mission::get-action))
-                                 (:loc ,(make-designator :location `((,(instruct-mission::get-direction) ,(instruct-mission::get-location)))))))))
-
-(defun start-world ()
+(defun start-world-with-robot ()
   (roslisp:ros-info (sherpa-mission) "START WORLD!")
- ;; (roslisp-utilities:startup-ros)
   (setf *list* nil)
-  (let* ((sem-urdf (cl-urdf:parse-urdf (roslisp:get-param "area_description")))
-         (quad01-urdf (cl-urdf:parse-urdf (roslisp:get-param "robot_description01")))
-         (quad02-urdf (cl-urdf:parse-urdf (roslisp:get-param "robot_description02")))
-        ;; (human-urdf (cl-urdf:parse-urdf (roslisp:get-param "human_description")))
-         )
+  (let* ((sem-urdf (cl-urdf:parse-urdf (roslisp:get-param "mountain_description")))
+         (quad01-urdf (cl-urdf:parse-urdf (roslisp:get-param "robot_description"))))
     (setf *list*
           (car 
            (btr::force-ll
@@ -64,28 +48,40 @@
                (debug-window ?w)
               (assert (object ?w :semantic-map sem-map ((0 0 0) (0 0 0 1)) :urdf ,sem-urdf))
               
-              (assert (object ?w :urdf quadrotor01 ((2 -11 1)(0 0 0 1)) :urdf ,quad01-urdf))
-             
-             
-              (assert (object ?w :urdf quadrotor02 ((3 -11 2)(0 0 0 1)) :urdf ,quad02-urdf))
-               (btr::robot quadrotor01)
-               (btr::robot quadrotor02)
-              ;;  (assert (object ?w :urdf human ((0 -13 0)(0 0 -4 1)) :urdf ,human-urdf))
-               (assert (object ?w :mesh mountainarea ((2 -10 0) (0 0 -1 1))
-                     :mesh :berg :color (0.7 0.7 0.7)  :mass 2))
-             )))))))
+              (assert (object ?w :urdf quadrotor01 ((22 0 0)(0 0 0 1)) :urdf ,quad01-urdf))
+              (btr::robot quadrotor01))))))))
 
-(defun spawn-manmade-objects()
-  (roslisp:ros-info (sherpa-mission) "Add landmarks!")
+(defun create-desig-as-tester()
+  (make-designator :location `((behind-of "tree05")
+                               (to "rock07"))))
+ (sem-map-utils:get-semantic-map)
+;;(sem-map-utils::get-semantic-map)
+(defun create-action-desig1 ()
+  (if (string-equal (instruct-mission::get-item) "")
+      (make-designator :action `((agent ,(instruct-mission::get-agent))
+                                 (cmd-type ,(instruct-mission::get-cmd-type))
+                                 (action ,(instruct-mission::get-action))
+                                 (:loc ,(instruct-mission::get-direction))))
+      (make-designator :action `((agent ,(instruct-mission::get-agent))
+                                 (cmd-type ,(instruct-mission::get-cmd-type))
+                                 (action ,(instruct-mission::get-action))
+                                 (:loc ,(make-designator :location `((,(instruct-mission::get-direction) ,(instruct-mission::get-location)))))))))
+
+
+(defun spawn-object()
+  (roslisp:ros-info (sherpa-mission) "landmarks!")
   (btr::prolog
    `(and
      (bullet-world ?w)
-     (assert (object ?w :mesh jacket01 ((-3 2 0) (0 0 0 1)) ;; (1 0 0)red
-                     :mesh :jacket :color (1 0 0)  :mass 2))
-     (assert (object ?w :mesh capt01 ((5.5 3.7 0) (0 0 0 1)) ;; (1 0 0)red
-                     :mesh :cap :color (0 0 1)  :mass 2))
-     (assert (object ?w :mesh jacket02 ((-8.5 -3 0) (0 0 0 1)) ;;(0 0 1)blue
-                      :mesh :jacket :color (0 0 1)  :mass 2)))))
+     (assert (object ?w :mesh victim ((-3.57 0 0) (0 0 0 1)) ;; (1 0 0)red
+                     :mesh :victim :color (1 0 0)  :mass 2)))))
+
+(defun spawn-pose()
+  (btr::prolog
+   `(and
+     (bullet-world ?w)
+     (assert (object ?w :mesh genius04 ((16 0 0) (0 0 -1 1)) ;; (1 0 0)red
+                     :mesh :genius :color (0 0 0)  :mass 2)))))
 
 (defun spawn-cone-and-manmade-object()
    (btr::prolog
