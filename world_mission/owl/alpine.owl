@@ -517,7 +517,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-34</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">51.42</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">0.0</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">5.0</knowrob:m23>
 </owl:NamedIndividual>
 	
 <!--2 WTREE0 -->
@@ -553,7 +553,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-55</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">31</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">0.0</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">4.0</knowrob:m23>
 </owl:NamedIndividual>
 
  <!-- 1 STONE1 -->
@@ -588,8 +588,8 @@
   <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-32</knowrob:m03>
-  <knowrob:m13 rdf:datatype="&xsd;double">17</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">2.5</knowrob:m23>
+  <knowrob:m13 rdf:datatype="&xsd;double">15</knowrob:m13>
+  <knowrob:m23 rdf:datatype="&xsd;double">6</knowrob:m23>
 </owl:NamedIndividual>
 
 
@@ -625,7 +625,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-28</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">31</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">4</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">7</knowrob:m23>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;bigtree03">
@@ -658,14 +658,14 @@
   <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
   <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
-  <knowrob:m03 rdf:datatype="&xsd;double">-28</knowrob:m03>
-  <knowrob:m13 rdf:datatype="&xsd;double">31</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">4</knowrob:m23>
+  <knowrob:m03 rdf:datatype="&xsd;double">-32</knowrob:m03>
+  <knowrob:m13 rdf:datatype="&xsd;double">17</knowrob:m13>
+  <knowrob:m23 rdf:datatype="&xsd;double">6</knowrob:m23>
 </owl:NamedIndividual>
 
 
-<owl:NamedIndividual rdf:about="&knowrob;bigtree04">
-  <rdf:type rdf:resource="&knowrob;BigTree"/>
+<owl:NamedIndividual rdf:about="&knowrob;rock03">
+  <rdf:type rdf:resource="&knowrob;Rock"/>
   <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">1.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">1.0</knowrob:widthOfObject>
@@ -676,7 +676,7 @@
   <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
   <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_1399894481"/>
   <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_06"/>
-  <knowrob:objectActedOn rdf:resource="&knowrob;bigtree04"/>
+  <knowrob:objectActedOn rdf:resource="&knowrob;rock03"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_06">
@@ -696,7 +696,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-17</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">38.49</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">5</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">8</knowrob:m23>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;bigtree05">
@@ -731,7 +731,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-16</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">19</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">3.5</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">7</knowrob:m23>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;bigtree06">
@@ -766,7 +766,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-5</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">33.0</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">4</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">7</knowrob:m23>
 </owl:NamedIndividual>
 
 
@@ -801,8 +801,8 @@
   <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-21</knowrob:m03>
-  <knowrob:m13 rdf:datatype="&xsd;double">3.0</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">3</knowrob:m23>
+  <knowrob:m13 rdf:datatype="&xsd;double">-3.0</knowrob:m13>
+  <knowrob:m23 rdf:datatype="&xsd;double">6</knowrob:m23>
 </owl:NamedIndividual>
 
 
@@ -838,7 +838,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-30</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">-2</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">3</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">6</knowrob:m23>
 </owl:NamedIndividual>
 
 
@@ -874,7 +874,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-19</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">-8.45</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">4</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">7</knowrob:m23>
 </owl:NamedIndividual>
 
 
@@ -910,7 +910,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-26</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">-9</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">3</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">6</knowrob:m23>
 </owl:NamedIndividual>
 
 
@@ -946,7 +946,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-33</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">-12</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">2</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">7</knowrob:m23>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;bigtree12">
@@ -981,7 +981,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-26</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">-15</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">3</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">7</knowrob:m23>
 </owl:NamedIndividual>
 
 
@@ -1017,7 +1017,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">-36.44</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">-26.43</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">3</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">6</knowrob:m23>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;tree01">
@@ -1052,7 +1052,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">5</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">25</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">5</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">8</knowrob:m23>
 </owl:NamedIndividual>
 
 
@@ -1088,7 +1088,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">13</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">32</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">3</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">8</knowrob:m23>
 </owl:NamedIndividual>
 
 
@@ -1124,7 +1124,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">24.46</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">35</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">3</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">8</knowrob:m23>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;tree04">
@@ -1159,7 +1159,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">27.48</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">23</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">5</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">8</knowrob:m23>
 </owl:NamedIndividual>
 
 
@@ -1195,7 +1195,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">31.51</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">14</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">5</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">8</knowrob:m23>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;tree06">
@@ -1230,7 +1230,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">38</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">14</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">5</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">8</knowrob:m23>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;tree07">
@@ -1265,7 +1265,7 @@
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
   <knowrob:m03 rdf:datatype="&xsd;double">39</knowrob:m03>
   <knowrob:m13 rdf:datatype="&xsd;double">22</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">5</knowrob:m23>
+  <knowrob:m23 rdf:datatype="&xsd;double">8</knowrob:m23>
 </owl:NamedIndividual>
 
 
