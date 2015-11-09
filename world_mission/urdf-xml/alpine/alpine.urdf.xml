@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<robot name="map" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<material name="Blue">
+<color rgba="0.0 0.0 0.8 1.0"/>
+</material>
+
+<material name="DarkGreen">
+<color rgba="0.0 0.5 0.0 1.0"/>
+</material>
+
+<material name="Green">
+<color rgba="0.0 0.8 0.0 1.0"/>
+</material>
+
+<material name="Grey">
+<color rgba="0.7 0.7 0.7 1.0"/>
+</material>
+
+<material name="Grey2">
+<color rgba="0.9 0.9 0.9 1.0"/>
+</material>
+
+<material name="Red">
+<color rgba="0.8 0.0 0.0 1.0"/>
+</material>
+
+<material name="White">
+<color rgba="1.0 1.0 1.0 1.0"/>
+</material>
+
+<material name="Black">
+<color rgba="0.1 0.1 0.1 1.0"/>
+</material>
+
+<material name="LightGrey">
+<color rgba="0.6 0.6 0.6 1.0"/>
+</material>
+
+<material name="DarkOrange">
+<color rgba="0.8 0.5 0.0 1.0"/>
+</material>
+
+<xacro:include filename="./alpine.xml"/>
+<xacro:include filename="./stream.xml"/>
+<xacro:include filename="./bigtree01.xml"/>
+<xacro:include filename="./bigtree02.xml"/>
+<xacro:include filename="./rock01.xml"/>
+<xacro:include filename="./rock02.xml"/>
+<xacro:include filename="./bigtree03.xml"/>
+<xacro:include filename="./rock03.xml"/>
+<xacro:include filename="./bigtree05.xml"/>
+<xacro:include filename="./bigtree06.xml"/>
+<xacro:include filename="./bigtree07.xml"/>
+<xacro:include filename="./bigtree08.xml"/>
+<xacro:include filename="./bigtree09.xml"/>
+<xacro:include filename="./bigtree10.xml"/>
+<xacro:include filename="./bigtree11.xml"/>
+<xacro:include filename="./bigtree12.xml"/>
+<xacro:include filename="./bigtree13.xml"/>
+<xacro:include filename="./tree01.xml"/>
+<xacro:include filename="./tree02.xml"/>
+<xacro:include filename="./tree03.xml"/>
+<xacro:include filename="./tree04.xml"/>
+<xacro:include filename="./tree05.xml"/>
+<xacro:include filename="./tree06.xml"/>
+<xacro:include filename="./tree07.xml"/>
+
+<link name="map_link">
+</link>
+
+<alpine/>
+<stream/>
+<bigtree01/>
+<bigtree02/>
+<rock01/>
+<rock02/>
+<bigtree03/>
+<rock03/>
+<bigtree05/>
+<bigtree06/>
+<bigtree07/>
+<bigtree08/>
+<bigtree09/>
+<bigtree10/>
+<bigtree11/>
+<bigtree12/>
+<bigtree13/>
+<tree01/>
+<tree02/>
+<tree03/>
+<tree04/>
+<tree05/>
+<tree06/>
+<tree07/>
+
+</robot>
