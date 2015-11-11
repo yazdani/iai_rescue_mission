@@ -28,8 +28,11 @@
 
 (in-package :startup-mission)
 
-(defmethod costmap-generator-name->score ((name (eql 'reasoning-generator))) 5)
+;;(defmethod costmap-generator-name->score ((name (eql 'reasoning-generator))) 5)
 (defmethod costmap-generator-name->score ((name (eql 'collisions))) 10)
+
+(defclass reasoning-generator () ())
+(defmethod costmap-generator-name->score ((name reasoning-generator)) 7)
 
 (defclass gaussian-generator () ())     
 (defmethod costmap-generator-name->score ((name gaussian-generator)) 6)
@@ -38,40 +41,36 @@
 
 (def-fact-group cognitive-reasoning-costmap (desig-costmap)
   (<- (desig-costmap ?desig ?costmap)
-    (format "[(REASONING)]: Creating a costmap~%")
     (bullet-world ?world)
-    (desig-prop ?desig (behind-of ?obj-pose))
-
+    (desig-prop ?desig (to ?object1-name))
+    (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
+    (desig-prop ?desig (next-to ?object2-name))
+    (lisp-fun get-object-pose->semantic-map ?object2-name ?object2-pose)
     (costmap ?costmap)
-    (costmap-add-function reasoning-generator
-                          (make-reasoning-cost-function ?obj1-pose :X  < 0.3)
-                          ?costmap)
-   (costmap ?costmap)
-    (instance-of range-generator ?range-generator-id-1)
-    (format "jjsj~%")
-    (costmap-add-function ?range-generator-id-1
-                          (make-range-cost-function ?obj1-pose 1.5)
-                         ?costmap)
-      (costmap  ?costmap)
-   (instance-of gaussian-generator ?gaussian-generator-id)
-     (costmap-add-function
-      ?gaussian-generator-id
-      (make-location-cost-function ?obj1-pose 1.0d0)
-     ?costmap)
-;;     (costmap ?costmap)
-     ;; (format "jdjsj~%")
-  ;;   (findall ?obj (and
-    ;;               (bullet-world ?world)
-      ;;             (object ?world tanne)
-        ;;           (%object ?world tanne ?obj)
-          ;;         (lisp-type ?obj cram-bullet-reasoning::env-object)
-           ;;        (get-slot-value ?obj types ?types)
-            ;;       (member ?type ?types)) ?objs)
-     ;; (format "objs : ~a jjseeej~%" ?objs)
-;;    (costmap-add-function collisions
-  ;;                       (make-costmap-bbox-gen ?objs :invert t :padding 0.1)
-    ;;                     ?costmap)
-    ))     
+    (instance-of reasoning-generator ?reasoning-generator-id)
+    (costmap-add-function
+     ?reasoning-generator-id
+                       (make-reasoning-cost-function ?object1-pose :X  < 0.3)
+                    ?costmap)
+    ;;(costmap ?costmap)
+    (format "hhhh ~a~%" ?costmap)
+     (instance-of reasoning-generator ?reasoning-generator-id2)
+    (costmap-add-function
+     ?reasoning-generator-id2
+                       (make-reasoning-cost-function ?object2-pose :Y  < 0.3)
+                       ?costmap)
+    (instance-of reasoning-generator ?reasoning-generator-id3)
+    (costmap-add-function
+     ?reasoning-generator-id3
+                       (make-reasoning-cost-function ?object1-pose :Y  > 0.05)
+                       ?costmap)
+
+
+
+    ))
+
+
+
 
 (def-fact-group location-desig-utils ()
 

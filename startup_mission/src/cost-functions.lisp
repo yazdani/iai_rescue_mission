@@ -74,3 +74,13 @@
                 (format t "here2~%")
                 (return (if invert 0.0d0 1.0d0)))
               ))))))) 
+
+(defun make-location-cost-function (loc std-dev)
+  (let ((loc (cl-transforms:origin loc)))
+    (make-gauss-cost-function loc `((,(float (* std-dev std-dev) 0.0d0) 0.0d0)
+                                    (0.0d0 ,(float (* std-dev std-dev)))))))
+
+(defun get-object-pose->semantic-map (object &optional (semantic-map (sem-map-utils::get-semantic-map)))
+  (let((obj (sem-map-utils::semantic-map-part semantic-map object)))
+       (slot-value obj 'sem-map-utils:pose)))
+

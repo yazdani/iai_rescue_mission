@@ -51,11 +51,15 @@
               (assert (object ?w :urdf quadrotor01 ((22 0 0)(0 0 0 1)) :urdf ,quad01-urdf))
               (btr::robot quadrotor01))))))))
 
-(defun create-desig-as-tester()
-  (make-designator :location `((behind-of "tree05")
-                               (to "rock07"))))
- (sem-map-utils:get-semantic-map)
-;;(sem-map-utils::get-semantic-map)
+(defun create-desig-as-tester( obj1-name obj2-name)
+;  (let* ((map (sem-map-utils::get-semantic-map)))
+       ;;  (obj1-part (sem-map-utils::semantic-map-part map obj1-name))
+      ;;   (obj2-part (sem-map-utils::semantic-map-part map obj2-name))
+      ;;   (obj1-pose (slot-value obj1-part 'sem-map-utils:pose))
+    ;;     (obj2-pose (slot-value obj2-part 'sem-map-utils:pose)))
+    (make-designator :location `((to ,obj1-name)
+                                 (next-to ,obj2-name))))
+
 (defun create-action-desig1 ()
   (if (string-equal (instruct-mission::get-item) "")
       (make-designator :action `((agent ,(instruct-mission::get-agent))
@@ -119,15 +123,15 @@
                                  (rightOf ,obj-pose)
                                  (lookFor ,manmade-obj)))))
 ;;;;;;;;;;;;;PROJECTION;;;;;;;;;;;;;;
-(cpl-impl:def-cram-function detect-obj-jacket (jacket-obj-desig)
+;;(cpl-impl:def-cram-function detect-obj-jacket (jacket-obj-desig)
 ;; (cram-language-designator-support:with-designators
   ;;   ((left-side :location `((rightOf *obj-pose*)
     ;;                        (lookFor ,jacket-obj-desig))))
-  (cpl-impl:top-level
-    (cram-projection:with-projection-environment
-        projection-process-modules::quadrotor-bullet-projection-environment
-       (let ((obj (find-object type)))
- obj))))
+;;  (cpl-impl:top-level                   ;
+  ;;  (cram-projection:with-projection-environment
+    ;;    projection-process-modules::quadrotor-bullet-projection-environment
+     ;;  (let ((obj (find-object type)))
+;; obj))))
 
 (defun func*()
   (let* ((liste (force-ll (prolog `(and (bullet-world ?w)

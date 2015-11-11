@@ -42,4 +42,4 @@
         ;;  #:bullet-reasoning-utilities)
   (:shadowing-import-from #:btr object pose object-pose width height name)
   (:shadowing-import-from #:cpl-impl #:fail)
-  (:desig-properties #:behindOf #:rightOf #:leftOf #:farFrom #:nextTo #:goTo #:lookAt #:lookFor #:agent))
+  (:desig-properties #:on #:behind-of #:to #:right-of #:left-of #:far-from #:next-to #:go-to #:look-at #:look-for #:agent #:type))

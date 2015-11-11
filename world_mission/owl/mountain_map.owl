@@ -1268,6 +1268,41 @@
   <knowrob:m23 rdf:datatype="&xsd;double">0.0</knowrob:m23>
 </owl:NamedIndividual>
 
+<owl:NamedIndividual rdf:about="&knowrob;rock07">
+  <rdf:type rdf:resource="&knowrob;Rock"/>
+  <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
+  <knowrob:depthOfObject rdf:datatype="&xsd;double">1.0</knowrob:depthOfObject>
+  <knowrob:widthOfObject rdf:datatype="&xsd;double">1.0</knowrob:widthOfObject>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_24">
+  <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+  <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_1399894481"/>
+  <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_24"/>
+  <knowrob:objectActedOn rdf:resource="&knowrob;rock07"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_24">
+  <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+  <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+  <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+  <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+  <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+  <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+  <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+  <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+  <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+  <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+  <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+  <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+  <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+  <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+  <knowrob:m03 rdf:datatype="&xsd;double">-4</knowrob:m03>
+  <knowrob:m13 rdf:datatype="&xsd;double">3.5</knowrob:m13>
+  <knowrob:m23 rdf:datatype="&xsd;double">0.0</knowrob:m23>
+</owl:NamedIndividual>
+
 
 
 </rdf:RDF>

@@ -37,8 +37,9 @@
                semantic-map-costmap
                cram-robot-pose-gaussian-costmap
                cram-bullet-reasoning
-               cram-quadrotor-knowledge
-               cram-bullet-reasoning-belief-state
+               ;;cram-quadrotor-knowledge
+               agent-mission
+	       cram-bullet-reasoning-belief-state
                projection-process-modules
                occupancy-grid-costmap
                cram-plan-library

@@ -25,20 +25,10 @@
 ;;; CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ;;; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ;;; POSSIBILITY OF SUCH DAMAGE.
+(in-package :cl-user)
 
-(in-package :startup-mission)
+(defpackage agent-mission
+  (:use #:common-lisp
+        #:cram-prolog
+        #:cram-robot-interfaces))
 
-(def-fact-group costmap-metadata ()
-  (<- (costmap-size 10 10))
-  (<- (costmap-origin -5 -5))
-  (<- (costmap-resolution 0.025))
-  (<- (costmap-padding 0.35)))
-
-
-(def-fact-group semantic-map-data (semantic-map-name)
-  (<- (semantic-map-object-name "http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j")))
-
-(desig::disable-location-validation-function 'btr-desig::validate-designator-solution)
-(desig::disable-location-validation-function 'btr-desig::check-ik-solution)
-(desig::disable-location-generator-function 'gaussian-costmap::robot-current-pose-generator)
-;;(*disable-location-validation-function* desig::filter-solution)
