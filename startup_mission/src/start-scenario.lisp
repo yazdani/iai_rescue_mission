@@ -32,9 +32,11 @@
 
 (defun start-world-with-robot ()
   (roslisp:ros-info (sherpa-mission) "START WORLD!")
+ ; (setf cram-transforms-stamped:*tf-default-timeout* 0)
   (setf *list* nil)
   (let* ((sem-urdf (cl-urdf:parse-urdf (roslisp:get-param "mountain_description")))
          (quad01-urdf (cl-urdf:parse-urdf (roslisp:get-param "robot_description"))))
+    (roslisp:ros-info (sherpa-mission) "START WORLD!")
     (setf *list*
           (car 
            (btr::force-ll
@@ -42,14 +44,14 @@
              `(and
                (clear-bullet-world)
                (bullet-world ?w)
-               (btr::robot ?robot)
+               (cram-robot-interfaces::robot  ?robot)
                (assert (object ?w :static-plane floor ((0 0 0) (0 0 0 1))
                                :normal (0 0 1) :constant 0 :disable-collisions-with (?robot)))
                (debug-window ?w)
-              (assert (object ?w :semantic-map sem-map ((0 0 0) (0 0 0 1)) :urdf ,sem-urdf))
+               (assert (object ?w :semantic-map sem-map ((0 0 0) (0 0 0 1)) :urdf ,sem-urdf))
               
               (assert (object ?w :urdf quadrotor01 ((22 0 0)(0 0 0 1)) :urdf ,quad01-urdf))
-              (btr::robot quadrotor01))))))))
+             (btr::robot quadrotor01))))))))
 
 (defun create-desig-as-tester( obj1-name obj2-name)
 ;  (let* ((map (sem-map-utils::get-semantic-map)))
@@ -57,8 +59,8 @@
       ;;   (obj2-part (sem-map-utils::semantic-map-part map obj2-name))
       ;;   (obj1-pose (slot-value obj1-part 'sem-map-utils:pose))
     ;;     (obj2-pose (slot-value obj2-part 'sem-map-utils:pose)))
-    (make-designator :location `((to ,obj1-name)
-                                 (next-to ,obj2-name))))
+    (make-designator :location `((:behind-of ,obj1-name)
+                                 (:next-to ,obj2-name))))
 
 (defun create-action-desig1 ()
   (if (string-equal (instruct-mission::get-item) "")
@@ -78,7 +80,8 @@
    `(and
      (bullet-world ?w)
      (assert (object ?w :mesh victim ((-3.57 0 0) (0 0 0 1)) ;; (1 0 0)red
-                     :mesh :victim :color (1 0 0)  :mass 2)))))
+                     :mesh :victim
+                     :color (1 0 0)  :mass 2)))))
 
 (defun spawn-pose()
   (btr::prolog

@@ -34,9 +34,10 @@
           #:location-costmap
           #:common-lisp
           #:cram-prolog
-          #:semantic-map-costmap
+         ;; #:semantic-map-costmap
           #:btr
           #:cram-utilities
+	  #:cram-bullet-reasoning
           #:cram-bullet-reasoning-belief-state
           #:cram-language-implementation)
         ;;  #:bullet-reasoning-utilities)

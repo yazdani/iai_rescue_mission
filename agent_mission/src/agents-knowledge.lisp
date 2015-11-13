@@ -28,10 +28,10 @@
 
 (in-package :agent-mission)
 
-(def-fact-group quadrotor-metadata (robot camera-frame camera-minimal-height camera-maximal-height)
+(def-fact-group quadrotor-metadata (robot camera-frame camera-minimal-height robot-base-frame camera-maximal-height)
   (<- (robot quadrotor01))
   (<- (camera-frame quadrotor01 "camera_rgb_optical_frame"))
   (<- (camera-frame quadrotor01 "camera_depth_optical_frame"))
   (<- (camera-minimal-height quadrotor01 1.3))
   (<- (camera-maximal-height quadrotor01 2.0))
-  (<- (robot-init-link quadrotor01 "base_link")))
+  (<- (robot-base-frame quadrotor01 "base_link")))

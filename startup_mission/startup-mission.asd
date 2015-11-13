@@ -29,25 +29,25 @@
 (defsystem startup-mission
   :author "yazdani"
   :license "BSD"
-  :depends-on (spatial-relations-costmap
+  :depends-on (; spatial-relations-costmap
                cram-designators
                cram-location-costmap
                cram-prolog
                roslisp
-               semantic-map-costmap
-               cram-robot-pose-gaussian-costmap
+               ; semantic-map-costmap
+               ; cram-robot-pose-gaussian-costmap
                cram-bullet-reasoning
                ;;cram-quadrotor-knowledge
                agent-mission
-	       cram-bullet-reasoning-belief-state
-               projection-process-modules
-               occupancy-grid-costmap
+               cram-bullet-reasoning-belief-state
+               ; projection-process-modules
+               ; occupancy-grid-costmap
                cram-plan-library
                cram-bullet-reasoning-designators
-              ;; cram-quadrotor-designators
-	       instruct_mission-msg
+               ;; cram-quadrotor-designators
+               instruct_mission-msg
                cram-semantic-map-designators
-	       instruct-mission
+               instruct-mission
                alexandria)
   ;; bullet-reasoning-utilities)
   :components

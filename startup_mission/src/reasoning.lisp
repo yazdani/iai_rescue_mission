@@ -42,34 +42,69 @@
 (def-fact-group cognitive-reasoning-costmap (desig-costmap)
   (<- (desig-costmap ?desig ?costmap)
     (bullet-world ?world)
-    (desig-prop ?desig (to ?object1-name))
-    (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
-    (desig-prop ?desig (next-to ?object2-name))
-    (lisp-fun get-object-pose->semantic-map ?object2-name ?object2-pose)
+    ;;(findall ?obj (and
+      ;;             (bullet-world ?world)
+        ;;           (object ?world ?name)
+          ;;         (%object ?world ?name ?obj)
+            ;;       (lisp-type ?obj manmade-object)
+              ;;     (get-slot-value ?obj types ?types)
+                ;;   (member ?type ?types))?objs)
     (costmap ?costmap)
+    (lisp-fun get-genius-pose->world-model ?pose)
+    (prepositions ?desig ?pose ?costmap))
+  
+  (<- (prepositions ?desig ?pose ?costmap)
+    (format "behind")
+    (or (desig-prop ?desig (:behind-of ?object1-name))
+        (desig-prop ?desig (:behind ?object1-name)))
+    (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
     (instance-of reasoning-generator ?reasoning-generator-id)
     (costmap-add-function
      ?reasoning-generator-id
-                       (make-reasoning-cost-function ?object1-pose :X  < 0.3)
-                    ?costmap)
-    ;;(costmap ?costmap)
-    (format "hhhh ~a~%" ?costmap)
-     (instance-of reasoning-generator ?reasoning-generator-id2)
-    (costmap-add-function
-     ?reasoning-generator-id2
-                       (make-reasoning-cost-function ?object2-pose :Y  < 0.3)
-                       ?costmap)
-    (instance-of reasoning-generator ?reasoning-generator-id3)
-    (costmap-add-function
-     ?reasoning-generator-id3
-                       (make-reasoning-cost-function ?object1-pose :Y  > 0.05)
-                       ?costmap)
+     (make-reasoning-cost-function ?object1-pose :X  < 0.6)
+     ?costmap))
 
+ (<- (prepositions ?desig ?pose ?costmap)
+   (format "next-to")
+   (desig-prop ?desig (:next-to ?object1-name))
+   (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
+   (instance-of reasoning-generator ?reasoning-generator-id)
+   (costmap-add-function
+    ?reasoning-generator-id
+    (make-reasoning-cost-function ?object1-pose :Y  < 0.6)
+    ?costmap))
 
-
-    ))
-
-
+   (<- (prepositions ?desig ?pose ?costmap)
+     (format "in-front-of")
+   (desig-prop ?desig (:in-front-of ?object1-name))
+   (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
+   (instance-of reasoning-generator ?reasoning-generator-id)
+   (costmap-add-function
+    ?reasoning-generator-id
+    (make-reasoning-cost-function ?object1-pose :X  > 0.5)
+    ?costmap))
+  
+ (<- (prepositions ?desig ?pose ?costmap)
+   (format "right-of")
+   (desig-prop ?desig (:right-of ?object1-name))
+   (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
+   (instance-of reasoning-generator ?reasoning-generator-id)
+   (costmap-add-function
+    ?reasoning-generator-id
+    (make-reasoning-cost-function ?object1-pose :Y  > 0.3)
+    ?costmap))
+  
+ 
+ (<- (prepositions ?desig ?pose ?costmap)
+   (format "left-of")
+   (desig-prop ?desig (:left-of ?object1-name))
+   (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
+   (instance-of reasoning-generator ?reasoning-generator-id2)
+   (costmap ?costmap)
+   (costmap-add-function
+    ?reasoning-generator-id2
+    (make-reasoning-cost-function ?object1-pose :Y  < 0.3)
+    ?costmap)))
 
 
 (def-fact-group location-desig-utils ()

@@ -40,5 +40,5 @@
 
 (desig::disable-location-validation-function 'btr-desig::validate-designator-solution)
 (desig::disable-location-validation-function 'btr-desig::check-ik-solution)
-(desig::disable-location-generator-function 'gaussian-costmap::robot-current-pose-generator)
+;;(desig::disable-location-generator-function 'gaussian-costmap::robot-current-pose-generator)
 ;;(*disable-location-validation-function* desig::filter-solution)

@@ -1101,7 +1101,7 @@
   <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
   <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_1399894481"/>
   <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_19"/>
-  <knowrob:objectActedOn rdf:resource="&knowrob;tree07"/>
+  <knowrob:objectActedOn rdf:resource="&knowrob;tree08"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_19">

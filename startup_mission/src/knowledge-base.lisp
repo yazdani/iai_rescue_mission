@@ -49,3 +49,6 @@
 	 (tf:make-3d-vector -2 -2 -1)
 	 (tf:make-quaternion 0 0 0 1))
   :file (model-path "sherpa_base_camp.urdf"))))))
+
+;;(defun  get-genius-pose->world-model ()
+ ;; (let*((

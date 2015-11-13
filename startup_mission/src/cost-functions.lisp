@@ -55,7 +55,6 @@
   (when objs
     (let ((aabbs (loop for obj in (cut:force-ll objs)
                        collecting (btr:aabb obj))))
-      (format t "aabbs: ~a~%" aabbs)
       (lambda (x y)
         (block nil
           (dolist (bounding-box aabbs (if invert 1.0d0 0.0d0))
@@ -71,7 +70,6 @@
                      (> x (- (cl-transforms:x bb-center) dimensions-x/2))
                      (< y (+ (cl-transforms:y bb-center) dimensions-y/2))
                      (> y (- (cl-transforms:y bb-center) dimensions-y/2)))
-                (format t "here2~%")
                 (return (if invert 0.0d0 1.0d0)))
               ))))))) 
 
