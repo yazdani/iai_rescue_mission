@@ -43,9 +43,9 @@ int main(int argc, char **argv)
   seg.push_back(0.21);
   
  
- srv.request.selected = "red_hawk";
+  srv.request.selected = "red_hawk";
   srv.request.type = "order";
-  srv.request.command = "Go there";
+  srv.request.command = "Do you see any victims";
   srv.request.data = 0.2;
   srv.request.direction = dir;
   srv.request.location = loc;
