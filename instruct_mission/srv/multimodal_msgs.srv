@@ -1,0 +1,17 @@
+string selected
+string type
+string command
+float32 data
+float32[] direction 
+float32[] location
+float32 confidence
+float32[] polygonal_area
+float32[] segment
+geometry_msgs/Vector3 circ_area
+float32 radius
+string source
+geometry_msgs/Pose sample
+---
+string agent
+string command
+string type
