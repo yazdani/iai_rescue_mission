@@ -10,7 +10,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <stdio.h>
-
+#include <string.h>
 
 #define PORT 1234
 #define BUF_SIZE 1024
@@ -18,6 +18,10 @@
 using namespace std;
 string checkCommandType(string);
 
+int sockfd, newsockfd, portno, clilen;
+char buffer[BUF_SIZE];
+struct sockaddr_in serv_addr, cli_addr;
+int  no;
 
 string checkCommandType(string s)
 { 
@@ -74,21 +78,41 @@ string checkCommandType(string s)
       return "order";
 }
 
-
-void interpretCommand(string cmd)
+string interpretCommand(string cmd)
 {
+   ROS_INFO_STREAM("in interpretCommand!");
+   bzero(buffer,256);
+   no = read( newsockfd,buffer,255 );
+   
+   if (no < 0) {
+      perror("ERROR reading from socket");
+      exit(1);
+   }
+   
+   printf("Here is the message: %s\n",buffer);
+   
+ 
+   no = write(newsockfd,"I got your message",18);
+   
+   if (no < 0) {
+      perror("ERROR writing to socket");
+      exit(1);
+   }
+   ROS_INFO_STREAM(buffer);
+   return buffer;  
 }
 
 
 bool startChecking(instruct_mission::multimodal_msgs::Request  &req,
 		   instruct_mission::multimodal_msgs::Response &res)
 {
+  ROS_INFO_STREAM("lets start the game!");
   res.agent = req.selected;
   res.command = req.command;
   float test = req.direction[0];
   string cmd_type = checkCommandType(req.command);
   res.type = cmd_type;
-  string cmd_interpreted = "what";//interpretCommand(req.command);
+  string cmd_interpreted = interpretCommand(req.command);
   res.command = cmd_interpreted;
   ROS_INFO_STREAM(cmd_type);
   ROS_INFO_STREAM("Agent: "<< res.agent );
@@ -122,12 +146,52 @@ bool startChecking(instruct_mission::multimodal_msgs::Request  &req,
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "show_the_string_server");
-  ros::NodeHandle n;
+  /*
+  int sockfd, newsockfd, portno, clilen;
+  char buffer[BUF_SIZE];
+  struct sockaddr_in serv_addr, cli_addr;
+   int  no;
+  */
 
-  ros::ServiceServer service = n.advertiseService("show_the_string", startChecking);
-  ROS_INFO_STREAM("Wait for Client!");
-  ros::spin();
+  /* First call to socket() function */
+   sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
-  return 0;
+   if (sockfd < 0) {
+      perror("ERROR opening socket");
+      exit(1);
+   }
+
+   bzero((char *) &serv_addr, sizeof(serv_addr));
+   portno = PORT;
+ 
+   serv_addr.sin_family = AF_INET;
+   serv_addr.sin_addr.s_addr = INADDR_ANY;
+   serv_addr.sin_port = htons(portno);
+   
+  
+   if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+      perror("ERROR on binding");
+      exit(1);
+   }
+    
+   listen(sockfd,5);
+   clilen = sizeof(cli_addr);
+   
+  
+   newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
+	 
+   if (newsockfd < 0) {
+      perror("ERROR on accept");
+      exit(1);
+   }
+   
+
+   ros::init(argc, argv, "show_the_string_server");
+   ros::NodeHandle n;
+
+   ros::ServiceServer service = n.advertiseService("show_the_string", startChecking);
+   ROS_INFO_STREAM("Wait for Client!");
+   ros::spin();
+   
+   return 0;
 }
