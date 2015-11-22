@@ -48,11 +48,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-#add_message_files(
-#   FILES
+add_message_files(
+   FILES
 #   multimodal_msgs.msg
-#   multimodal_values.msg
-#)
+   multimodal_values.msg
+)
 
 ## Generate services in the 'srv' folder
 add_service_files(
@@ -139,6 +139,7 @@ add_dependencies(multimodal_server instruct_mission_gencpp)
 add_executable(multimodal_client src/multimodal_client.cpp)
 target_link_libraries(multimodal_client ${catkin_LIBRARIES})
 add_dependencies(multimodal_client instruct_mission_gencpp)
+
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(instruct_mission_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

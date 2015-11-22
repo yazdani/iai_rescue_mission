@@ -1,8 +1,0 @@
-#include <iostream>
-
-class mama{
-int test(std::string ma)
-{
-std::cout << "in the descond class\n";
-}
-};

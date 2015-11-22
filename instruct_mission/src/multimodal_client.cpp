@@ -7,9 +7,9 @@
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "show_my_string_client");
+  ros::init(argc, argv, "multimodal_cmd_client");
   ros::NodeHandle n;
-  ros::ServiceClient client = n.serviceClient<instruct_mission::multimodal_msgs>("show_the_string");
+  ros::ServiceClient client = n.serviceClient<instruct_mission::multimodal_msgs>("multimodal_cmd");
   ros::Rate r(0.1); 
   instruct_mission::multimodal_msgs srv;
   geometry_msgs::Pose p;
@@ -45,7 +45,7 @@ int main(int argc, char **argv)
  
   srv.request.selected = "red_hawk";
   srv.request.type = "order";
-  srv.request.command = "Do you see any victims";
+  srv.request.command = "Go to this victim";
   srv.request.data = 0.2;
   srv.request.direction = dir;
   srv.request.location = loc;

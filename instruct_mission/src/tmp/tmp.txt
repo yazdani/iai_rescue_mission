@@ -1,6 +1,0 @@
-agent: red hawk
-action: move
-type: order
-directive: right_of
-item: tree
-location: (2.0, 0.0, 0.0)
