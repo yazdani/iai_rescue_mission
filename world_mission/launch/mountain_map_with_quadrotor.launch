@@ -1,5 +1,5 @@
 <launch>
-
+<!--
 <include file="$(find gazebo_ros)/launch/empty_world.launch">   
  <arg name="world_name" value="$(find world_mission)/worlds/mountain_map.world"/>
     <arg name="paused" value="false"/>
@@ -10,7 +10,7 @@
   </include>
 
 <include file="$(find agent_mission)/launch/spawn_quadrotor.launch"/> 
-
+-->
 <param name="mountain_description"
        command="$(find xacro)/xacro.py '$(find world_mission)/urdf-xml/mountain_map/mountain_map.urdf.xml'"/>
 
@@ -22,56 +22,65 @@
 <node pkg="tf" 
       type="static_transform_publisher" 
       name="world_to_map_frame_publisher" 
-      args="0 0 0 0 0 0 1 /map /world 1">
+      args="0 0 0 0 0 0 1 /world /map 200">
 </node>
 
 
 <node pkg="tf" 
       type="static_transform_publisher" 
       name="map_to_maplink_frame_publisher" 
-      args="0 0 0 0 0 0 1 /map /map_link 1">
+      args="0 0 0 0 0 0 1 /map /map_link 200">
 </node>
 
+ <node pkg="robot_state_chain_publisher" type="state_chain_publisher"
+    name="mountain_state_publisher" output="screen">
+    <param name="tf_prefix" value="/"/>
+    <param name="publish_frequency" value="2"/>
+    <remap from="robot_description" to="mountain_description" />
+  </node>
+
+<!--
 
 <node pkg="tf" 
       type="static_transform_publisher" 
       name="map_to_mountain_frame_publisher" 
-      args="0 0 0 0 0 0 1  /map_link /mountain_link 1">
+      args="0.0 0.0 0.0 0.0 0.0 0.0 1.0  map_link mountain_link 1">
 </node>
 
 <node pkg="tf" 
       type="static_transform_publisher" 
       name="map_to_bigtree01_frame_publisher" 
-      args="19.99 6.41 0 0 0 0 1 /map_link /bigtree01_link 1">
+      args="19.99 6.41 0.0 0.0 0.0 0.0 1.0 map_link bigtree01_link 1">
 </node>
+
  <node pkg="tf" 
        type="static_transform_publisher" 
        name="map_to_bigtree02_frame_publisher"
-       args="11.99 14.99 0 0 0 0 1 /map_link /bigtree02_link 1">
+       args="11.99 14.99 0.0 0.0 0.0 0.0 1.0 /map_link /bigtree02_link 1">
   </node>
 
 <node pkg="tf" 
       type="static_transform_publisher" 
       name="map_to_bigtree03_frame_publisher"
-    args="-21 0.99 0 0 0 0 1 /map_link /bigtree03_link 1">
+    args="-21.0 0.99 0.0 0.0 0.0 0.0 1.0 /map_link /bigtree03_link 1">
 </node>
 
 <node pkg="tf" 
       type="static_transform_publisher" 
       name="map_to_bigtree04_frame_publisher" 
-      args="-29 8.99 0 0 0 0 1 /map_link /bigtree04_link 1">
+      args="-29.0 8.99 0.0 0.0 0.0 0.0 1.0 /map_link /bigtree04_link 1">
 </node>
 
 <node pkg="tf" 
       type="static_transform_publisher" 
       name="map_to_bigtree05_frame_publisher" 
-      args="-38 0.99 0 0 0 0 1 /map_link /bigtree05_link 1">
+      args="-38 0.99 0.0 0.0 0.0 0.0 1.0 /map_link /bigtree05_link 1">
 </node>
 
 <node pkg="tf" 
       type="static_transform_publisher" 
       name="map_to_bigtree06_frame_publisher" 
-      args="-10 22.50 0 0 0 0 1 /map_link /bigtree06_link 1">
+      args="-10.0 22.50 0.0 0.0 0.0 0.0 1.0 /map_link /bigtree06_link 1">
 </node>
 
 <node pkg="tf" 
@@ -124,7 +133,7 @@
 <node pkg="tf" 
       type="static_transform_publisher" 
       name="map_to_tree01_frame_publisher"   
-      args="19.02 10.99 0 0 0 0 1 /map_link /tree01_link 1">
+      args="19.02 10.99 0.0 0.0 0.0 0.0 1.0 /map_link /tree01_link 1">
 </node>
 
 <node pkg="tf" 
@@ -193,4 +202,9 @@
       args="16 0 0 0 0 -1.5 1 /map_link /genius_link 1">
 </node>
 
+<node pkg="tf" 
+      type="buffer_server" 
+      name="start_buffer_server">
+</node>
+-->
 </launch>

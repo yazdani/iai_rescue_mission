@@ -8,21 +8,21 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="rock04">
 
 <joint name="rock04_joint" type="fixed">
-<origin xyz="0 0 0" rpy="0 0 0"/>
+<origin xyz="-17.02 -19.06 0.0" rpy="0 0 0"/>
 <parent link="map_link"/>
 <child link="rock04_link"/>
 </joint>
 
 <link name="rock04_link">
 <visual>
-<origin xyz="-17.02 -19.06 0.0 " rpy="0 0 0"/>
+<!--origin xyz="-17.02 -19.06 0.0 " rpy="0 0 0"/-->
 <geometry>
 <mesh filename="package://world_mission/models/rock/meshes/rock.dae"/>
 </geometry>
 <material name="Grey"/>
 </visual>
 <collision>
-<origin xyz="-17.02 -19.06 0.0 " rpy="0 0 0"/>
+<!--origin xyz="-17.02 -19.06 0.0 " rpy="0 0 0"/-->
 <geometry>
 <mesh filename="package://world_mission/models/rock/meshes/rock.stl"/>
 </geometry>

@@ -7,21 +7,21 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="tree09">
 
 <joint name="tree09_joint" type="fixed">
-<origin xyz="0 0 0" rpy="0 0 0"/>
+<origin xyz="-11 16.99 0.0" rpy="0 0 0"/>
 <parent link="map_link"/>
 <child link="tree09_link"/>
 </joint>
 
 <link name="tree09_link">
 <visual>
-<origin xyz="-11 16.99 0.0 " rpy="0 0 0"/>
+<!--origin xyz="-11 16.99 0.0 " rpy="0 0 0"/-->
 <geometry>
 <mesh filename="package://world_mission/models/tree/meshes/tanne1.dae"/>
 </geometry>
 <material name="Green"/>
 </visual>
 <collision>
-<origin xyz="-11 16.99 0.0 " rpy="0 0 0"/>
+<!--origin xyz="-11 16.99 0.0 " rpy="0 0 0"/-->
 <geometry>
 <mesh filename="package://world_mission/models/tree/meshes/tanne1.stl"/>
 </geometry>

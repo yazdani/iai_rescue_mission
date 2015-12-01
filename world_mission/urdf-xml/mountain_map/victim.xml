@@ -8,21 +8,21 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="victim">
 
 <joint name="victim_joint" type="fixed">
-<origin xyz="0 0 0" rpy="0 0 0"/>
+<origin xyz="-3.57 0.0 0.0" rpy="0 0 0"/>
 <parent link="map_link"/>
 <child link="victim_link"/>
 </joint>
 
 <link name="victim_link">
 <visual>
-<origin xyz="-3.57 0.0 0.0 " rpy="0 0 0"/>
+<!--origin xyz="-3.57 0.0 0.0 " rpy="0 0 0"/-->
 <geometry>
 <mesh filename="package://world_mission/models/victim/meshes/victim.dae"/>
 </geometry>
 <material name="Red"/>
 </visual>
 <collision>
-<origin xyz="-3.57 0.0 0.0 " rpy="0 0 0"/>
+<!--origin xyz="-3.57 0.0 0.0 " rpy="0 0 0"/-->
 <geometry>
 <mesh filename="package://world_mission/models/victim/meshes/victim.stl"/>
 </geometry>
