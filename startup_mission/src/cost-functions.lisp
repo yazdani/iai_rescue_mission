@@ -28,6 +28,7 @@
 
 (in-package :startup-mission)
 
+(defvar *tf*)
 (defun make-reasoning-cost-function (location axis pred threshold)
   (roslisp:ros-info (sherpa-spatial-relations) "calculate the costmap")
   (let* ((transformation (cl-transforms:pose->transform location))
@@ -81,4 +82,10 @@
 (defun get-object-pose->semantic-map (object &optional (semantic-map (sem-map-utils::get-semantic-map)))
   (let((obj (sem-map-utils::semantic-map-part semantic-map object)))
        (slot-value obj 'sem-map-utils:pose)))
+
+(defun get-genius-pose->world-model ()
+  (let((*tf* (make-instance 'cl-tf:transform-listener)))
+       (cl-tf:lookup-transform *tf* "world" "genius_link")))
+  ;;  (cl-transforms-stamped:transform->pose transform)))
+
 
