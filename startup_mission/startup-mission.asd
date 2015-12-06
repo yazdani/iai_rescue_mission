@@ -46,6 +46,7 @@
                cram-bullet-reasoning-designators
                ;; cram-quadrotor-designators
                instruct_mission-msg
+	       cl-tf
                cram-semantic-map-designators
                instruct-mission
                alexandria)

@@ -83,9 +83,11 @@
   (let((obj (sem-map-utils::semantic-map-part semantic-map object)))
        (slot-value obj 'sem-map-utils:pose)))
 
-(defun get-genius-pose->world-model ()
+(defun get-genius-pose->world-model (frame-id)
+  (roslisp:ros-info (STARTUP-MISSION::cost-functions) "Get the position of a link in relation with the world_frame")
+ ;; (roslisp-utilities:startup-ros)
   (let((*tf* (make-instance 'cl-tf:transform-listener)))
-       (cl-tf:lookup-transform *tf* "world" "genius_link")))
+    (cl-transforms:transform->pose (cl-tf:lookup-transform *tf* "world" frame-id :timeout 2.0))))
   ;;  (cl-transforms-stamped:transform->pose transform)))
 
 
