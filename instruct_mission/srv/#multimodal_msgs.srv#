@@ -13,6 +13,4 @@ string source
 geometry_msgs/Pose sample
 ---
 string agent
-string init_cmd
-string cmd_type
-string trans_cmd
+string cmd-

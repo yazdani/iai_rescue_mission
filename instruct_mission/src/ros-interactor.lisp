@@ -29,6 +29,7 @@
 (in-package :instruct-mission)
 
 (defparameter *buffer-vector* (make-array 4 :fill-pointer 0))
+(defvar *stored-result* nil)
 ;;
 ;; declaration of class
 ;;
@@ -47,8 +48,8 @@
 
 (defun init-base ()
   (setf *result-subscriber*
-   (roslisp:subscribe "/multimodal_msgs"
-    "instruct_mission/multimodal_values"
+   (roslisp:subscribe "/tf"
+    "tf/tfMessage"
     #'cb-result)))
 
 (defun cb-result (msg)

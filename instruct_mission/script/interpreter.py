@@ -79,9 +79,9 @@ def startConnection():
     rospy.init_node('multimodal')
     rate = rospy.Rate(10)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(("yazdani", 1234))
+    s.bind(("", 1234))
     s.listen(1)
-    server = "yazdani"
+    server = ""
     c, address = s.accept()
     rospy.Subscriber("test_msgs", multimodal_msgs, callback)
     rospy.spin()

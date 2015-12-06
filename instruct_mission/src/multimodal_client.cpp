@@ -70,26 +70,22 @@ int main(int argc, char **argv)
   srv.request.radius = 0.4;
   srv.request.source = "und ein test";
   srv.request.sample =  p;*/
-  ROS_INFO_STREAM("test");
+  
   while(ros::ok())
     {
-    
+      ROS_INFO_STREAM("ROS::ok");
+
       if(client.call(srv))
 	{  
-	  ROS_INFO_STREAM("MSG IS:" << srv.request.selected << srv.request.type);
-
-//"<< srv.response.agent 
-	  //	  << srv.response.command 
-	  //		  << srv.response.type);
-	  //<< srv.response.gesture); 
-			  //<< srv.response.gps);
+	  ROS_INFO_STREAM("Msg already sent: " << srv.request.command);
 	}else 
 	{
 	  ROS_ERROR("Failed to call service show_the_string");
 	  return 1;
 	}
+      ROS_INFO_STREAM("while out ROS::ok1");
       r.sleep();
-     
+      ROS_INFO_STREAM("while out ROS::ok2");
     }
   // else
   //   {
