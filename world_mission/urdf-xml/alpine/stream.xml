@@ -7,21 +7,21 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="stream">
 
 <joint name="stream_joint" type="fixed">
-<origin xyz="0 0 0" rpy="0 0 0"/>
+<origin xyz="-1.0 0.0 2.5 " rpy="0 0 0"/>
 <parent link="map_link"/>
 <child link="stream_link"/>
 </joint>
 
 <link name="stream_link">
 <visual>
-<origin xyz="-1.0 0.0 2.5 " rpy="0 0 0"/>
+<!--origin xyz="-1.0 0.0 2.5 " rpy="0 0 0"/-->
 <geometry>
 <mesh filename="package://world_mission/models/stream/meshes/stream.dae"/>
 </geometry>
 <material name="Blue"/>
 </visual>
 <collision>
-<origin xyz="-1.0 0.0 2.5 " rpy="0 0 0"/>
+<!--origin xyz="-1.0 0.0 2.5 " rpy="0 0 0"/-->
 <geometry>
 <mesh filename="package://world_mission/models/stream/meshes/stream.dae"/>
 </geometry>

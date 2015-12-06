@@ -19,9 +19,9 @@
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:knowrob="&knowrob;">
 
-
+<!-- TODO MY ONTOLOGY -->
     <owl:Ontology rdf:about="http://knowrob.org/kb/semantic_map.owl#">
-        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+        <owl:imports rdf:resource="package://world_mission/owl/my_ontology.owl"/>
     </owl:Ontology>
 
     <!--
@@ -243,8 +243,9 @@
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
+
    <!-- &knowrob;Properties in Classes -->
-  <owl:Class rdf:about="&knowrob;Entity">
+<!--  <owl:Class rdf:about="&knowrob;Entity">
 	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
     </owl:Class>
 
@@ -279,7 +280,7 @@
   <owl:Class rdf:about="&knowrob;Stream">
       <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
     </owl:Class>
-
+-->
   <rdf:Description rdf:about="&knowrob;BigTree">
         <rdfs:subClassOf>
             <owl:Restriction>

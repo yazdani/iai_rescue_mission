@@ -22,6 +22,27 @@
 <node pkg="tf" 
       type="static_transform_publisher" 
       name="world_to_map_frame_publisher" 
+      args="0 0 0 0 0 0 1 /world /map 200">
+</node>
+
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_maplink_frame_publisher" 
+      args="0 0 0 0 0 0 1 /map /map_link 200">
+</node>
+
+ <node pkg="robot_state_chain_publisher" type="state_chain_publisher"
+    name="alpine_state_publisher" output="screen">
+    <param name="tf_prefix" value="/"/>
+    <param name="publish_frequency" value="2"/>
+    <remap from="robot_description" to="alpine_description" />
+  </node>
+
+<!--
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="world_to_map_frame_publisher" 
       args="0 0 0 0 0 0 1 /map /world 1">
 </node>
 
@@ -175,5 +196,5 @@
       name="map_to_tree07_frame_publisher"
       args="39 22 8 0 0 0 1 /map_link /tree07_link 1">
 </node>
-
+-->
 </launch>

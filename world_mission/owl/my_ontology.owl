@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#">
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!-- <!ENTITY computable "http://ias.cs.tum.edu/kb/computable.owl#" > -->
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+   <!ENTITY my_onto "http://knowrob.org/kb/my_onto.owl#" >
+]>
+<rdf:RDF xmlns="http://knowrob.org/kb/my_onto.owl#"
+    xml:base="http://knowrob.org/kb/my_onto.owl"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:knowrob="&knowrob;">
+
+  <owl:Ontology rdf:about="http://knowrob.org/kb/my_onto.owl">
+    <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+  </owl:Ontology>
+
+ <!-- &knowrob;Classes -->
+ <owl:Class rdf:about="&knowrob;Environment">
+   <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+ </owl:Class>
+ 
+ <owl:Class rdf:about="&knowrob;Entity">
+   <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Animate">
+   <rdfs:subClassOf rdf:resource="&knowrob;Entity"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Inanimate">
+   <rdfs:subClassOf rdf:resource="&knowrob;Entity"/>
+ </owl:Class>
+    
+ <owl:Class rdf:about="&knowrob;BigTree">
+   <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Tree">
+   <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Rock">
+   <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+ </owl:Class>
+ 
+ <owl:Class rdf:about="&knowrob;Mountain">
+   <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
+ </owl:Class>
+
+  <owl:Class rdf:about="&knowrob;Stream">
+      <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+    </owl:Class>
+
+
+</rdf:RDF>
