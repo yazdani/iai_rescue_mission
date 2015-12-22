@@ -54,7 +54,6 @@ string cmd_interpreted;
 string cmd_type;
 ros::Publisher pub;
 
-
 /*
  * Publishing the interpreted instruction through a topic an interpreted instruction.
  * @param string agent: agent which is performing the task
@@ -106,13 +105,15 @@ string checkCommandType(string cmd)
      elem.compare("Who") == 0 || elem.compare("who") == 0 || elem.compare("WHO") == 0 ||
      elem.compare("Whose") == 0 || elem.compare("whose") == 0 || elem.compare("WHOSE") == 0 ||
      elem.compare("Why") == 0 || elem.compare("why") == 0 || elem.compare("WHY") == 0 )
-    return "ask";
+    return "question";
+  
+  if(elem.compare("Give") == 0 || elem.compare("give") == 0 || elem.compare("GIVE") == 0 ||
+     elem.compare("Show") == 0 || elem.compare("show") == 0 || elem.compare("SHOW") == 0)
+    return "query";
+  if(elem.compare(" ") == 0 || elem.compare("") == 0)
+    return "";
   else
-    if(elem.compare(" ") == 0 ||
-       elem.compare("") == 0)
-      return "NONE";
-    else
-      return "order";
+    return "order";
 }
 
 /*
@@ -151,45 +152,18 @@ string interpretCommand(string cmd)
  * @param Response: Service which is sent at the end
  * @return bool: Depending of the successful processing true/false
  */
-bool startChecking(instruct_mission::multimodal_msgs::Request  &req,
+bool startChecking(instruct_mission::multimodal_msgs::Request &req,
 		   instruct_mission::multimodal_msgs::Response &res)
 {
   ROS_INFO_STREAM("startChecking");
   cmd_type = checkCommandType(req.command);
   cmd_interpreted =  interpretCommand(req.command);
-  sendAsTopic(req.selected, cmd_interpreted, cmd_type, req.direction, req.location);
   res.agent = req.selected;
   res.init_cmd = req.command;
   res.cmd_type = cmd_type;
-  res.trans_cmd = cmd_interpreted;
-
-
-  /*
-  ROS_INFO_STREAM(cmd_type);
-  ROS_INFO_STREAM("Agent: "<< res.agent );
-  ROS_INFO_STREAM("Instruction: "<< res.command );
-  ROS_INFO_STREAM("Type: "<< res.type );
-  ROS_INFO_STREAM("Data : "<< req.data );
-  ROS_INFO_STREAM("Gesture.x " <<  req.direction[0]);
-  ROS_INFO_STREAM("Gesture.y " <<  req.direction[1]);
-  ROS_INFO_STREAM("Gesture.z " <<  req.direction[2]);
-  ROS_INFO_STREAM("location.x " <<  req.location[0]);
-  ROS_INFO_STREAM("location.y " <<  req.location[1]);
-  ROS_INFO_STREAM("location.z " <<  req.location[2]);
-  ROS_INFO_STREAM("confidence " <<  req.confidence);
-  ROS_INFO_STREAM("poly_area.x " <<  req.polygonal_area[1]);
-  ROS_INFO_STREAM("poly_area.y " <<  req.polygonal_area[2]);
-  ROS_INFO_STREAM("poly_area.z " <<  req.polygonal_area[0]);
-  ROS_INFO_STREAM("segment.x " <<  req.segment[0]);
-  ROS_INFO_STREAM("segment.y " <<  req.segment[1]);
-  ROS_INFO_STREAM("segment.z " <<  req.segment[2]);
-  ROS_INFO_STREAM("circ_area.x " <<  req.circ_area.x);
-  ROS_INFO_STREAM("circ_area.y " <<  req.circ_area.y);
-  ROS_INFO_STREAM("circ_area.z " <<  req.circ_area.z);
-  ROS_INFO_STREAM("radius " <<  req.radius);
-  ROS_INFO_STREAM("source " <<  req.source);
-  ROS_INFO_STREAM("sample " <<  req.sample.position.x);
-  */
+  res.trans_cmd = cmd_interpreted; 
+  sendAsTopic(req.selected, cmd_interpreted, cmd_type, req.direction, req.location);
+ 
   ROS_INFO_STREAM("end startChecking");
   return true;
 }
