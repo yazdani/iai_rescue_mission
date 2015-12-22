@@ -48,19 +48,19 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-   FILES
-   multimodal_msgs.msg
-   multimodal_values.msg
-)
+#add_message_files(
+#   FILES
+#   multimodal_msgs.msg
+#   multimodal_values.msg
+#)
 
 ## Generate services in the 'srv' folder
-#add_service_files(
- #  FILES
+add_service_files(
+  FILES
 #   Service1.srv
 #   Service2.srv
-#   multimodal_msgs.srv
-#)
+   multimodal_msgs.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -132,9 +132,14 @@ include_directories(
 # add_dependencies(instruct_mission ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-#add_executable(multimodal_server src/multimodal_server.cpp)
-#target_link_libraries(multimodal_server ${catkin_LIBRARIES})
-#add_dependencies(multimodal_server instruct_mission_gencpp)
+add_executable(multimodal_actionserver src/multimodal_actionserver.cpp)
+target_link_libraries(multimodal_actionserver ${catkin_LIBRARIES})
+add_dependencies(multimodal_actionserver instruct_mission_gencpp)
+
+## Declare a C++ executable
+add_executable(multimodal_actionclient src/multimodal_actionclient.cpp)
+target_link_libraries(multimodal_actionclient ${catkin_LIBRARIES})
+add_dependencies(multimodal_actionclient instruct_mission_gencpp)
 
 #add_executable(multimodal_client src/multimodal_client.cpp)
 #target_link_libraries(multimodal_client ${catkin_LIBRARIES})
