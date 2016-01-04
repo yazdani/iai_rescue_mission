@@ -28,6 +28,24 @@
 
 (in-package :instruct-mission)
 
+(defun parse-cmd-into-designator (cntnt)
+  (let* ((agent (read-from-string (substitute #\- #\Space (slot-value cntnt 'instruct_mission-msg::agent))))
+         (cmd (slot-value cntnt 'instruct_mission-msg::command))
+         (type (read-from-string (slot-value cntnt 'instruct_mission-msg::type)))
+         (gesture (slot-value cntnt 'instruct_mission-msg::gesture))
+         (ge-vector (cl-transforms::make-3d-vector (svref gesture 0)
+                                                   (svref gesture 1)
+                                                   (svref gesture 2)))         
+         (gps (slot-value cntnt 'instruct_mission-msg::gps))
+         (gps-vector (cl-transforms::make-3d-vector (svref gps 0)
+                                                    (svref gps 1)
+                                                    (svref gps 2))))
+    (format t "cmd: ~a~% agent: ~a~% type: ~a~% gesture: ~a~% ge-vector: ~a~% gps: ~a~% gps-vector: ~a~%" cmd agent type gesture ge-vector gps gps-vector))) 
+
+
+
+
+
 (defun get-agent()
   (split-sequence::string-left-trim " " (cadr (split-sequence:split-sequence #\: (aref instruct-mission::*buffer-vector* 0)))))
 

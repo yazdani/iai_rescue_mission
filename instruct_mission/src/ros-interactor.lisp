@@ -48,8 +48,8 @@
 
 (defun init-base ()
   (setf *result-subscriber*
-   (roslisp:subscribe "/tf"
-    "tf/tfMessage"
+   (roslisp:subscribe "multimodal_msgs"
+    "instruct_mission/multimodal_values"
     #'cb-result)))
 
 (defun cb-result (msg)

@@ -8,7 +8,6 @@ from geometry_msgs.msg import Pose
 from std_msgs.msg import String
 
 
-
 def talker():
     pub = rospy.Publisher('test_msgs',multimodal_msgs, queue_size=10)
     rospy.init_node('tf_transforms')
@@ -19,230 +18,136 @@ def talker():
     hello_str = "hello world %s" % rospy.get_time()
     rospy.loginfo(hello_str)
     while not rospy.is_shutdown():
-        #   str1.selected = "blue hawk"
-        #  str1.type = "go"
-        #  str1.command = "Go right"
-        #  str1.data = 1.0
-        #  str1.direction = [2.0, 0.0, 0.0]
-        #   str1.location = [3.0, 0.0, 0.0]
-        #    str1.confidence = 1.98
-        #     str1.polygonal_area = []
-        # str1.segment = []
-        # str1.circ_area.x = 0.0 
-        # str1.circ_area.y = 0.0
-        #str1.circ_area.z = 0.0
-        # str1.radius = 0.0
-        # str1.source = "gesture"
-        # str1.sample.position.x = 0.0
-        # str1.sample.position.y  = 0.0
-        # str1.sample.position.z = 0.0
-        ## str1.sample.orientation.x = 0.0       
-        # str1.sample.orientation.y = 0.0        
-        # str1.sample.orientation.z = 0.0
-        # str1.sample.orientation.w = 0.0
-        # rospy.loginfo(str1)
-        # pub.publish(str1)
-        # rate.sleep()
-        ##str1.selected = "blue hawk"
-        #str1.type = "go"
-        # str1.command = "Go left"
-        # str1.data = 1.0
-        # str1.direction = [2.0, 0.0, 0.0]
-        # str1.location = [3.0, 0.0, 0.0]
-        # str1.confidence = 1.98
-        # str1.polygonal_area = []
-        ## str1.segment = []
-        #str1.circ_area.x = 0.0 
-        #str1.circ_area.y = 0.0
-        # str1.circ_area.z = 0.0
-        # str1.radius = 0.0
-        # str1.source = "gesture"
-        #  str1.sample.position.x = 0.0
-        #  str1.sample.position.y  = 0.0
-        #  str1.sample.position.z = 0.0
-        #  str1.sample.orientation.x = 0.0       
-        ##  str1.sample.orientation.y = 0.0        
-        #str1.sample.orientation.z = 0.0
-        # str1.sample.orientation.w = 0.0
-        # rospy.loginfo(str1)
-        # pub.publish(str1)
-        # rate.sleep()
-        # str1.selected = "red hawk"
-        # str1.type = "go"
-        # str1.command = "Go ahead"
-        # str1.data = 1.0
-        # str1.direction = [2.0, 0.0, 0.0]
-        ## str1.location = [3.0, 0.0, 0.0]
-        #str1.confidence = 1.98
-        #str1.polygonal_area = []
-        #str1.segment = []
-        #str1.circ_area.x = 0.0 
-        #str1.circ_area.y = 0.0
-        #str1.circ_area.z = 0.0
-        #str1.radius = 0.0
-        #str1.source = "gesture"
-        #str1.sample.position.x = 0.0
-        #str1.sample.position.y  = 0.0
-        #str1.sample.position.z = 0.0
-        #str1.sample.orientation.x = 0.0       
-        #str1.sample.orientation.y = 0.0        
-        str1.sample.orientation.z = 0.0
-        #str1.sample.orientation.w = 0.0
-        #rospy.loginfo(str1)
-        #pub.publish(str1)
-        ##rate.sleep()
-        #str1.selected = "red hawk"
-        #str1.type = "go"
-        #str1.command = "Take off"
-        #str1.data = 1.0
-        #str1.direction = [2.0, 0.0, 0.0]
-        #str1.location = [3.0, 0.0, 0.0]
-        #str1.confidence = 1.98
-        #str1.polygonal_area = []
-        ##str1.segment = []
-        #str1.circ_area.x = 0.0 
-        #str1.circ_area.y = 0.0
-        #str1.circ_area.z = 0.0
-        ##str1.radius = 0.0
-        #str1.source = "gesture"
-        #str1.sample.position.x = 0.0
-        #str1.sample.position.y  = 0.0
-        #str1.sample.position.z = 0.0
-        #str1.sample.orientation.x = 0.0       
-        #str1.sample.orientation.y = 0.0        
-        #str1.sample.orientation.z = 0.0
-        #str1.sample.orientation.w = 0.0
-        #rospy.loginfo(str1)
-        #pub.publish(str1)
-        #rate.sleep()
-        #str1.selected = "blue hawk"
-        #str1.type = "report"
-        #str1.command = "Report me the location"
-        #str1.data = 1.0
-        #str1.direction = [2.0, 0.0, 0.0]
-        #str1.location = [3.0, 0.0, 0.0]
-        #str1.confidence = 1.98
-        #str1.polygonal_area = []
-        #str1.segment = []
-        #str1.circ_area.x = 0.0 
-        #str1.circ_area.y = 0.0
-        #str1.circ_area.z = 0.0
-        ##str1.radius = 0.0
-        #str1.source = "gesture"
-        #str1.sample.position.x = 0.0
-        #str1.sample.position.y  = 0.0
-        ##str1.sample.position.z = 0.0
-        #s#tr1.sample.orientation.x = 0.0       
-        #str1.sample.orientation.y = 0.0        
-        #str1.sample.orientation.z = 0.0
-        #str1.sample.orientation.w = 0.0
-        #r#ospy.loginfo(str1)
-        #pub.publish(str1)
-        #rate.sleep()
-        #str1.selected = "blue hawk"
-        #str1.type = "where"
-        #str1.command = "Where is the victim located"
-        #str1.data = 1.0
-        #str1.direction = [2.0, 0.0, 0.0]
-        #str1.location = [3.0, 0.0, 0.0]
-        #str1.confidence = 1.98
-        #str1.polygonal_area = []
-        #str1.segment = []
-        #s#tr1.circ_area.x = 0.0 
-        #str1.circ_area.y = 0.0
-        #str1.circ_area.z = 0.0
-        #str1.radius = 0.0
-        ##str1.source = "gesture"
-        #s#tr1.sample.position.x = 0.0
-        #str1.sample.position.y  = 0.0
-        #str1.sample.position.z = 0.0
-        #str1.sample.orientation.x = 0.0       
-        #str1.sample.orientation.y = 0.0        
-        #str1.sample.orientation.z = 0.0
-        #str1.sample.orientation.w = 0.0
-        #rospy.loginfo(str1)
-        #pub.publish(str1)
-        #rate.sleep()
-        #str1.selected = "blue hawk"
-        #str1.type = "how"
-        #str1.command = "How are the conditions around the survivor"
-        #str1.data = 1.0
-        #str1.direction = [2.0, 0.0, 0.0]
-        #s#tr1.location = [3.0, 0.0, 0.0]
-        # s#tr1.confidence = 1.98
-        ##str1.polygonal_area = []
-        #str1.segment = []
-        #str1.circ_area.x = 0.0 
-        #str1.circ_area.y = 0.0
-        #str1.circ_area.z = 0.0
-        #str1.radius = 0.0
-        #str1.source = "gesture"
-        #str1.sample.position.x = 0.0
-        #str1.sample.position.y  = 0.0
-        #str1.sample.position.z = 0.0
-        #str1.sample.orientation.x = 0.0       
-        #str1.sample.orientation.y = 0.0        
-        #str1.sample.orientation.z = 0.0
-        #str1.sample.orientation.w = 0.0
-        #rospy.loginfo(str1)
-        #pub.publish(str1)
-        #rate.sleep()
-
-
-        #str1.selected = "blue hawk"
-        #str1.type = "how"
-        #str1.command = "How are the weather conditions there"
-        #str1.data = 1.0
-        #str1.direction = [2.0, 0.0, 0.0]
-        #str1.location = [3.0, 0.0, 0.0]
-        #str1.confidence = 1.98
-        #str1.polygonal_area = []
-        #str1.segment = []
-        #str1.circ_area.x = 0.0 
-        #str1.circ_area.y = 0.0
-        #str1.circ_area.z = 0.0
-        #str1.radius = 0.0
-        #str1.source = "gesture"
-        #str1.sample.position.x = 0.0
-        #str1.sample.position.y  = 0.0
-        #str1.sample.position.z = 0.0
-        #str1.sample.orientation.x = 0.0       
-        #str1.sample.orientation.y = 0.0        
-        #str1.sample.orientation.z = 0.0
-        #s#tr1.sample.orientation.w = 0.0
-        #rospy.loginfo(str1)
-        #pub.publish(str1)
-        #rate.sleep() 
-
-        #str1.selected = "blue hawk"
-        #str1.type = "how"
-        ##str1.command = "Have you seen any victims"
-        #s##tr1.data = 1.0
-        #str1.direction = [2.0, 0.0, 0.0]
-        #str1.location = [3.0, 0.0, 0.0]
-        #str1.confidence = 1.98
-        #str1.polygonal_area = []
-        #str1.segment = []
-        #str1.circ_area.x = 0.0 
-        #str1.circ_area.y = 0.0
-        #str1.circ_area.z = 0.0
-        #str1.radius = 0.0
-        #str1.source = "gesture"
-        #str1.sample.position.x = 0.0
-        #str1.sample.position.y  = 0.0
-        #str1.sample.position.z = 0.0
-        #str1.sample.orientation.x = 0.0       
-        #str1.sample.orientation.y = 0.0        
-        #str1.sample.orientation.z = 0.0
-        #str1.sample.orientation.w = 0.0
-        #rospy.loginfo(str1)
-        #pub.publish(str1)
-        #rate.sleep()
 
 
         str1.selected = "blue hawk"
         str1.type = "how"
-        str1.command = "Go to this tree to this victim"       
+        str1.command = "Go right of this tree and look for a red jacket"       
+        str1.data = 1.0
+        str1.direction = [2.0, 0.0, 0.0]
+        str1.location = [3.0, 0.0, 0.0]
+        str1.confidence = 1.98
+        str1.polygonal_area = []
+        str1.segment = []
+        str1.circ_area.x = 0.0 
+        str1.circ_area.y = 0.0
+        str1.circ_area.z = 0.0
+        str1.radius = 0.0
+        str1.source = "gesture"
+        str1.sample.position.x = 0.0
+        str1.sample.position.y  = 0.0
+        str1.sample.position.z = 0.0
+        str1.sample.orientation.x = 0.0       
+        str1.sample.orientation.y = 0.0        
+        str1.sample.orientation.z = 0.0
+        str1.sample.orientation.w = 0.0
+        rospy.loginfo(str1)
+        pub.publish(str1)
+        rate.sleep()
+
+        str1.selected = "blue hawk"
+        str1.type = "how"
+        str1.command = "Go behind of this tree and search for a victim"       
+        str1.data = 1.0
+        str1.direction = [2.0, 0.0, 0.0]
+        str1.location = [3.0, 0.0, 0.0]
+        str1.confidence = 1.98
+        str1.polygonal_area = []
+        str1.segment = []
+        str1.circ_area.x = 0.0 
+        str1.circ_area.y = 0.0
+        str1.circ_area.z = 0.0
+        str1.radius = 0.0
+        str1.source = "gesture"
+        str1.sample.position.x = 0.0
+        str1.sample.position.y  = 0.0
+        str1.sample.position.z = 0.0
+        str1.sample.orientation.x = 0.0       
+        str1.sample.orientation.y = 0.0        
+        str1.sample.orientation.z = 0.0
+        str1.sample.orientation.w = 0.0
+        rospy.loginfo(str1)
+        pub.publish(str1)
+        rate.sleep()
+        
+        str1.selected = "blue hawk"
+        str1.type = "how"
+        str1.command = "Go right of this tree"       
+        str1.data = 1.0
+        str1.direction = [2.0, 0.0, 0.0]
+        str1.location = [3.0, 0.0, 0.0]
+        str1.confidence = 1.98
+        str1.polygonal_area = []
+        str1.segment = []
+        str1.circ_area.x = 0.0 
+        str1.circ_area.y = 0.0
+        str1.circ_area.z = 0.0
+        str1.radius = 0.0
+        str1.source = "gesture"
+        str1.sample.position.x = 0.0
+        str1.sample.position.y  = 0.0
+        str1.sample.position.z = 0.0
+        str1.sample.orientation.x = 0.0       
+        str1.sample.orientation.y = 0.0        
+        str1.sample.orientation.z = 0.0
+        str1.sample.orientation.w = 0.0
+        rospy.loginfo(str1)
+        pub.publish(str1)
+        rate.sleep()
+
+        str1.selected = "blue hawk"
+        str1.type = "how"
+        str1.command = "Go right"       
+        str1.data = 1.0
+        str1.direction = [2.0, 0.0, 0.0]
+        str1.location = [3.0, 0.0, 0.0]
+        str1.confidence = 1.98
+        str1.polygonal_area = []
+        str1.segment = []
+        str1.circ_area.x = 0.0 
+        str1.circ_area.y = 0.0
+        str1.circ_area.z = 0.0
+        str1.radius = 0.0
+        str1.source = "gesture"
+        str1.sample.position.x = 0.0
+        str1.sample.position.y  = 0.0
+        str1.sample.position.z = 0.0
+        str1.sample.orientation.x = 0.0       
+        str1.sample.orientation.y = 0.0        
+        str1.sample.orientation.z = 0.0
+        str1.sample.orientation.w = 0.0
+        rospy.loginfo(str1)
+        pub.publish(str1)
+        rate.sleep()
+
+        str1.selected = "blue hawk"
+        str1.type = "how"
+        str1.command = "Take a picture"       
+        str1.data = 1.0
+        str1.direction = [2.0, 0.0, 0.0]
+        str1.location = [3.0, 0.0, 0.0]
+        str1.confidence = 1.98
+        str1.polygonal_area = []
+        str1.segment = []
+        str1.circ_area.x = 0.0 
+        str1.circ_area.y = 0.0
+        str1.circ_area.z = 0.0
+        str1.radius = 0.0
+        str1.source = "gesture"
+        str1.sample.position.x = 0.0
+        str1.sample.position.y  = 0.0
+        str1.sample.position.z = 0.0
+        str1.sample.orientation.x = 0.0       
+        str1.sample.orientation.y = 0.0        
+        str1.sample.orientation.z = 0.0
+        str1.sample.orientation.w = 0.0
+        rospy.loginfo(str1)
+        pub.publish(str1)
+        rate.sleep()
+
+        str1.selected = "blue hawk"
+        str1.type = "how"
+        str1.command = "Take a image"       
         str1.data = 1.0
         str1.direction = [2.0, 0.0, 0.0]
         str1.location = [3.0, 0.0, 0.0]

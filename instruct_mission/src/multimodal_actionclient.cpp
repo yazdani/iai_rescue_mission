@@ -56,9 +56,9 @@ p.orientation.x = 0;
  p.orientation.z = 0;
  p.orientation.w = 1;
  std::vector<float> dir;
- dir.push_back(0.3);
- dir.push_back(0.2);
- dir.push_back(0.1);
+ dir.push_back(14);
+ dir.push_back(1);
+ dir.push_back(0);
  std::vector<float> loc;
  loc.push_back(0.3);
  loc.push_back(0.2);
@@ -76,7 +76,7 @@ p.orientation.x = 0;
  
  srv.request.selected = "blue hawk";
  srv.request.type = "Go";
- srv.request.command = "Go right of this tree and look for a red jacket";
+ srv.request.command = "Go right of this tree";
  srv.request.data = 0.2;
  srv.request.direction = dir;
  srv.request.location = loc;
@@ -94,7 +94,7 @@ if (client.call(srv))
   }
  else
    {
-     ROS_ERROR("Failed to call service add_two_ints");
+     ROS_ERROR("Failed: maybe you have to start the server");
      return 1;
    }
  
