@@ -144,6 +144,44 @@
    ; (make-designator :location `(;(agent ,quadrotor)
     ;                             (rightOf ,obj-pose)
      ;                            (lookFor ,manmade-obj)))))
+
+
+
+;;; INTERPRETATION OF INSTRUCTION ;;;
+
+;; (defun parse-cmd-into-designator ()
+;;   ;;query 
+;;   (let* ((cntnt (instruct-mission::content instruct-mission::*stored-result*))
+;;          (agent (read-from-string (substitute #\- #\Space (slot-value cntnt 'instruct_mission-msg::agent))))
+;;          (cmd (coerce (slot-value cntnt 'instruct_mission-msg::command) 'string))
+;;          (type (read-from-string (slot-value cntnt 'instruct_mission-msg::type)))
+;;          (gesture (slot-value cntnt 'instruct_mission-msg::gesture))
+;;          (ge-vector (cl-transforms::make-3d-vector (svref gesture 0)
+;;                                                    (svref gesture 1)
+;;                                                    (svref gesture 2)))         
+;;          (gps (slot-value cntnt 'instruct_mission-msg::gps))
+;;          (gps-vector (cl-transforms::make-3d-vector (svref gps 0)
+;;                                                     (svref gps 1)
+;;                                                     (svref gps 2)))
+;;          (desig (func-designator type agent cmd))
+;;          )
+;;     ;; (make-designator :action `((:cmd-type ,type)
+;;     ;;                            (:agent ,agent)
+;;     ;;                            (:type move)
+;;     ;;                            (:loc ,(make-designator :location `((...)
+;;     ;;                                                                (:to :see)
+;;     ;;                                                                (loc,,
+;;     (format t "cmd: ~a~% agent: ~a~% type: ~a~% gesture: ~a~% ge-vector: ~a~% gps: ~a~% gps-vector: ~a~%" cmd agent type gesture ge-vector gps gps-vector)
+;;     cmd)) 
+
+;; (defun func-designator (action-type agent cmd)
+;;   )
+                       
+                  
+
+
+
+
 ;;;;;;;;;;;;;PROJECTION;;;;;;;;;;;;;;
 ;;(cpl-impl:def-cram-function detect-obj-jacket (jacket-obj-desig)
 ;; (cram-language-designator-support:with-designators
@@ -184,226 +222,3 @@
 
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (defun give-pointed-at-obj (gesture)
-;;   (give-obj-close-to-human *distance*)
-;;   (let*((elem-list NIL))
-;;     (loop for i in '(1 1.5 2 2.5 3); 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9 9.5 10
-;;                    ;  10.5 11 11.5 12 12.5 13 13.5 14 14.5 15 15.5 16)
-;;           do(format t "jcdpesdk")
-;;              (setf elem-list (check-if-normal-equal-equation-function i gesture))
-;;             (if (not (equal elem-list NIL))
-;;                 (return elem-list)
-;;                 (format t "weiter~%")))))
-
-;; (defun check-if-normal-equal-equation-function (i gesture)
-;;   (let* ((size (- (list-length *liste-pose*) 1))
-;;          (ret NIL))
-;;          (dotimes(jo size)
-;;            (format t "jcd-----------------------pesdk")
-;;            (if(not(equal (get-gesture-plane gesture i (cl-transforms:z (car (nthcdr jo *liste-dim*))) (cl-transforms:origin (car (nthcdr jo *liste-pose*)))) 0))
-;;               (setf ret (car (nthcdr jo *liste-name*)))
-;;               (format t "~%")))
-;;     ret))
-
-;; (defun func-of-obj-equation (obj-vector dim-z)
-;;   (format t "obj-vector: ~a~% and dim-z: ~a~%" obj-vector dim-z)
-;;   (let*((obj-x (cl-transforms:x obj-vector))
-;;         (obj-y (cl-transforms:y obj-vector))
-;;         (obj-z (cl-transforms:z obj-vector))
-;;         (sec-x (- 1 (cl-transforms:x obj-vector) ))
-;;         (sec-y (- 1 (cl-transforms:y obj-vector) ))
-;;         (sec-z (+ dim-z (cl-transforms:z obj-vector))))
-;;     (cl-transforms:make-3d-vector (- sec-x obj-x) (- sec-y obj-y) (- sec-z obj-z)))) 
-
-
-;; (defun auffull-A (A-point first-vec)
-;;   (loop for i from 1 to 10
-;;         do(format t "jjk~%")
-;;            (let*((test (cl-transforms:make-3d-vector (+ (cl-transforms:x A-point)
-;;                                                         (* (cl-transforms:x first-vec) i))
-;;                                                      (+ (cl-transforms:y A-point)
-;;                                                         (* (cl-transforms:y first-vec) i))
-;;                                                      (+ (cl-transforms:z A-point)
-;;                                                         (* (cl-transforms:z first-vec) i)))))
-;;              (format t "jjdddk~%")
-;;              (location-costmap::publish-point
-;;                test :id i))))
-
-;; (defun auffull-B (A-point first-vec)
-;;   (loop for i from 1 to 10
-;;         do (setf j i)
-;;            (let*((test (cl-transforms:make-3d-vector (+ (cl-transforms:x A-point)
-;;                                                         (* (cl-transforms:x first-vec) i))
-;;                                                      (+ (cl-transforms:y A-point)
-;;                                                         (* (cl-transforms:y first-vec) i))
-;;                                                      (+ (cl-transforms:z A-point)
-;;                                                         (* (cl-transforms:z first-vec) i)))))
-;;              (format t "jjdddk~%")
-;;              (location-costmap::publish-point
-;;                test :id (+ 100 j)))))
-                                             
-;;                                             ;; Return the normal vector for the plane                    
-;; (defun get-gesture-plane (gesture-vector param z-dimension obj-vector)
-;;   (format t "jcaaaaaaaadpesdk~%")
-;;   (let* ((x-value (cl-transforms:x gesture-vector))
-;;          (pose (cl-transforms:origin (get-genius-pose->world-model "genius_link")))
-;;          (v-genius (cl-transforms:x pose)))
-;;     (format t "lokd~%")
-;;     (if (> v-genius x-value)
-;;        (setf param (- param))
-;;        (setf param param))
-;;     (format t "maaaaaaaaaan")
-;;     (let*((A-point (cl-transforms:make-3d-vector (* (cl-transforms:x gesture-vector) param)
-;;                                                  (* (cl-transforms:y gesture-vector) param)
-;;                                                (* (cl-transforms:z gesture-vector) param)))
-;;         (B-point (cl-transforms:make-3d-vector (* (cl-transforms:x gesture-vector) param)
-;;                                                (- (* (cl-transforms:y gesture-vector) param) param)
-;;                                                (* (cl-transforms:z gesture-vector) param)))
-;;         (first-vec (cl-transforms:make-3d-vector (- (cl-transforms:x A-point)
-;;                                                     (cl-transforms:x gesture-vector))
-;;                                                  (- (cl-transforms:y A-point)
-;;                                                     (cl-transforms:y gesture-vector))
-;;                                                  (- (cl-transforms:z A-point)
-;;                                                     (cl-transforms:z gesture-vector))))
-;;         (second-vec (cl-transforms:make-3d-vector (- (cl-transforms:x B-point)
-;;                                                      (cl-transforms:x gesture-vector))
-;;                                                   (- (cl-transforms:y B-point)
-;;                                                      (cl-transforms:y gesture-vector))
-;;                                                   (- (cl-transforms:z B-point)
-;;                                                      (cl-transforms:z gesture-vector)))))
-;;       (format t " okdoewki ~a~%" pose)
-;;     (set-the-marker A-point B-point pose))))
-;;   ;;  (get-value-of-normal-vector-leftside (get-normal-vector first-vec second-vec)
-;;                                      ;;       (func-of-obj-equation obj-vector z-dimension))))
-
-;; (defun set-the-marker (A-point B-point pose)
-;;   (format t "A: ~a B: ~a P: ~a~%" A-point B-point pose)
-;; (location-costmap::publish-point A-point :id 111)
-;; (location-costmap::publish-point B-point :id 111)
-;;   (format t "A: ~a B: ~a P: ~a jjjjjjjjjjjjj~%" A-point B-point pose)
-;;     (loop for i from 1 to 20
-;;           do(let* ((j (+ 20 i))
-;;                    (posi-a (cl-transforms:make-3d-vector (* (- (cl-transforms:x A-point)
-;;                                                           (cl-transforms:x pose) ) i)
-;;                                                        (* (- (cl-transforms:y A-point)
-;;                                                           (cl-transforms:y pose)) i)
-;;                                                        (* (- (cl-transforms:z A-point)
-;;                                                                                                                  (cl-transforms:z pose)) i)))
-;;                    (posi-b (cl-transforms:make-3d-vector (* (- (cl-transforms:x B-point)
-;;                                                           (cl-transforms:x pose) ) j)
-;;                                                        (* (- (cl-transforms:y B-point)
-;;                                                           (cl-transforms:y pose)) j)
-;;                                                        (* (- (cl-transforms:z B-point)
-;;                                                              (cl-transforms:z pose)) j))))
-;;                (location-costmap::publish-point
-;;                (cl-transforms:make-3d-vector posi-a :id i))
-;;               (location-costmap::publish-point
-;;                (cl-transforms:make-3d-vector posi-b :id j)))))
-
-;;   (defun get-value-of-normal-vector-leftSide (n-vector equation)
-;;     (format t "n-vector ~a and equation ~a~%" n-vector equation)
-;;     (let*((n1 (cl-transforms:x n-vector))
-;;           (n2 (cl-transforms:y n-vector))
-;;           (n3 (cl-transforms:z n-vector))
-;;           (e1 (cl-transforms:x equation))
-;;           (e2 (cl-transforms:y equation))
-;;           (e3 (cl-transforms:z equation))
-;;           (n-e-value (+ (+ (* e1 n1) (* e2 n2)) (* e3 n3))))
-;;       (format t "what is n-e-value ~a~%" n-e-value)
-;;        (format t "what is equation ~a~%" equation)
-;;       n-e-value))
-
-;; (defun get-value-of-normal-vector-rightSide (n-vector A-point)
-;;   (let*((n1 (cl-transforms:x n-vector))
-;;         (n2 (cl-transforms:y n-vector))
-;;         (n3 (cl-transforms:z n-vector))
-;;         (a1 (cl-transforms:x A-point))
-;;         (a2 (cl-transforms:y A-point))
-;;         (a3 (cl-transforms:z A-point))
-;;         (n-a-value (- (+ (+ (* a1 n1) (* a2 n2)) (* a3 n3)))))
-;;     n-a-value))
-
-;; (defun check-intersection-point (n-vector e-vector)
-;;   (let*((x (* (cl-transforms:x n-vector) (cl-transforms:x e-vector)))
-;;          (y (* (cl-transforms:y n-vector) (cl-transforms:y e-vector)))
-;;          (z (* (cl-transforms:z n-vector) (cl-transforms:z e-vector))))
-;;      (+ (+ x y) z)))
-
-;; (defun get-normal-vector (first-vec second-vec)
-;;   (let*((normal-vec (cl-transforms:make-3d-vector
-;;                        (- (* (cl-transforms:y first-vec)
-;;                              (cl-transforms:z second-vec))
-;;                           (* (cl-transforms:z first-vec)
-;;                              (cl-transforms:y second-vec)))
-;;                        (- (* (cl-transforms:z first-vec)
-;;                              (cl-transforms:x second-vec))
-;;                           (* (cl-transforms:x first-vec)
-;;                              (cl-transforms:z second-vec)))
-;;                        (- (* (cl-transforms:x first-vec)
-;;                              (cl-transforms:y second-vec))
-;;                           (* (cl-transforms:y first-vec)
-;;                              (cl-transforms:x second-vec))))))
-;;       normal-vec))
-
-
-;; ;; This method returns three differents lists which stores the different values and
-;; ;; distinguish them into names, poses and dimensions. It return a completed list with
-;; ;; a combination of all these different lists
-;; (defun give-obj-close-to-human (distance)
-;;   (let*((sem-hash (slot-value (sem-map-utils:get-semantic-map) 'sem-map-utils:parts))
-;;         (liste-name NIL)
-;;         (liste-pose NIL)
-;;         (liste-dim NIL)
-;;         (list-all NIL)
-;;         (position (get-genius-pose->world-model "genius_link"))
-;;         (keys (hash-keys sem-hash)))
-;;     (loop for i in keys
-;;           do (cond ((and T (compare-distance-with-genius-position position
-;;                                                                 (slot-value (gethash i sem-hash) 'sem-map-utils:pose) distance))
-;;                     (setf liste-name (append liste-name
-              
-;;                                        (list i)))
-;;                     (setf liste-pose (append liste-pose
-                                 
-;;                                        (list 
-;;                                              (slot-value (gethash i sem-hash) 'sem-map-utils:pose))))
-
-;;                     (setf liste-dim (append liste-dim
-;;                                         (list 
-;;                                              (slot-value (gethash i sem-hash) 'sem-map-utils:dimensions))))
-;;                     (setf list-all (append list-all
-;;                                             (list
-;;                                              (list i 
-;;                                               (slot-value (gethash i sem-hash) 'sem-map-utils:pose)
-;;                                               (slot-value (gethash i sem-hash) 'sem-map-utils:dimensions))))))
-;;                    (t (format t ""))))
-;;     (setf *liste-dim* liste-dim)
-;;     (setf *liste-pose* liste-pose)
-;;     (setf *liste-name* liste-name)
-;;     list-all))
-                           
-        
-;; (defun hash-keys (hash-table)
-;;   (loop for key being the hash-keys of hash-table collect key))
-
-;; (defun compare-distance-with-genius-position (genius_position pose param)
-;;   (let*((vector (cl-transforms:origin pose))
-;;         (x-vec (cl-transforms:x vector))
-;;         (y-vec (cl-transforms:y vector))
-;;         (z-vec (cl-transforms:z vector))
-;;         (ge-vector (cl-transforms:origin genius_position))
-;;         (x-ge (cl-transforms:x ge-vector))
-;;         (y-ge (cl-transforms:y ge-vector))
-;;         (z-ge (cl-transforms:z ge-vector))
-;;         (test NIL))
-;;     (if (> param (sqrt (+ (square (- x-vec x-ge))
-;;                           (square (- y-vec y-ge))
-;;                           (square (- z-vec z-ge)))))
-;;      (setf test T)
-;;      (setf test NIL))
-;;     test))
-  
-;; (defun square (x)
-;;   (* x x))

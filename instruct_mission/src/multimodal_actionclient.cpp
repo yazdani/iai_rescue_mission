@@ -76,7 +76,7 @@ p.orientation.x = 0;
  
  srv.request.selected = "blue hawk";
  srv.request.type = "Go";
- srv.request.command = "Go right of this tree";
+ srv.request.command = "Go right of this tree and look for a red jacket";
  srv.request.data = 0.2;
  srv.request.direction = dir;
  srv.request.location = loc;
