@@ -34,7 +34,7 @@
                cram-location-costmap
                cram-prolog
                roslisp
-               ; semantic-map-costmap
+               semantic-map-costmap
                ; cram-robot-pose-gaussian-costmap
                cram-bullet-reasoning
                ;;cram-quadrotor-knowledge
@@ -56,7 +56,8 @@
     :components
     ((:file "package")
      (:file "costmap-knowledge" :depends-on("package"))
+     (:file "gesture-calculation" :depends-on("package"))
      (:file "cost-functions" :depends-on ("package"))
      (:file "designators" :depends-on ("package"))
      (:file "reasoning" :depends-on ("package" "cost-functions"))
-     (:file "start-scenario" :depends-on ("package" "costmap-knowledge" "reasoning"))))))
+     (:file "start-scenario" :depends-on ("package" "costmap-knowledge" "reasoning" "gesture-calculation"))))))
