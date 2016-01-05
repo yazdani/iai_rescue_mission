@@ -1,4 +1,4 @@
-;;; Copyright (c) 2014, Fereshta Yazdani <yazdani@cs.uni-bremen.de>
+;;; Copyright (c) 2016, Fereshta Yazdani <yazdani@cs.uni-bremen.de>
 ;;; All rights reserved.
 ;; 
 ;;; Redistribution and use in source and binary forms, with or without
@@ -26,15 +26,38 @@
 ;;; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ;;; POSSIBILITY OF SUCH DAMAGE.
 
-(defsystem instruct-mission
-  :author "yazdani"
-  :license "BSD"
-  :depends-on (cram-designators)
-  ;; bullet-reasoning-utilities)
-  :components
-  ((:module "src"
-    :components
-    ((:file "package")
-     (:file "ros-interactor" :depends-on ("package"))
-     (:file "auxiliaries" :depends-on ("package" "ros-interactor"))
-     (:file "grammar" :depends-on ("package" "auxiliaries"))))))
+(in-package :instruct-mission)
+
+(defun direction-symbol (sym)
+  (intern (string-upcase sym) "KEYWORD"))
+  
+(defun look-list-size (mlist type agent cmd gesture)
+  (if(= 1 mlist)
+     (test-action mlist type agent cmd gesture)
+     (test-actions mlist type agent cmd gesture)))
+
+(defun test-action (mlist type agent cmd gesture)
+ (format t "test action ~%")
+  (let*((desig NIL))
+    (cond ((string-equal "move" (first mlist))
+           (setf desig (action-move-designator type agent cmd gesture)))
+          ((string-equal "detect" (first mlist))
+           (setf desig (action-detect-designator type agent cmd)))
+          (t (format t "test-action not given~%")))
+    desig))
+
+(defun test-actions (mlist type agent cmd gesture)
+  (format t "test actions ~%")
+  (let*((desig NIL))
+    (cond ((and (string-equal "move" (first mlist))
+                (string-equal "detect" (second mlist)))
+           (setf desig (action-move-detect-designator type agent cmd gesture)))
+       ;;   ((and (string-equal "move" (first mlist))
+       ;;         (string-equal "move" (second mlist)))
+       ;;    (setf desig (action-double-move-designator type agent cmd gesture)))
+          ((and (string-equal "move" (first mlist))
+                (string-equal "take" (second mlist)))
+           (setf desig (action-move-take-designator type agent cmd gesture)))
+          (t (format t "test-actions is not given~%")))
+    desig))
+

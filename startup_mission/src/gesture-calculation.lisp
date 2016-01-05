@@ -98,6 +98,7 @@
         (human-pose (get-genius-pose->world-model "genius_link")) 
         (ret NIL))
     (give-objs-close-to-human *distance* human-pose)
+   ;; (format t "~a~% "(give-objs-close-to-human *distance* human-pose))
     (setf ret (get-the-direction point (cl-transforms:origin human-pose)))
     (format t "fertig!~%")
     (car ret)))
@@ -120,12 +121,11 @@
                                                           (+  (cl-transforms:z human-origin)
                                                               (* (cl-transforms:z dir-vec) index)))))
             (setf eps (+ eps 1))
+            (set-my-marker new-point eps)
             (dotimes(jo (list-length *liste-name*))
                (let* ((elem1 (first (get-bbox-as-aabb jo)))
                       (elem2 (second (get-bbox-as-aabb jo))))
-                 
-                 (set-my-marker new-point eps)
-                 (setf value
+                    (setf value
                      (semantic-map-costmap::inside-aabb elem1 elem2 new-point))
                  (cond ((and (equal value T)
                              (not (equal (car (nthcdr jo *liste-name*))
