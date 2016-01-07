@@ -37,4 +37,6 @@
     ((:file "package")
      (:file "ros-interactor" :depends-on ("package"))
      (:file "auxiliaries" :depends-on ("package" "ros-interactor"))
-     (:file "grammar" :depends-on ("package" "auxiliaries"))))))
+     (:file "grammar" :depends-on ("package" "auxiliaries"))
+     (:file "action-designators" :depends-on ("package" "grammar"))
+     ))))

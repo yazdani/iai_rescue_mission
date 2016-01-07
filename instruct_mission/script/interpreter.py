@@ -39,7 +39,8 @@ def callback(msg):
      checkCommand(cmd)
      pose = msg.direction
      loc = msg.location
-     pub.publish(agent,command,cmd_typ,pose,loc)
+     print command
+     pub.publish(agent,tmp,command,cmd_typ,pose,loc)
 
 def checkCmdType(date):
      global cmd_typ

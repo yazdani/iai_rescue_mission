@@ -38,20 +38,23 @@
 
  (defun start-mission ()
    (instruct-mission::init-base)
-   (let* ((desig NIL))
-     (loop while (equal NIL instruct-mission::*stored-result*)
-           do (setf var "Hello, don't forget me, I am still waiting"))
-     (format t "~a great it worked ~%" instruct-mission::*stored-result*)
-     (setf desig (parse-cmd-into-designator))
-     (setf instruct-mission::*stored-result* NIL)
-     desig))
+   (let* ((x 1))
+   (loop while (= 1 x)
+         do (let* ((desig NIL))
+              (loop while (equal NIL instruct-mission::*stored-result*)
+                    do (setf var "Hello, don't forget me, I am still waiting"))
+              (format t "~a great it worked ~%" instruct-mission::*stored-result*)
+              (setf desig (parse-cmd-into-designator))
+              (setf instruct-mission::*stored-result* NIL)
+              (format t "~a~%" desig)))))
 
 ;;; INTERPRETATION OF INSTRUCTION ;;;
 
 (defun parse-cmd-into-designator ()
   (let* ((cntnt (instruct-mission::content instruct-mission::*stored-result*))
          (agent (read-from-string (substitute #\- #\Space (slot-value cntnt 'instruct_mission-msg::agent))))
-         (cmd (coerce (slot-value cntnt 'instruct_mission-msg::command) 'string))
+       ;;  (cmd (coerce (slot-value cntnt 'instruct_mission-msg::command) 'string))
+         (icmd (coerce (slot-value cntnt 'instruct_mission-msg::icommand) 'string))
          (type (read-from-string (slot-value cntnt 'instruct_mission-msg::type)))
          (gesture (slot-value cntnt 'instruct_mission-msg::gesture))
          (ge-vector (cl-transforms::make-3d-vector (svref gesture 0)
@@ -61,8 +64,6 @@
          ;; (gps-vector (cl-transforms::make-3d-vector (svref gps 0)
          ;;                                            (svref gps 1)
          ;;                                            (svref gps 2)))
-         (gesture-elem  (give-obj-pointed-at ge-vector))
-         (act-desig NIL))
-    (setf act-desig (instruct-mission::count-actions type agent cmd gesture-elem))
-   act-desig))
-
+         (gesture-elem  (give-obj-pointed-at ge-vector)))
+    (instruct-mission::count-actions type agent icmd gesture-elem)))
+   

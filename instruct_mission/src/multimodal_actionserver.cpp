@@ -62,11 +62,14 @@ ros::Publisher pub;
  * @param vector<float> gesture: pointing gesture of the busy genius
  * @param vector<float> gps: gps position of the busy genius 
  */
-void sendAsTopic(string agent, string command, string type, std::vector<float> gesture , std::vector<float> gps)
+void sendAsTopic(string agent, string command, string Icommand, string type, std::vector<float> gesture , std::vector<float> gps)
 {
+  ROS_INFO_STREAM("inside sendAsRopi");
+  ROS_INFO_STREAM(Icommand);
   instruct_mission::multimodal_values mvalue;
   mvalue.agent = agent;
   mvalue.command = command;
+  mvalue.Icommand = Icommand;
   mvalue.type = type;
   mvalue.gesture.push_back(gesture[0]);
   mvalue.gesture.push_back(gesture[1]);
@@ -75,7 +78,8 @@ void sendAsTopic(string agent, string command, string type, std::vector<float> g
   mvalue.gps.push_back(gps[0]);
   mvalue.gps.push_back(gps[1]);
   mvalue.gps.push_back(gps[2]);
- 
+  ROS_INFO_STREAM("Icommand: ");  
+  ROS_INFO_STREAM(Icommand);  
   pub.publish(mvalue);
 }
 
@@ -142,6 +146,7 @@ string interpretCommand(string cmd)
      exit(1);
    }
    ROS_INFO_STREAM("End interpretCommand");  
+   ROS_INFO_STREAM(buffer);  
    return buffer;
 }
 
@@ -162,8 +167,9 @@ bool startChecking(instruct_mission::multimodal_msgs::Request &req,
   res.init_cmd = req.command;
   res.cmd_type = cmd_type;
   res.trans_cmd = cmd_interpreted; 
-  sendAsTopic(req.selected, cmd_interpreted, cmd_type, req.direction, req.location);
- 
+  ROS_INFO_STREAM("Send command to sendAsTopic");
+  ROS_INFO_STREAM(cmd_interpreted);
+  sendAsTopic(req.selected, req.command, cmd_interpreted, cmd_type, req.direction, req.location);
   ROS_INFO_STREAM("end startChecking");
   return true;
 }
