@@ -28,7 +28,6 @@
 
 (in-package :instruct-mission)
 
-(defparameter *buffer-vector* (make-array 4 :fill-pointer 0))
 (defvar *stored-result* nil)
 ;;
 ;; declaration of class
@@ -58,10 +57,53 @@
                        :content msg
                        :time-received (roslisp:ros-time))))
 
-;;(defun send-msg ()
-   ;;(let ((pub (advertise "sendMsg" "designator_integration_msgs/Designator")))
-      ;;(roslisp:publish pub (designator-integration-lisp::designator->msg (command-into-designator)))))
+(defun pub-msg (desig)
+(let ((pub (roslisp:advertise "sendMsgAgent" "mhri_msgs/multimodal")))
+  (roslisp:publish pub (designator-into-mhri-msg desig))))
 
+(defun designator-into-mhri-msg (desig)
+  (let*((combiner NIL)
+        (vec-msgs NIL))
+    (if(equal 'cons (type-of desig))
+       (loop while (/= 0 (length desig))
+             do (format t "haa~%")
+                (let*((elem (first desig))
+                      (description (desig:description elem))
+                      (pose (second (assoc ':loc description)))
+                      (type (string (second (assoc ':type description)))))
+                  (setf combiner (cons (list pose type) combiner))
+                  (setf desig (cdr desig))
+                  (format t "endlich gehts voran ~a~%" combiner)))
+       (let*((description (desig:description desig))
+             (pose (second (assoc ':loc description)))
+             (type (string (second (assoc ':type description)))))
+         (setf combiner (list type pose))))
+    (setf vec-msgs (map 'vector #'identity combiner))
+    (roslisp:make-message "mhri_msgs/multimodal"
+                          :action vec-msgs)))
+;;(defun designator-into-mhri-msg (desig)
+;;(let*((combiner NIL))
+;;(if(equal 'cons (type-of desig))
+;;(loop while (/= 0 (length desig))
+;; do
+;;(let*((elem (first desig))
+;;      (desig (cdr desig))
+;;      (description (desig:description elem))
+;;      (loc (second (assoc ':loc description)))
+;;      (pose (second (assoc ':loc description)))
+;;      (type (string (second (assoc ':type description))))
+;;      (combiner (cons (list pose type) combiner))
+;;   (format t "endlich einmal durch)))
+;;   (let*((description (desig:description desig))
+;;         (loc (second (assoc ':loc description)))
+;;      (pose (second (assoc ':loc description)))
+;;      (type (string (second (assoc ':type description))))
+;;      (combiner (cons (list pose type) combiner))))
+;;      (vec (map 'vector #'identity combiner))
+;; (roslisp:make-message
+;;  "mhri_msgs/multimodal"
+;;     :action vec)))
+;;(roslisp:publish pub (instruct-mission::designator-into-mhri-msg (command-into-designator)))))
 ;;(defun set-buffer ()
 ;;  (let ((in (open "~/work/ros/indigo/catkin_ws/src/iai_rescue_mission/instruct_mission/src/tmp/tmp.txt" :if-does-not-exist nil)))
 ;;    (if (< 0 (array-total-size instruct-mission::*buffer-vector*))
