@@ -32,6 +32,4 @@
     (:use #:desig
           ;;#:cram-roslisp-common
 	  #:common-lisp
-          #:cram-prolog
-          )
-)
+          #:cram-prolog))

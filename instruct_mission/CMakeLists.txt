@@ -78,6 +78,7 @@ generate_messages(
   DEPENDENCIES
   geometry_msgs  
   std_msgs
+  mhri_msgs
 )
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
