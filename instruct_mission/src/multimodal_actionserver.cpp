@@ -29,7 +29,7 @@
  */
 
 #include "ros/ros.h"
-#include "instruct_mission/multimodal_msgs.h"
+#include "instruct_mission/multimodal_srv.h"
 #include "instruct_mission/multimodal_values.h"
 #include <iostream>
 #include <vector>
@@ -42,7 +42,7 @@
 #include <netdb.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <sstream>
 
 using namespace std;
 
@@ -53,6 +53,18 @@ int  no;
 string cmd_interpreted;
 string cmd_type;
 ros::Publisher pub;
+mhri_msgs::multimodal multi;
+int var = 0;
+
+void multimodalCallback(const mhri_msgs::multimodal::ConstPtr& msg)
+{
+  var = 0;
+  std::cout << msg << std::endl;
+  //  multi.action = msg->action;
+  
+
+  ROS_INFO_STREAM("HAHA IN DA FACE");
+}
 
 /*
  * Publishing the interpreted instruction through a topic an interpreted instruction.
@@ -64,7 +76,7 @@ ros::Publisher pub;
  */
 void sendAsTopic(string agent, string command, string Icommand, string type, std::vector<float> gesture , std::vector<float> gps)
 {
-  ROS_INFO_STREAM("inside sendAsRopi");
+  ROS_INFO_STREAM("inside sendAsTopic");
   ROS_INFO_STREAM(Icommand);
   instruct_mission::multimodal_values mvalue;
   mvalue.agent = agent;
@@ -77,8 +89,7 @@ void sendAsTopic(string agent, string command, string Icommand, string type, std
   std::vector<float> gps_data;
   mvalue.gps.push_back(gps[0]);
   mvalue.gps.push_back(gps[1]);
-  mvalue.gps.push_back(gps[2]);
-  ROS_INFO_STREAM("Icommand: ");  
+  mvalue.gps.push_back(gps[2]);  
   ROS_INFO_STREAM(Icommand);  
   pub.publish(mvalue);
 }
@@ -157,20 +168,29 @@ string interpretCommand(string cmd)
  * @param Response: Service which is sent at the end
  * @return bool: Depending of the successful processing true/false
  */
-bool startChecking(instruct_mission::multimodal_msgs::Request &req,
-		   instruct_mission::multimodal_msgs::Response &res)
+bool startChecking(instruct_mission::multimodal_srv::Request &req,
+		   instruct_mission::multimodal_srv::Response &res)
 {
   ROS_INFO_STREAM("startChecking");
+  var = 1;
   cmd_type = checkCommandType(req.command);
   cmd_interpreted =  interpretCommand(req.command);
-  res.agent = req.selected;
-  res.init_cmd = req.command;
-  res.cmd_type = cmd_type;
-  res.trans_cmd = cmd_interpreted; 
+  //res.agent = req.selected;
+  //res.init_cmd = req.command;
+  //res.cmd_type = cmd_type;
+  //res.trans_cmd = cmd_interpreted; 
   ROS_INFO_STREAM("Send command to sendAsTopic");
   ROS_INFO_STREAM(cmd_interpreted);
   sendAsTopic(req.selected, req.command, cmd_interpreted, cmd_type, req.direction, req.location);
   ROS_INFO_STREAM("end startChecking");
+  ros::NodeHandle new_pub;
+  ROS_INFO_STREAM("start the multimodalcallback");
+  ROS_INFO_STREAM(multi);
+  while(var == 1){
+    ros::Subscriber sub = new_pub.subscribe("sendMsgToServer", 1000, multimodalCallback);
+  }
+  res.multi = multi;
+  ROS_INFO_STREAM("end the multimodalcallback");
   return true;
 }
 
@@ -213,10 +233,11 @@ int main(int argc, char **argv)
   ROS_INFO_STREAM("Parser registered!");
 
   ros::init(argc, argv, "multimodal_cmd_server");
+  ros::init(argc, argv, "ListenToTheTopic");
   ros::NodeHandle n;
   ros::NodeHandle n_pub;
 
-  pub = n_pub.advertise<instruct_mission::multimodal_values>("multimodal_msgs",1000);
+  pub = n_pub.advertise<instruct_mission::multimodal_values>("many_msgs",1000);
   ros::ServiceServer service = n.advertiseService("multimodal_cmd", startChecking);
   ROS_INFO_STREAM("Wait for Instruction!");
   ros::spin();

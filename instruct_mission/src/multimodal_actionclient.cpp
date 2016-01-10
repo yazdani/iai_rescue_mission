@@ -29,7 +29,7 @@
  */
 
 #include "ros/ros.h"
-#include "instruct_mission/multimodal_msgs.h"
+#include "instruct_mission/multimodal_srv.h"
 #include "instruct_mission/multimodal_values.h"
 #include <cstdlib>
 #include "geometry_msgs/Pose.h"
@@ -41,8 +41,8 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "multimodal_cmd_client");
  
  ros::NodeHandle n;
- ros::ServiceClient client = n.serviceClient<instruct_mission::multimodal_msgs>("multimodal_cmd");
- instruct_mission::multimodal_msgs srv;
+ ros::ServiceClient client = n.serviceClient<instruct_mission::multimodal_srv>("multimodal_cmd");
+ instruct_mission::multimodal_srv srv;
  geometry_msgs::Pose p;
  geometry_msgs::Vector3 vec;
 vec.x = 0.2;
@@ -76,7 +76,7 @@ p.orientation.x = 0;
  
  srv.request.selected = "blue hawk";
  srv.request.type = "Go";
- srv.request.command = "Go right of this tree and take a picture";
+ srv.request.command = "Go right of this tree";
  srv.request.data = 0.2;
  srv.request.direction = dir;
  srv.request.location = loc;
@@ -90,7 +90,7 @@ p.orientation.x = 0;
 
 if (client.call(srv))
   {
-    ROS_INFO_STREAM(srv.response.trans_cmd);
+    ROS_INFO_STREAM(srv.response.multi);
   }
  else
    {

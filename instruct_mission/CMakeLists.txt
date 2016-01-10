@@ -50,7 +50,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
    FILES
-#   multimodal_msgs.msg
+   multimodal_msgs.msg
    multimodal_values.msg
 )
 
@@ -59,7 +59,7 @@ add_service_files(
   FILES
 #   Service1.srv
 #   Service2.srv
-   multimodal_msgs.srv
+   multimodal_srv.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -141,6 +141,10 @@ add_dependencies(multimodal_actionserver instruct_mission_gencpp)
 add_executable(multimodal_actionclient src/multimodal_actionclient.cpp)
 target_link_libraries(multimodal_actionclient ${catkin_LIBRARIES})
 add_dependencies(multimodal_actionclient instruct_mission_gencpp)
+
+add_executable(tester src/tester.cpp)
+target_link_libraries(tester ${catkin_LIBRARIES})
+add_dependencies(tester instruct_mission_gencpp)
 
 #add_executable(multimodal_client src/multimodal_client.cpp)
 #target_link_libraries(multimodal_client ${catkin_LIBRARIES})

@@ -46,7 +46,8 @@
               (format t "~a great it worked ~%" instruct-mission::*stored-result*)
               (setf desig (parse-cmd-into-designator))
               (setf instruct-mission::*stored-result* NIL)
-              (format t "~a~%" desig)))))
+              (format t "UUUUUUUUUUUUnd~a~%" desig)
+              (instruct-mission::pub-msg desig)))))
 
 ;;; INTERPRETATION OF INSTRUCTION ;;;
 
