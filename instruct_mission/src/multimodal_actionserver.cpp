@@ -56,6 +56,31 @@ ros::Publisher pub;
 mhri_msgs::multimodal multi;
 int var = 0;
 
+// TODO need position of robot and human
+string shortInterpretation(string str)
+{
+  if(str.compare("Go left") == 0)
+    {
+      //get position of human and compare y with position of robot
+    }else if(str.compare("Go right") == 0)
+    {
+    
+    }else if(str.compare("Go up") == 0)
+    {
+    
+    }else if(str.compare("Go down") == 0)  
+    {
+    
+    }else if(str.compare("Rotate") == 0)
+    {
+    
+    }else if(str.compare("Take off") == 0)
+    {
+    
+    }
+
+}
+
 void multimodalCallback(const mhri_msgs::multimodal::ConstPtr& msg)
 {
   var = 0;
@@ -174,21 +199,33 @@ bool startChecking(instruct_mission::multimodal_srv::Request &req,
   ROS_INFO_STREAM("startChecking");
   var = 1;
   cmd_type = checkCommandType(req.command);
-  cmd_interpreted =  interpretCommand(req.command);
-  //res.agent = req.selected;
-  //res.init_cmd = req.command;
-  //res.cmd_type = cmd_type;
-  //res.trans_cmd = cmd_interpreted; 
-  ROS_INFO_STREAM("Send command to sendAsTopic");
-  ROS_INFO_STREAM(cmd_interpreted);
-  sendAsTopic(req.selected, req.command, cmd_interpreted, cmd_type, req.direction, req.location);
-  ROS_INFO_STREAM("end startChecking");
-  ros::NodeHandle new_pub;
-  ROS_INFO_STREAM("start the multimodalcallback");
-  ROS_INFO_STREAM(multi);
-  while(var == 1){
-    ros::Subscriber sub = new_pub.subscribe("sendMsgToServer", 1000, multimodalCallback);
-  }
+  string str = req.command;
+
+  //  if(str.compare("Go right") == 0 || str.compare("Go left") == 0 || 
+  //   str.compare("Go up") == 0 || str.compare("Take off") == 0) ||
+  //  str.compare("Go down") == 0 || str.compare("Rotate") == 0)
+  //  {
+  //    ROS_INFO_STREAM(str);
+      
+      //cmd_interpreted = shortInterpretation(str);
+      //multi
+      //}else{
+      //ROS_INFO_STREAM(str);
+      //interpret the command through the socket
+      cmd_interpreted =  interpretCommand(req.command);
+      ROS_INFO_STREAM("Send command to sendAsTopic");
+      ROS_INFO_STREAM(cmd_interpreted);
+      sendAsTopic(req.selected, req.command, cmd_interpreted, cmd_type, req.direction, req.location);
+    
+      ROS_INFO_STREAM("end startChecking");
+      ros::NodeHandle new_pub;
+      ROS_INFO_STREAM("start the multimodalcallback");
+      ROS_INFO_STREAM(multi);
+      while(var == 1)
+	{
+	  ros::Subscriber sub = new_pub.subscribe("sendMsgToServer", 1000, multimodalCallback);
+	}
+      //}
   res.multi = multi;
   ROS_INFO_STREAM("end the multimodalcallback");
   return true;
