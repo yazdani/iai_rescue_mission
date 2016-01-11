@@ -85,7 +85,7 @@ void multimodalCallback(const mhri_msgs::multimodal::ConstPtr& msg)
 {
   var = 0;
   std::cout << msg << std::endl;
-  //  multi.action = msg->action;
+  multi.action = msg->action;
   
 
   ROS_INFO_STREAM("HAHA IN DA FACE");

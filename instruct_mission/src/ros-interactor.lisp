@@ -58,11 +58,12 @@
                        :time-received (roslisp:ros-time))))
 
 (defun pub-msg (desig)
-(let ((pub (roslisp:advertise "chatter123" "mhri_msgs/multimodal")))
+(let ((pub (roslisp:advertise "sendMsgToServer" "mhri_msgs/multimodal")))
    (format t "endlich gehts voranCDE ~a~%" desig) 
   (roslisp:publish pub (designator-into-mhri-msg desig))))
 
 (defun designator-into-mhri-msg (desig)
+   (format t "endlich gehts voranCDE ~a~%" desig) 
 (let* ((combiner NIL)
        (msg NIL)
        (msg2 NIL))
@@ -80,7 +81,7 @@
                                                                :data  type))
                     (setf msg (roslisp:make-message "mhri_msgs/interpretation"
                                                     :type str
-                                                    :pose (cl-transforms-stamped:to-msg pose)))
+                                                    :pose (cl-transforms-stamped::to-msg pose)))
                     (format t "msg ~a~%" msg)
                     (vector-push msg combiner)
                     (format t "whats combiner ~a~%" combiner)))
@@ -92,10 +93,11 @@
                                                         :data  type))
              (setf msg (vector (roslisp:make-message "mhri_msgs/interpretation"
                                              :type str
-                                             :pose (cl-transforms-stamped:to-msg pose)))))))
+                                             :pose (cl-transforms-stamped::to-msg pose)))))))
   (format t "ääääääää +~a~%" msg)
   (setf msg2 (roslisp:make-message "mhri_msgs/multimodal"
                                    :action   msg))
+  (format t "new tests +~a~%" msg2)
     msg2))
 ;;(defun designator-into-mhri-msg (desig)
 ;;(let*((combiner NIL))

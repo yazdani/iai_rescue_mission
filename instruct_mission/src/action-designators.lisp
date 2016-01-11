@@ -46,11 +46,11 @@
                                                     (instruct-mission::get-dir cmd)) ,gesture)
                                                    (,(instruct-mission::direction-symbol (instruct-mission::get-dir (first (instruct-mission::get-inside-list cmd ))))
                                                     ,(instruct-mission::get-dir-cntnt3 (first (instruct-mission::get-inside-list cmd)))))))))
-  ;  (setf ref (reference loc))
+ (setf ref (reference loc))
   (make-designator :action `((:cmd ,type)
                                          (:agent ,agent)
                                          (:type ,acttype)
-                                         (:loc ,loc)))))
+                                         (:loc ,ref)))))
 
 
 ;; an action designator with one action-sequence => "detect"
@@ -97,11 +97,11 @@
                                                    (:to :see)
                                                    (:color ,col)
                                                  (:type ,obj))))))                                 
-    ;;  (setf ref (reference loc))
+   (setf ref (reference loc))
   (make-designator :action `((:cmd ,type)
                                          (:agent ,agent)
                                          (:type ,acttype1)
-                                         (:loc ,loc)))))
+                                         (:loc ,ref)))))
 
 ;; an action designator with one action-sequence => move, move
 (defun create-action-MOVE-MOVE-designator (type agent cmd gesture)
