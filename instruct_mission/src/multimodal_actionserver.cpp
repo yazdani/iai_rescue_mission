@@ -221,9 +221,14 @@ bool startChecking(instruct_mission::multimodal_srv::Request &req,
       ros::NodeHandle new_pub;
       ROS_INFO_STREAM("start the multimodalcallback");
       ROS_INFO_STREAM(multi);
+      ROS_INFO_STREAM("start the multimodalcallback");
+      char input=' ';
       while(var == 1)
 	{
-	  ros::Subscriber sub = new_pub.subscribe("sendMsgToServer", 1000, multimodalCallback);
+	  if(input == ' '){
+	    ros::Subscriber sub = new_pub.subscribe("sendMsgToServer", 1000, multimodalCallback);
+	  }else
+	    break;
 	}
       //}
   res.multi = multi;
