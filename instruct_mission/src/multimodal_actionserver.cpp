@@ -225,6 +225,7 @@ bool startChecking(instruct_mission::multimodal_srv::Request &req,
       char input=' ';
       while(var == 1)
 	{
+	  std::cin<<input;
 	  if(input == ' '){
 	    ros::Subscriber sub = new_pub.subscribe("sendMsgToServer", 1000, multimodalCallback);
 	  }else
