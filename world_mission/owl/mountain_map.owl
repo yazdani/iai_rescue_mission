@@ -374,7 +374,7 @@
 
     <!-- http://knowrob/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM581j -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j">
         <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
     </owl:NamedIndividual>
 
@@ -413,7 +413,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">50.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">10.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">10.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_00">
@@ -449,7 +449,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">5.5</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">3.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">5.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_01">
@@ -485,7 +485,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">5.5</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">3.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">5.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_02">
@@ -522,7 +522,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">10.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.5</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.5</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_03">
@@ -558,7 +558,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">10.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.5</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.5</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_04">
@@ -593,7 +593,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">10.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.5</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.5</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_05">
@@ -629,7 +629,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_06">
@@ -700,7 +700,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">10.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.5</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.5</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_08">
@@ -736,7 +736,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_09">
@@ -808,7 +808,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_11">
@@ -917,7 +917,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">5.5</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">3.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">5.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_14">
@@ -953,7 +953,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_15">
@@ -989,7 +989,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_16">
@@ -1024,7 +1024,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">10.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_17">
@@ -1060,7 +1060,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">10.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_18">
@@ -1095,7 +1095,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">10.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_19">
@@ -1130,7 +1130,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">10.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_20">
@@ -1166,43 +1166,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">5.5</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">3.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">5.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_21">
-  <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-  <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_1399894481"/>
-  <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_21"/>
-  <knowrob:objectActedOn rdf:resource="&knowrob;bigtree06"/>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_21">
-  <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
-  <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
-  <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
-  <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
-  <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
-  <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
-  <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
-  <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
-  <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
-  <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
-  <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
-  <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
-  <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
-  <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
-  <knowrob:m03 rdf:datatype="&xsd;double">-10</knowrob:m03>
-  <knowrob:m13 rdf:datatype="&xsd;double">22.50</knowrob:m13>
-  <knowrob:m23 rdf:datatype="&xsd;double">0.0</knowrob:m23>
-</owl:NamedIndividual>
-
-
-<owl:NamedIndividual rdf:about="&knowrob;bigtree07">
-  <rdf:type rdf:resource="&knowrob;BigTree"/>
-  <knowrob:heightOfObject rdf:datatype="&xsd;double">5.5</knowrob:heightOfObject>
-  <knowrob:depthOfObject rdf:datatype="&xsd;double">3.0</knowrob:depthOfObject>
-  <knowrob:widthOfObject rdf:datatype="&xsd;double">5.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_22">
@@ -1239,7 +1203,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">5.5</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">3.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">5.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_23">
@@ -1274,7 +1238,7 @@
   <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
   <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
-  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j"/>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_24">
