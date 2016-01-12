@@ -36,6 +36,29 @@
   ((content :reader content :initarg :content)
    (time-received :reader time-received :initarg :time-received)))
 
+
+(roslisp:def-service-callback instruct_mission-srv:multimodal_lisp (selected type command gesture location)
+  (let* ((action (make-designator :action `((:type move)
+                                            (:loc ,(cl-transforms:make-pose 
+                                                    (cl-transforms:make-3d-vector 14 0 1)
+                                                    (cl-transforms:make-quaternion 0 0 0 1)))))))
+    (format t "end ~%")
+    (roslisp:make-response :mlisp (instruct-mission::designator-into-mhri-msg action))))            
+(defun multimodal_func ()
+  (roslisp:with-ros-node ("two_ints_server" :spin t)
+    (roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
+    (roslisp:ros-info (basics-system) "the msg.")))
+
+
+;;(roslisp:def-service-callback instruct_mission-srv:msgCallback (a b)
+  ;;(roslisp:ros-info (basics-system) "Returning [~a + ~a = ~a]" a b (+ a b))
+  ;;(roslisp:make-response :mlisp (+ a b)))
+
+;;(defun add-two-ints-server ()
+;;  (roslisp:with-ros-node ("two_ints_server" :spin t)
+;;    (roslisp:register-service "add_two_ints" 'AddTwoInts)
+;;    (roslisp:ros-info (basics-system) "Ready to add two ints.")))
+
 ;;
 ;; Listen to topic /interpreted_command
 ;;
@@ -94,10 +117,10 @@
              (setf msg (vector (roslisp:make-message "mhri_msgs/interpretation"
                                              :type str
                                              :pose (cl-transforms-stamped::to-msg pose)))))))
-  (format t "ääääääää +~a~%" msg)
+  ;;(format t "ääääääää +~a~%" msg)
   (setf msg2 (roslisp:make-message "mhri_msgs/multimodal"
                                    :action   msg))
-  (format t "new tests +~a~%" msg2)
+  ;;(format t "new tests +~a~%" msg2)
     msg2))
 ;;(defun designator-into-mhri-msg (desig)
 ;;(let*((combiner NIL))

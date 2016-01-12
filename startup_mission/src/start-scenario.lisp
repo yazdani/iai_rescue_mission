@@ -38,16 +38,17 @@
 
  (defun start-mission ()
    (instruct-mission::init-base)
-   (let* ((x 1))
-   (loop while (= 1 x)
-         do (let* ((desig NIL))
+   ;;(let* ((x 1))
+   ;;(loop while (= 1 x)
+   ;;      do
+            (let* ((desig NIL))
               (loop while (equal NIL instruct-mission::*stored-result*)
                     do (setf var "Hello, don't forget me, I am still waiting"))
               (format t "~a great it worked ~%" instruct-mission::*stored-result*)
               (setf desig (parse-cmd-into-designator))
               (setf instruct-mission::*stored-result* NIL)
               (format t "UUUUUUUUUUUUnd~a~%" desig)
-              (instruct-mission::pub-msg desig)))))
+              (instruct-mission::pub-msg desig)));;))
 
 ;;; INTERPRETATION OF INSTRUCTION ;;;
 

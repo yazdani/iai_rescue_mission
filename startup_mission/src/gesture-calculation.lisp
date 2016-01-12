@@ -57,34 +57,45 @@
       
 ;; the parameter is a point which will be given by the human rescuer...
 (defun give-objs-close-to-human (distance position)
+  (format t "Give objs close to human ~%")
+  (sem-map-utils:get-semantic-map)
   (let*((liste-name NIL)
         (liste-pose NIL)
         (liste-dim NIL)
         (list-all NIL)
-        (sem-hash (slot-value (sem-map-utils:get-semantic-map) 'sem-map-utils:parts))
+        (sem-hash (slot-value semantic-map-utils::*cached-semantic-map* 'sem-map-utils:parts))
         (keys (hash-keys sem-hash)))
     (loop for i in keys
           do (cond ((and T
                          (compare-distance-with-genius-position
                           position (slot-value (gethash i sem-hash) 'sem-map-utils:pose)
                           distance))
+                  ;;  (format t "not working~%")
                     (setf liste-name
                           (append liste-name
                                   (list i)))
+                   ;; (format t "name ~a~%" liste-name)
                     (setf liste-pose
                           (append liste-pose
                                   (list 
                                    (slot-value (gethash i sem-hash) 'sem-map-utils:pose))))
+                   ;; (format t "pose ~a~%" liste-pose)
+                    
                     (setf liste-dim
                           (append liste-dim
                                   (list 
                                    (slot-value (gethash i sem-hash) 'sem-map-utils:dimensions))))
+                   ;; (format t "dim ~a~%" liste-dim)
+
                     (setf list-all
                           (append list-all
                                   (list
                                    (list i 
                                          (slot-value (gethash i sem-hash) 'sem-map-utils:pose)
-                                         (slot-value (gethash i sem-hash) 'sem-map-utils:dimensions))))))
+                                         (slot-value (gethash i sem-hash) 'sem-map-utils:dimensions)))))
+                    ;;(format t "all ~a~%" list-all)
+
+                    )
                    (t (setf var 0))))
     (setf *list-all* list-all)
     (setf *liste-pose* liste-pose)

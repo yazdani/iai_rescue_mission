@@ -83,9 +83,9 @@
      
          
 (defun make-costmap-bbox-gen (objs &key invert padding)
-   (format t "jdjddsj~%")
+ ;;  (format t "jdjddsj~%")
 (force-ll objs)
- (format t "objs ~a jdjddsj~%" objs)
+ ;;(format t "objs ~a jdjddsj~%" objs)
   (when objs
     (let ((aabbs (loop for obj in (cut:force-ll objs)
                        collecting (btr:aabb obj))))

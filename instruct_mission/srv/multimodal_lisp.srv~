@@ -1,0 +1,7 @@
+string selected
+string type
+string command
+float32[] direction 
+float32[] location
+---
+mhri_msgs/multimodal mlisp

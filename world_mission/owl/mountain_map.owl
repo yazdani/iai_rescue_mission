@@ -281,6 +281,43 @@
       <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
     </owl:Class>
 -->
+
+<owl:Class rdf:about="&knowrob;Environment">
+   <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+ </owl:Class>
+ 
+ <owl:Class rdf:about="&knowrob;Entity">
+   <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Animate">
+   <rdfs:subClassOf rdf:resource="&knowrob;Entity"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Inanimate">
+   <rdfs:subClassOf rdf:resource="&knowrob;Entity"/>
+ </owl:Class>
+    
+ <owl:Class rdf:about="&knowrob;BigTree">
+   <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Tree">
+   <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Rock">
+   <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+ </owl:Class>
+ 
+ <owl:Class rdf:about="&knowrob;Mountain">
+   <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
+ </owl:Class>
+
+  <owl:Class rdf:about="&knowrob;Stream">
+      <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+    </owl:Class>
+
   <rdf:Description rdf:about="&knowrob;BigTree">
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -1173,7 +1210,7 @@
   <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
   <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_1399894481"/>
   <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_22"/>
-  <knowrob:objectActedOn rdf:resource="&knowrob;bigtree07"/>
+  <knowrob:objectActedOn rdf:resource="&knowrob;bigtree06"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_22">

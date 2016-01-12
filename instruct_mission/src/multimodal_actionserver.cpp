@@ -84,6 +84,7 @@ string shortInterpretation(string str)
 void multimodalCallback(const mhri_msgs::multimodal::ConstPtr& msg)
 {
   var = 0;
+  ROS_INFO_STREAM("GO INTO MULTIMODALCALLBACK METHOD");
   std::cout << msg << std::endl;
   multi.action = msg->action;
   
@@ -216,25 +217,25 @@ bool startChecking(instruct_mission::multimodal_srv::Request &req,
       ROS_INFO_STREAM("Send command to sendAsTopic");
       ROS_INFO_STREAM(cmd_interpreted);
       sendAsTopic(req.selected, req.command, cmd_interpreted, cmd_type, req.direction, req.location);
-    
+      ros::Rate loop_rate(10);
       ROS_INFO_STREAM("end startChecking");
       ros::NodeHandle new_pub;
-      ROS_INFO_STREAM("start the multimodalcallback");
-      ROS_INFO_STREAM(multi);
-      ROS_INFO_STREAM("start the multimodalcallback");
-      char input=' ';
-      while(var == 1)
-	{
-	  std::cin<<input;
-	  if(input == ' '){
-	    ros::Subscriber sub = new_pub.subscribe("sendMsgToServer", 1000, multimodalCallback);
-	  }else
-	    break;
-	}
+      ROS_INFO_STREAM("start the multimodalcallback service");
+     
+      //  ros::Subscriber sub;
+      // while(ros::ok())
+      //	{
+      //	  if (var == 1){
+      //	  ROS_INFO_STREAM("Inside the loop");
+      //	  sub = new_pub.subscribe("sendMsgToServer", 1000, multimodalCallback);
+      //	  }else
+      //	    {break;}
+      //	  ROS_INFO_STREAM("Still Inside the loop");
+      //	}
       //}
-  res.multi = multi;
-  ROS_INFO_STREAM("end the multimodalcallback");
-  return true;
+      res.multi = multi;
+      ROS_INFO_STREAM("end the multimodalcallback");
+      return true;
 }
 
 
