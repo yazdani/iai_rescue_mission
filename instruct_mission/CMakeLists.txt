@@ -57,10 +57,7 @@ add_message_files(
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-#   Service1.srv
-#   Service2.srv
    multimodal_srv.srv
-   AddTwoInts.srv
    multimodal_lisp.srv
 )
 
@@ -144,13 +141,13 @@ add_executable(multimodal_actionclient src/multimodal_actionclient.cpp)
 target_link_libraries(multimodal_actionclient ${catkin_LIBRARIES})
 add_dependencies(multimodal_actionclient instruct_mission_gencpp)
 
-add_executable(tester src/tester.cpp)
-target_link_libraries(tester ${catkin_LIBRARIES})
-add_dependencies(tester instruct_mission_gencpp)
+#add_executable(tester src/tester.cpp)
+#target_link_libraries(tester ${catkin_LIBRARIES})
+#add_dependencies(tester instruct_mission_gencpp)
 
-add_executable(tester_client src/tester_client.cpp)
-target_link_libraries(tester_client ${catkin_LIBRARIES})
-add_dependencies(tester_client instruct_mission_gencpp)
+#add_executable(tester_client src/tester_client.cpp)
+#target_link_libraries(tester_client ${catkin_LIBRARIES})
+#add_dependencies(tester_client instruct_mission_gencpp)
 #add_executable(multimodal_client src/multimodal_client.cpp)
 #target_link_libraries(multimodal_client ${catkin_LIBRARIES})
 #add_dependencies(multimodal_client instruct_mission_gencpp)

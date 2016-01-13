@@ -53,7 +53,25 @@
                                              dim-z)))
     (semantic-map-costmap::get-aabb min-vec max-vec)))
          
-         
+;;getting the bounding boxes of different elements within the semantic map
+(defun get-bbox-as-aabb-obj (obj-name)
+(let*((sem-hash (slot-value semantic-map-utils::*cached-semantic-map* 'sem-map-utils:parts))
+      (sem-obj (gethash obj-name sem-hash))
+      (pose (slot-value sem-obj 'cram-semantic-map-utils:pose))
+      (dim (slot-value sem-obj 'cram-semantic-map-utils:dimensions))    
+      (dim-x (cl-transforms:x dim))
+      (dim-y (cl-transforms:y dim))
+      (dim-z (cl-transforms:z dim))
+      (pose-x (cl-transforms:x (cl-transforms:origin pose)))
+      (pose-y (cl-transforms:y (cl-transforms:origin pose)))
+      (min-vec (cl-transforms:make-3d-vector (- pose-x (/ dim-x 2))
+                                             (- pose-y (/ dim-y 2))
+                                             0))
+      (max-vec (cl-transforms:make-3d-vector (+ pose-x (/ dim-x 2))
+                                             (+ pose-y (/ dim-y 2))
+                                             dim-z)))
+    (semantic-map-costmap::get-aabb min-vec max-vec)))
+                 
       
 ;; the parameter is a point which will be given by the human rescuer...
 (defun give-objs-close-to-human (distance position)

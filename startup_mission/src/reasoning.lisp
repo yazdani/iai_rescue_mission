@@ -88,7 +88,11 @@
     (costmap-add-function
      ?reasoning-generator-id
      (make-reasoning-cost-function ?object1-pose :Y  ?pred 0.3)
-     ?costmap))
+     ?costmap)
+     (costmap ?costmap)
+     (costmap-add-function collisions
+                           (make-costmap-bbox-gen-obj  ?object1-name :invert t :padding 0.1)
+                          ?costmap))
    
   (<- (prepositions ?desig ?pose ?costmap)
     (or (desig-prop ?desig (:left-of ?object1-name))

@@ -79,8 +79,7 @@
                (plusp (cl-transforms:y obj-origin)))
           (setf pred '>))
   (t (format t "okay something went wrong~%")))
-    pred))
-     
+    pred))   
          
 (defun make-costmap-bbox-gen (objs &key invert padding)
  ;;  (format t "jdjddsj~%")
@@ -104,8 +103,32 @@
                      (> x (- (cl-transforms:x bb-center) dimensions-x/2))
                      (< y (+ (cl-transforms:y bb-center) dimensions-y/2))
                      (> y (- (cl-transforms:y bb-center) dimensions-y/2)))
-                (return (if invert 0.0d0 1.0d0)))
-              ))))))) 
+                (return (if invert 0.0d0 1.0d0)))))))))) 
+
+(defun make-costmap-bbox-gen-obj (obj-name &key invert padding)
+  (let*((sem-hash (slot-value semantic-map-utils::*cached-semantic-map* 'sem-map-utils:parts))
+        (sem-obj (gethash obj-name sem-hash))
+        (pose (slot-value sem-obj 'cram-semantic-map-utils:pose))
+        (dim (slot-value sem-obj 'cram-semantic-map-utils:dimensions))
+        (z/2-dim (/ (cl-transforms:z (slot-value sem-obj 'cram-semantic-map-utils:dimensions)) 2)))
+    (lambda (a b)
+      (block nil
+        (let*((bb-center (cl-transforms:make-3d-vector 
+                           (cl-transforms:x (cl-transforms:origin pose)) (cl-transforms:y (cl-transforms:origin pose)) (+ (cl-transforms:z (cl-transforms:origin pose)) z/2-dim)))
+              (dim-x/2 (+ (/ (cl-transforms:x dim) 2) padding))
+              (dim-y/2 (+ (/ (cl-transforms:y dim) 2) padding)))
+          (format t "edli~%")
+          (format t "x ~a and y~a~%" a b)
+          (format t "bb-center ~a~%" bb-center)
+          (format t "~a~%" (+ (cl-transforms:x bb-center) dim-x/2))
+          (format t "~a~%" (+ (cl-transforms:x bb-center) dim-y/2))
+          (when (and
+                 (< a (+ (cl-transforms:x bb-center) dim-x/2))
+                 (> a (- (cl-transforms:x bb-center) dim-x/2))
+                 (< b (+ (cl-transforms:y bb-center) dim-y/2))
+                 (> b (- (cl-transforms:y bb-center) dim-y/2)))
+            (format t "-----> a ~a~% and y~a~%" a b)
+            (return (if invert 0.0d0 1.0d0))))))))
 
 (defun make-location-cost-function (loc std-dev)
   (let ((loc (cl-transforms:origin loc)))

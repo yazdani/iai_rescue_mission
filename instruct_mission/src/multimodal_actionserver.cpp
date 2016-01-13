@@ -31,6 +31,7 @@
 #include "ros/ros.h"
 #include "instruct_mission/multimodal_srv.h"
 #include "instruct_mission/multimodal_values.h"
+#include "instruct_mission/multimodal_lisp.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -216,12 +217,27 @@ bool startChecking(instruct_mission::multimodal_srv::Request &req,
       cmd_interpreted =  interpretCommand(req.command);
       ROS_INFO_STREAM("Send command to sendAsTopic");
       ROS_INFO_STREAM(cmd_interpreted);
-      sendAsTopic(req.selected, req.command, cmd_interpreted, cmd_type, req.direction, req.location);
+      //   sendAsTopic(req.selected, req.command, cmd_interpreted, cmd_type, req.direction, req.location);
       ros::Rate loop_rate(10);
       ROS_INFO_STREAM("end startChecking");
       ros::NodeHandle new_pub;
       ROS_INFO_STREAM("start the multimodalcallback service");
-     
+      ros::ServiceClient client = new_pub.serviceClient<instruct_mission::multimodal_lisp>("multimodal_lisp");
+      instruct_mission::multimodal_lisp srv;
+      srv.request.selected = req.selected;
+      srv.request.command = cmd_interpreted;
+      srv.request.type = cmd_type;
+      srv.request.gesture = req.direction;
+      srv.request.location = req.location;
+	if (client.call(srv))
+	  {
+	    ROS_INFO_STREAM(srv.response.mlisp);
+	  }
+	else
+	  {
+	    ROS_ERROR("Failed to call the service in lisp");
+	    return 1;
+	  }
       //  ros::Subscriber sub;
       // while(ros::ok())
       //	{
@@ -233,7 +249,9 @@ bool startChecking(instruct_mission::multimodal_srv::Request &req,
       //	  ROS_INFO_STREAM("Still Inside the loop");
       //	}
       //}
-      res.multi = multi;
+	ROS_INFO_STREAM("juhu klappt!");
+	ROS_INFO_STREAM(srv.response.mlisp);
+      res.multi = srv.response.mlisp;
       ROS_INFO_STREAM("end the multimodalcallback");
       return true;
 }

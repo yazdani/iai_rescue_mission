@@ -28,14 +28,13 @@
 
 (in-package :instruct-mission)
 
-(defun count-actions (type agent cmd gesture)
+(defun count-actions (agent type cmd gesture)
   (let* ((desig NIL))
     (cond ((= 1 (length (split-cmd cmd)))
            (setf desig (method-with-one-seq type agent cmd gesture)))
           ((= 2 (length (split-cmd cmd)))
            (setf desig (method-with-two-seqs type agent cmd gesture)))
           (t (format t "Something is wrong~%")))
-
     desig))
     
     
