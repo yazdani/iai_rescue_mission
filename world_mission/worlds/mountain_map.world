@@ -177,7 +177,7 @@
     </include>
 
  <include>
-      <name>genius01</name>
+      <name>busy_genius</name>
       <uri>model://genius</uri>
       <pose>16 0 0 0 0 -1.5</pose>
     </include>

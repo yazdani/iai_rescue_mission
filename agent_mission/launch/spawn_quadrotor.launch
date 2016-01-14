@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-   <arg name="name" default="quadrotor"/>
+   <arg name="name" default="red_hawk"/>
    <arg name="model" default="$(find agent_mission)/urdf/quadrotor.gazebo.xacro"/>
    <arg name="tf_prefix" default="$(optenv ROS_NAMESPACE)"/>
    <arg name="x" default="22.0"/>

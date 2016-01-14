@@ -1,5 +1,5 @@
 <launch>
-<!--
+
 <include file="$(find gazebo_ros)/launch/empty_world.launch">   
  <arg name="world_name" value="$(find world_mission)/worlds/mountain_map.world"/>
     <arg name="paused" value="false"/>
@@ -7,11 +7,13 @@
     <arg name="gui" value="true"/>
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
-  </include>
--->
-<!--
+</include>
+
+
+
+
 <include file="$(find agent_mission)/launch/spawn_quadrotor.launch"/> 
--->
+
 <param name="mountain_description"
        command="$(find xacro)/xacro.py '$(find world_mission)/urdf-xml/mountain_map/mountain_map.urdf.xml'"/>
 
@@ -20,25 +22,7 @@
 <node name="json_prolog" pkg="json_prolog" type="json_prolog_node" cwd="node" output="screen" />
 
 
-<node pkg="tf" 
-      type="static_transform_publisher" 
-      name="world_to_map_frame_publisher" 
-      args="0 0 0 0 0 0 1 /world /map 200">
-</node>
 
-
-<node pkg="tf" 
-      type="static_transform_publisher" 
-      name="map_to_maplink_frame_publisher" 
-      args="0 0 0 0 0 0 1 /map /map_link 200">
-</node>
-
- <node pkg="robot_state_chain_publisher" type="state_chain_publisher"
-    name="mountain_state_publisher" output="screen">
-    <param name="tf_prefix" value="/"/>
-    <param name="publish_frequency" value="2"/>
-    <remap from="robot_description" to="mountain_description" />
-  </node>
 
 <!--
 

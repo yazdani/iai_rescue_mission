@@ -43,6 +43,12 @@
 #include <netdb.h>
 #include <stdio.h>
 #include <string.h>
+#include "ros/ros.h"
+#include "std_msgs/String.h"
+#include "std_msgs/Float64.h"
+#include <gazebo_msgs/SetModelState.h>
+#include <gazebo_msgs/GetModelState.h>
+#include <gazebo_msgs/GetPhysicsProperties.h>
 #include <sstream>
 
 using namespace std;
@@ -60,6 +66,23 @@ int var = 0;
 // TODO need position of robot and human
 string shortInterpretation(string str)
 {
+  
+  ros::NodeHandle mnode;
+  ros::NodeHandle nnode;
+  ros::ServiceClient gmscl, gmscl2 = mnode.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
+  ros::ServiceClient smsl = nnode.serviceClient<gazebo_msgs::SetModelState>("/gazebo/set_model_state");
+  gazebo_msgs::GetModelState getmodelstate, getmodelstate2;
+  gazebo_msgs::SetModelState setmodelstate;
+  gazebo_msgs::ModelState modelstate, modelstate2;
+
+  modelstate.model_name = (std::string) "red_hawk";
+  getmodelstate.request.model_name ="red_hawk";
+  gmscl.call(getmodelstate);
+
+  modelstate2.model_name = (std::string) "busy_genius";
+  getmodelstate2.request.model_name ="busy_genius";
+  gmscl2.call(getmodelstate2);
+
   if(str.compare("Go left") == 0)
     {
       //get position of human and compare y with position of robot

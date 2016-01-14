@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  tf
   cram_designators
 )
 
@@ -59,6 +60,7 @@ add_service_files(
   FILES
    multimodal_srv.srv
    multimodal_lisp.srv
+   beginner.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -140,6 +142,16 @@ add_dependencies(multimodal_actionserver instruct_mission_gencpp)
 add_executable(multimodal_actionclient src/multimodal_actionclient.cpp)
 target_link_libraries(multimodal_actionclient ${catkin_LIBRARIES})
 add_dependencies(multimodal_actionclient instruct_mission_gencpp)
+
+## Declare a C++ executable
+add_executable(contacts src/contacts.cpp)
+target_link_libraries(contacts ${catkin_LIBRARIES})
+add_dependencies(contacts instruct_mission_gencpp)
+
+## Declare a C++ executable
+add_executable(contacts_sub src/contacts_sub.cpp)
+target_link_libraries(contacts_sub ${catkin_LIBRARIES})
+add_dependencies(contacts_sub instruct_mission_gencpp)
 
 #add_executable(tester src/tester.cpp)
 #target_link_libraries(tester ${catkin_LIBRARIES})
