@@ -60,7 +60,9 @@
 
  (<- (prepositions ?desig ?pose ?costmap)
    (or (desig-prop ?desig (:next-to ?object1-name))
-       (desig-prop ?desig (:close-to ?object1-name)))
+       (desig-prop ?desig (:next ?object1-name))
+       (desig-prop ?desig (:close-to ?object1-name))
+       (desig-prop ?desig (:close ?object1-name)))
    (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
    (lisp-fun check-the-left-direction ?pose ?object1-pose ?pred)
    (instance-of reasoning-generator ?reasoning-generator-id)
@@ -84,15 +86,12 @@
         (desig-prop ?desig (:right ?object1-name)))
     (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
     (lisp-fun check-the-right-direction ?pose ?object1-pose ?pred)
+    (format "~a und ~a~%" ?pose ?object1-pose)
     (instance-of reasoning-generator ?reasoning-generator-id)
     (costmap-add-function
      ?reasoning-generator-id
      (make-reasoning-cost-function ?object1-pose :Y  ?pred 0.3)
-     ?costmap)
-     (costmap ?costmap)
-     (costmap-add-function collisions
-                           (make-costmap-bbox-gen-obj  ?object1-name :invert t :padding 0.1)
-                          ?costmap))
+     ?costmap))
    
   (<- (prepositions ?desig ?pose ?costmap)
     (or (desig-prop ?desig (:left-of ?object1-name))

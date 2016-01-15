@@ -21,7 +21,24 @@
 <param name="initial_goal" type="string" value="owl_parse('package://world_mission/owl/mountain_map.owl')" />
 <node name="json_prolog" pkg="json_prolog" type="json_prolog_node" cwd="node" output="screen" />
 
-
+ <node pkg="tf" 
+	type="static_transform_publisher" 
+	name="world_to_map_frame_publisher" 
+	args="0 0 0 0 0 0 1 /world /map 200">
+  </node>
+  
+  <node pkg="tf" 
+	type="static_transform_publisher" 
+	name="map_to_maplink_frame_publisher" 
+	args="0 0 0 0 0 0 1 /map /map_link 200">
+  </node>
+  
+  <node pkg="robot_state_chain_publisher" type="state_chain_publisher"
+	name="mountain_state_publisher" output="screen">
+    <param name="tf_prefix" value="/"/>
+    <param name="publish_frequency" value="1000"/>
+    <remap from="robot_description" to="mountain_description" />
+  </node>
 
 
 <!--

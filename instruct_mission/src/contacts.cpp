@@ -59,10 +59,7 @@ int main(int argc, char **argv)
 {
   ros::init(argc, argv, "testing_my_code");
 
-  ros::NodeHandle moinsen;
-  ros::NodeHandle n;
-  ros::NodeHandle m;
-  /*
+  
   ros::ServiceClient gmscl, gmscl2 = n.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
   
   ros::ServiceClient smsl = m.serviceClient<gazebo_msgs::SetModelState>("/gazebo/set_model_state");
@@ -73,19 +70,28 @@ int main(int argc, char **argv)
   gazebo_msgs::ModelState modelstate;
   gazebo_msgs::ModelState modelstate2;
   geometry_msgs::Twist start_twist;
-  */
-  tf::TransformListener listener;
-  ros::Rate rate(10.0);
-  while (moinsen.ok()){
-    tf::StampedTransform transform;
+
+
+
+
+  tf::TransformListener listen;
+  ros::Time now = ros::Time::now();
+  ROS_INFO_STREAM(listen.waitForTransform("/world", "/genius_link",now, ros::Duration(3.0)));
+  ROS_INFO_STREAM("hello");
+  ros::Rate rate(1.0);
+  tf::StampedTransform transform;
+  while (ros::ok()){
+   
     try{
-      listener.lookupTransform("/genius_link", "/world",  
-                               ros::Time(0), transform);
+      listen.lookupTransform("/world", "/genius_link",  
+                              now, transform);
     }
     catch (tf::TransformException ex){
+      ROS_INFO_STREAM("nix funktioniert");
       ROS_ERROR("%s",ex.what());
       ros::Duration(1.0).sleep();
     }
+    rate.sleep();
   }
   ROS_INFO_STREAM("hello");
   

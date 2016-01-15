@@ -79,7 +79,7 @@
                (plusp (cl-transforms:y obj-origin)))
           (setf pred '>))
   (t (format t "okay something went wrong~%")))
-    pred))   
+    pred))    
          
 (defun make-costmap-bbox-gen (objs &key invert padding)
  ;;  (format t "jdjddsj~%")
