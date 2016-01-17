@@ -45,6 +45,7 @@
   <build_depend>message_generation</build_depend>
   <build_depend>message_runtime</build_depend>
   <build_depend>roscpp</build_depend>
+  <build_depend>agent_mission</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>mhri_msgs</build_depend>
@@ -56,7 +57,7 @@
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>cram_designators</run_depend>
-  
+  <run_depend>agent_mission</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

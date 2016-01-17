@@ -32,6 +32,7 @@
 #include "instruct_mission/multimodal_srv.h"
 #include "instruct_mission/multimodal_values.h"
 #include "instruct_mission/multimodal_lisp.h"
+#include "agent_mission/GeniusMsg.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -46,6 +47,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Float64.h"
+#include "geometry_msgs/Transform.h"
 #include <gazebo_msgs/SetModelState.h>
 #include <gazebo_msgs/GetModelState.h>
 #include <gazebo_msgs/GetPhysicsProperties.h>
@@ -62,27 +64,49 @@ string cmd_type;
 ros::Publisher pub;
 mhri_msgs::multimodal multi;
 int var = 0;
+geometry_msgs::Transform transforming;
+
+void getTransformOfAgent(string str)
+{
+  ROS_INFO_STREAM("Send command as getTransformOfAgent");
+  
+  ros::Rate loop_rate(10);
+  ros::NodeHandle new_pub;
+  ros::ServiceClient client = new_pub.serviceClient<agent_mission::GeniusMsg>("agent_pose");
+  agent_mission::GeniusMsg srv;
+  srv.request.msg = str;
+  if (client.call(srv))
+    {
+      ROS_INFO_STREAM(srv.response.end);
+    }
+  else
+    {
+      ROS_ERROR("Failed to call the service in lisp");
+      return;
+    }
+  transforming = srv.response.end;
+  ROS_INFO_STREAM("end the multimodalcallback");
+
+}
 
 // TODO need position of robot and human
 string shortInterpretation(string str)
 {
+  getTransformOfAgent("/genius_link");
+  geometry_msgs::Transform trans_genius = transforming; 
   
   ros::NodeHandle mnode;
-  ros::NodeHandle nnode;
-  ros::ServiceClient gmscl, gmscl2 = mnode.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
-  ros::ServiceClient smsl = nnode.serviceClient<gazebo_msgs::SetModelState>("/gazebo/set_model_state");
-  gazebo_msgs::GetModelState getmodelstate, getmodelstate2;
-  gazebo_msgs::SetModelState setmodelstate;
-  gazebo_msgs::ModelState modelstate, modelstate2;
+  //ros::NodeHandle nnode;
+  ros::ServiceClient gmscl = mnode.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
+  // ros::ServiceClient smsl = nnode.serviceClient<gazebo_msgs::SetModelState>("/gazebo/set_model_state");
+  gazebo_msgs::GetModelState getmodelstate;
+  //  gazebo_msgs::SetModelState setmodelstate;
+  gazebo_msgs::ModelState modelstate;
 
   modelstate.model_name = (std::string) "red_hawk";
   getmodelstate.request.model_name ="red_hawk";
   gmscl.call(getmodelstate);
-
-  modelstate2.model_name = (std::string) "busy_genius";
-  getmodelstate2.request.model_name ="busy_genius";
-  gmscl2.call(getmodelstate2);
-
+  
   if(str.compare("Go left") == 0)
     {
       //get position of human and compare y with position of robot
@@ -102,6 +126,7 @@ string shortInterpretation(string str)
     {
     
     }
+  return str;
 
 }
 

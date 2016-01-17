@@ -57,49 +57,51 @@
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "testing_my_code");
-
-  
-  ros::ServiceClient gmscl, gmscl2 = n.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
-  
-  ros::ServiceClient smsl = m.serviceClient<gazebo_msgs::SetModelState>("/gazebo/set_model_state");
-  gazebo_msgs::GetModelState getmodelstate, getmodelstate2;
-  gazebo_msgs::SetModelState setmodelstate;
-  
-  geometry_msgs::Pose start_pose;
-  gazebo_msgs::ModelState modelstate;
-  gazebo_msgs::ModelState modelstate2;
-  geometry_msgs::Twist start_twist;
-
-
-
-
-  tf::TransformListener listen;
-  ros::Time now = ros::Time::now();
-  ROS_INFO_STREAM(listen.waitForTransform("/world", "/genius_link",now, ros::Duration(3.0)));
-  ROS_INFO_STREAM("hello");
-  ros::Rate rate(1.0);
-  tf::StampedTransform transform;
-  while (ros::ok()){
-   
-    try{
-      listen.lookupTransform("/world", "/genius_link",  
-                              now, transform);
-    }
-    catch (tf::TransformException ex){
-      ROS_INFO_STREAM("nix funktioniert");
-      ROS_ERROR("%s",ex.what());
-      ros::Duration(1.0).sleep();
-    }
-    rate.sleep();
-  }
-  ROS_INFO_STREAM("hello");
-  
-  // ros::ServiceServer service = moinsen.advertiseService("testing", test_func);
-
-
-  // ros::spin();
-
   return 0;
 }
+//   ros::init(argc, argv, "testing_my_code");
+
+  
+//   ros::ServiceClient gmscl, gmscl2 = n.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
+  
+//   ros::ServiceClient smsl = m.serviceClient<gazebo_msgs::SetModelState>("/gazebo/set_model_state");
+//   gazebo_msgs::GetModelState getmodelstate, getmodelstate2;
+//   gazebo_msgs::SetModelState setmodelstate;
+  
+//   geometry_msgs::Pose start_pose;
+//   gazebo_msgs::ModelState modelstate;
+//   gazebo_msgs::ModelState modelstate2;
+//   geometry_msgs::Twist start_twist;
+
+
+
+
+//   tf::TransformListener listen;
+//   ros::Time now = ros::Time::now();
+//   ROS_INFO_STREAM(listen.waitForTransform("/world", "/genius_link",now, ros::Duration(3.0)));
+//   ROS_INFO_STREAM("hello");
+//   ros::Rate rate(1.0);
+//   tf::StampedTransform transform;
+//   while (ros::ok()){
+   
+//     try{
+//       listen.lookupTransform("/world", "/genius_link",  
+//                               now, transform);
+//     }
+//     catch (tf::TransformException ex){
+//       ROS_INFO_STREAM("nix funktioniert");
+//       ROS_ERROR("%s",ex.what());
+//       ros::Duration(1.0).sleep();
+//     }
+//     rate.sleep();
+//   }
+//   ROS_INFO_STREAM("hello");
+  
+//   // ros::ServiceServer service = moinsen.advertiseService("testing", test_func);
+
+
+//   // ros::spin();
+
+//   return 0;
+// }
 

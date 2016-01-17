@@ -1,55 +1,44 @@
 #! /usr/bin/env python
 
-import roslib; roslib.load_manifest('actionlib_tutorials')
 import rospy
+import roslib
+import tf
+from agent_mission.srv import GeniusMsg
+import geometry_msgs.msg 
 
-import actionlib
+def genius_callback(req):
+  #  print "Returning Genius Msg"
+  #  print req
+    rate = rospy.Rate(10.0)
+    listener = tf.TransformListener()
 
-import actionlib_tutorials.msg
+    listener.waitForTransform(req.msg, "/world", rospy.Time(), rospy.Duration(4.0))
+  #  print type(listener)
+   # while not rospy.is_shutdown():
 
-class FibonacciAction(object):
-  # create messages that are used to publish feedback/result
-  _feedback = actionlib_tutorials.msg.FibonacciFeedback()
-  _result   = actionlib_tutorials.msg.FibonacciResult()
+  
+    (trans,rot) = listener.lookupTransform("/world", req.msg, rospy.Time(0))
 
-  def __init__(self, name):
-    self._action_name = name
-    self._as = actionlib.SimpleActionServer(self._action_name, actionlib_tutorials.msg.FibonacciAction, execute_cb=self.execute_cb, auto_start = False)
-    self._as.start()
+    cmd = geometry_msgs.msg.Transform()
+    cmd.translation.x = trans[0]
+    cmd.translation.y = trans[1]
+    cmd.translation.z = trans[2]
+
+    cmd.rotation.x = rot[0]
+    cmd.rotation.y = rot[1]
+    cmd.rotation.z = rot[2]
+    cmd.rotation.w = rot[3]
+
+   # print cmd
+    return cmd
+
+def add_to_genius():
+    rospy.init_node('genius_position_listener')
+    s = rospy.Service('genius_pose', GeniusMsg, genius_callback)
+    print "Give me the genius position."
+    rospy.spin()
+
+if __name__ == "__main__":
+    add_to_genius()
     
-  def execute_cb(self, goal):
-    # helper variables
-    r = rospy.Rate(1)
-    success = True
-    
-    # append the seeds for the fibonacci sequence
-    self._feedback.sequence = []
-    self._feedback.sequence.append(0)
-    self._feedback.sequence.append(1)
-    
-    # publish info to the console for the user
-    rospy.loginfo('%s: Executing, creating fibonacci sequence of order %i with seeds %i, %i' % (self._action_name, goal.order, self._feedback.sequence[0], self._feedback.sequence[1]))
-    
-    # start executing the action
-    for i in xrange(1, goal.order):
-      # check that preempt has not been requested by the client
-      if self._as.is_preempt_requested():
-        rospy.loginfo('%s: Preempted' % self._action_name)
-        self._as.set_preempted()
-        success = False
-        break
-      self._feedback.sequence.append(self._feedback.sequence[i] + self._feedback.sequence[i-1])
-      # publish the feedback
-      self._as.publish_feedback(self._feedback)
-      # this step is not necessary, the sequence is computed at 1 Hz for demonstration purposes
-      r.sleep()
-      
-    if success:
-      self._result.sequence = self._feedback.sequence
-      rospy.loginfo('%s: Succeeded' % self._action_name)
-      self._as.set_succeeded(self._result)
-      
-if __name__ == '__main__':
-  rospy.init_node('fibonacci')
-  FibonacciAction(rospy.get_name())
-  rospy.spin()
+

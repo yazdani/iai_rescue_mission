@@ -34,7 +34,7 @@
                cram-location-costmap
                cram-prolog
                roslisp
-               semantic-map-costmap
+               ; semantic-map-costmap
                ; cram-robot-pose-gaussian-costmap
                cram-bullet-reasoning
                ;;cram-quadrotor-knowledge
