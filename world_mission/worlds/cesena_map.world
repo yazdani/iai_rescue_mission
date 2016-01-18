@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+  <world name="mountain_world">
+    <physics type="ode">
+     <!-- <gravity>0 0 -9.8</gravity>-->
+     <max_step_size>0.001</max_step_size>
+    </physics>
+
+    <scene>
+      <sky>
+        <clouds>
+          <speed>12</speed>
+        </clouds>
+      </sky>
+    </scene>
+
+    <gui>
+      <camera name="my_camera">
+        <pose>3 0.1 1.5 0 0 3.14</pose>
+      </camera>
+    </gui>
+
+   <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <include>
+      <name>Mountain</name>
+      <uri>model://bigrock</uri>
+      <pose>8.5 -1.5 0 0 0 -1.6</pose>
+    </include>
+    
+    <include>
+      <name>Wood</name>
+      <uri>model://wood</uri>
+      <pose>1.0 -2.0 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <name>River</name>
+      <uri>model://stream</uri>
+      <pose>4.5 -5.0 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <name>House</name>
+      <uri>model://box</uri>
+      <pose>6.5 -7.0 0 0 0 0</pose>
+    </include>
+  
+  </world>
+</sdf>
+

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <sdf version="1.5">
-  <model name="bigrock_model">
-    <static>
-      true
-    </static>
-    <link name="bigrock_link">
+  <model name="wood_model">
+<static>
+  true
+</static>
+    <link name="wood_link">
       <inertial>
         <mass>0.390</mass>
         <inertia>
@@ -16,10 +16,10 @@
           <izz>0.00019</izz>
         </inertia>
       </inertial>
-  <!--    <collision name="bigrock_collision">
+      <collision name="wood_collision">
         <geometry>
           <mesh>
-            <uri>model://bigrock/meshes/mountain2.dae</uri>
+            <uri>model://wood/meshes/wood1.dae</uri>
           </mesh>
         </geometry>
         <surface>
@@ -38,11 +38,11 @@
             </ode>
           </contact>
         </surface>
-      </collision>-->
-      <visual name="bigrock_visual">
+      </collision>
+      <visual name="wood_visual">
         <geometry>
           <mesh>
-            <uri>model://bigrock/meshes/mountain1.dae</uri>
+            <uri>model://wood/meshes/wood1.dae</uri>
           </mesh>
         </geometry>
       </visual>

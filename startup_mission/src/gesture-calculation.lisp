@@ -51,7 +51,7 @@
       (max-vec (cl-transforms:make-3d-vector (+ pose-x (/ dim-x 2))
                                              (+ pose-y (/ dim-y 2))
                                              dim-z)))
-    (semantic-map-costmap::get-aabb min-vec max-vec)))
+  (cram-semantic-map-costmap::get-aabb min-vec max-vec)))
          
 ;;getting the bounding boxes of different elements within the semantic map
 (defun get-bbox-as-aabb-obj (obj-name)

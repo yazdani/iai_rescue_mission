@@ -42,7 +42,7 @@
       <visual name="bigrock_visual">
         <geometry>
           <mesh>
-            <uri>model://bigrock/meshes/mountain1.dae</uri>
+            <uri>model://bigrock/meshes/mountain_map.dae</uri>
           </mesh>
         </geometry>
       </visual>

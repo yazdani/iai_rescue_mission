@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
 #  cram_roslisp_common
   cram_semantic_map_designators
   occupancy_grid_costmap
-#  semantic_map_costmap
+  cram_semantic_map_costmap
   spatial_relations_costmap
   instruct_mission
 )

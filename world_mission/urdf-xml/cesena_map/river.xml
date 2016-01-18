@@ -4,28 +4,26 @@ xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controlle
 xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
 xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+<macro name="river">
 
-
-<macro name="mountain">
-
-<joint name="mountain_joint" type="fixed">
-<origin xyz="0 0 0" rpy="0 0 0"/>
+<joint name="river_joint" type="fixed">
+<origin xyz="4.5 -5.0 0.0" rpy="0 0 0"/>
 <parent link="map_link"/>
-<child link="mountain_link"/>
+<child link="river_link"/>
 </joint>
 
-<link name="mountain_link">
+<link name="river_link">
 <visual>
-<!--origin xyz="0.0 0.0 0.0 " rpy="0 0 0"/-->
+<!--origin xyz="11.99 14.99 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/mountain/meshes/mountain_map.dae"/>
+<mesh filename="package://world_mission/models/stream/meshes/river1.dae"/>
 </geometry>
-<material name="Grey2"/>
+<material name="DarkGreen"/>
 </visual>
 <collision>
-<!--origin xyz="0.0 0.0 0.0 " rpy="0 0 0"/-->
+<!--origin xyz="11.99 14.99 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/mountain/meshes/mountain_map.dae"/>
+<mesh filename="package://world_mission/models/stream/meshes/river1.stl"/>
 </geometry>
 </collision>
 </link>

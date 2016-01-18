@@ -9,23 +9,23 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="mountain">
 
 <joint name="mountain_joint" type="fixed">
-<origin xyz="0 0 0" rpy="0 0 0"/>
+<origin xyz="8.5 -1.5 0.0" rpy="0 0 0"/>
 <parent link="map_link"/>
 <child link="mountain_link"/>
 </joint>
 
 <link name="mountain_link">
 <visual>
-<!--origin xyz="0.0 0.0 0.0 " rpy="0 0 0"/-->
+<!--origin xyz="19.99 6.41 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/mountain/meshes/mountain_map.dae"/>
+<mesh filename="package://world_mission/models/bigrock/meshes/mountain1.dae"/>
 </geometry>
-<material name="Grey2"/>
+<material name="DarkGreen"/>
 </visual>
 <collision>
-<!--origin xyz="0.0 0.0 0.0 " rpy="0 0 0"/-->
+<!--origin xyz="19.99 6.41 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/mountain/meshes/mountain_map.dae"/>
+<mesh filename="package://world_mission/models/bigrock/meshes/mountain1.dae"/>
 </geometry>
 </collision>
 </link>

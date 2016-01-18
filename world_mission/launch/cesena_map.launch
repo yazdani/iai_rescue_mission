@@ -1,0 +1,207 @@
+<launch>
+
+<include file="$(find gazebo_ros)/launch/empty_world.launch">   
+ <arg name="world_name" value="$(find world_mission)/worlds/cesena_map.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+</include>
+
+<param name="mountain_description"
+       command="$(find xacro)/xacro.py '$(find world_mission)/urdf-xml/cesena_map/cesena_map.urdf.xml'"/>
+
+<param name="initial_package" type="string" value="knowrob_map_data" />
+<param name="initial_goal" type="string" value="owl_parse('package://world_mission/owl/cesena_map.owl')" />
+<node name="json_prolog" pkg="json_prolog" type="json_prolog_node" cwd="node" output="screen" />
+
+ <node pkg="tf" 
+	type="static_transform_publisher" 
+	name="world_to_map_frame_publisher" 
+	args="0 0 0 0 0 0 1 /world /map 200">
+  </node>
+  
+  <node pkg="tf" 
+	type="static_transform_publisher" 
+	name="map_to_maplink_frame_publisher" 
+	args="0 0 0 0 0 0 1 /map /map_link 200">
+  </node>
+  
+  <node pkg="robot_state_chain_publisher" type="state_chain_publisher"
+	name="mountain_state_publisher" output="screen">
+    <param name="tf_prefix" value="/"/>
+    <param name="publish_frequency" value="1000"/>
+    <remap from="robot_description" to="mountain_description" />
+  </node>
+
+
+<!--
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_mountain_frame_publisher" 
+      args="0.0 0.0 0.0 0.0 0.0 0.0 1.0  map_link mountain_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_bigtree01_frame_publisher" 
+      args="19.99 6.41 0.0 0.0 0.0 0.0 1.0 map_link bigtree01_link 1">
+</node>
+
+ <node pkg="tf" 
+       type="static_transform_publisher" 
+       name="map_to_bigtree02_frame_publisher"
+       args="11.99 14.99 0.0 0.0 0.0 0.0 1.0 /map_link /bigtree02_link 1">
+  </node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_bigtree03_frame_publisher"
+    args="-21.0 0.99 0.0 0.0 0.0 0.0 1.0 /map_link /bigtree03_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_bigtree04_frame_publisher" 
+      args="-29.0 8.99 0.0 0.0 0.0 0.0 1.0 /map_link /bigtree04_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_bigtree05_frame_publisher" 
+      args="-38 0.99 0.0 0.0 0.0 0.0 1.0 /map_link /bigtree05_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_bigtree06_frame_publisher" 
+      args="-10.0 22.50 0.0 0.0 0.0 0.0 1.0 /map_link /bigtree06_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_bigtree07_frame_publisher" 
+      args="-15 18.99 0 0 0 0 1 /map_link /bigtree07_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_bigtree08_frame_publisher" 
+      args="-20.45 16.99 0 0 0 0 1 /map_link /bigtree08_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_rock01_frame_publisher" 
+      args="13 9.96 0 0 0 0 1 /map_link /rock01_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_rock02_frame_publisher"  
+      args="-13.99 -18.04 0 0 0 0 1 /map_link /rock02_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_rock03_frame_publisher"  
+      args="-17.03 -16.61 0 0 0 0 1 /map_link /rock03_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_rock04_frame_publisher"  
+      args="-17.02 -19.06 0 0 0 0 1 /map_link /rock04_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_rock05_frame_publisher"  
+      args="-32.99 3.96 0 0 0 0 1 /map_link /rock05_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_rock06_frame_publisher"  
+      args="-42.99 7.42 0 0 0 0 1 /map_link /rock06_link 1">
+</node>
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_tree01_frame_publisher"   
+      args="19.02 10.99 0.0 0.0 0.0 0.0 1.0 /map_link /tree01_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_tree02_frame_publisher"  
+      args="18.99 14.99 0 0 0 0 1 /map_link /tree02_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_tree03_frame_publisher"  
+      args="15.99 12.99 0 0 0 0 1 /map_link /tree03_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher"
+      name="map_to_tree04_frame_publisher" 
+      args="6.99 -13.45 0 0 0 0 1 /map_link /tree04_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_tree05_frame_publisher" 
+      args="-0.56 -0.5 0 0 0 0 1 /map_link /tree05_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_tree06_frame_publisher" 
+      args="-33 15.99 0 0 0 0 1 /map_link /tree06_link 1">
+</node>
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_tree07_frame_publisher"
+      args="-27 15.99 0 0 0 0 1 /map_link /tree07_link 1">
+</node>
+
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_tree08_frame_publisher" 
+      args="-17 13.99 0 0 0 0 1 /map_link /tree08_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_tree09_frame_publisher" 
+      args="-11 16.99 0 0 0 0 1 /map_link /tree09_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_rock07_frame_publisher"
+      args="-4 3.5 0 0 0 0 1 /map_link /rock07_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_victim_frame_publisher"
+      args="-3.57 0 0 0 0 0 1 /map_link /victim_link 1">
+</node>
+
+<node pkg="tf" 
+      type="static_transform_publisher" 
+      name="map_to_genius_frame_publisher"
+      args="16 0 0 0 0 -1.5 1 /map_link /genius_link 1">
+</node>
+
+<node pkg="tf" 
+      type="buffer_server" 
+      name="start_buffer_server">
+</node>
+-->
+</launch>

@@ -48,10 +48,18 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Float64.h"
 #include "geometry_msgs/Transform.h"
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Twist.h"
 #include <gazebo_msgs/SetModelState.h>
 #include <gazebo_msgs/GetModelState.h>
 #include <gazebo_msgs/GetPhysicsProperties.h>
 #include <sstream>
+
+//Hector in simulation
+#include <actionlib/client/simple_action_client.h>
+#include <actionlib/client/terminal_state.h>
+#include <quadrotor_controller/cmdVelAction.h>
+#include <geometry_msgs/Pose.h>
 
 using namespace std;
 
@@ -63,6 +71,7 @@ string cmd_interpreted;
 string cmd_type;
 ros::Publisher pub;
 mhri_msgs::multimodal multi;
+mhri_msgs::multimodal malti;
 int var = 0;
 geometry_msgs::Transform transforming;
 
@@ -90,11 +99,48 @@ void getTransformOfAgent(string str)
 }
 
 // TODO need position of robot and human
-string shortInterpretation(string str)
+int simulateQuadrotor(float x, float y, float z)
 {
-  getTransformOfAgent("/genius_link");
-  geometry_msgs::Transform trans_genius = transforming; 
-  
+
+  actionlib::SimpleActionClient<quadrotor_controller::cmdVelAction> ac("cmdVel_tmp", true);
+  ROS_INFO("Waiting for action server to start.");
+  ac.waitForServer(); //will wait for infinite time
+  quadrotor_controller::cmdVelGoal goal;
+  goal.goal.position.x = x;
+  goal.goal.position.y = y;
+  goal.goal.position.z = z;
+  ac.sendGoal(goal);
+
+ bool finished_before_timeout = ac.waitForResult(ros::Duration(30.0));
+
+  if (finished_before_timeout)
+  {
+    actionlib::SimpleClientGoalState state = ac.getState();
+    ROS_INFO("Action finished: %s",state.toString().c_str());
+  }
+  else
+    ROS_INFO("Action did not finish before the time out.");
+
+  return 0;
+
+}
+
+
+void shortInterpretation(string str, float data)
+{
+  //getTransformOfAgent("/genius_link");
+  //geometry_msgs::Transform trans_genius = transforming; 
+
+  std_msgs::String stri;
+  geometry_msgs::PoseStamped pss;
+  std_msgs::Header head;
+  head.seq = 0;
+  head.stamp = ros::Time::now();
+  //stri.data = "/world";
+  head.frame_id = "/world";
+ 
+  mhri_msgs::interpretation inta;
+  geometry_msgs::Pose ps;
   ros::NodeHandle mnode;
   //ros::NodeHandle nnode;
   ros::ServiceClient gmscl = mnode.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
@@ -102,32 +148,61 @@ string shortInterpretation(string str)
   gazebo_msgs::GetModelState getmodelstate;
   //  gazebo_msgs::SetModelState setmodelstate;
   gazebo_msgs::ModelState modelstate;
-
+  geometry_msgs::Twist tw;
   modelstate.model_name = (std::string) "red_hawk";
   getmodelstate.request.model_name ="red_hawk";
   gmscl.call(getmodelstate);
-  
+  double now_x =  getmodelstate.response.pose.position.x;
+  double now_y =  getmodelstate.response.pose.position.y;
+  double now_z =  getmodelstate.response.pose.position.z;
+
   if(str.compare("Go left") == 0)
     {
-      //get position of human and compare y with position of robot
+      tw.linear.x = now_x;
+      tw.linear.y = now_y - data;
+      tw.linear.z = now_z + 0.1;
     }else if(str.compare("Go right") == 0)
     {
-    
+      tw.linear.x = now_x;
+      tw.linear.y = now_y + data;
+      tw.linear.z = now_z + 0.1;
     }else if(str.compare("Go up") == 0)
     {
-    
+      tw.linear.x = now_x;
+      tw.linear.y = now_y;
+      tw.linear.z = now_z + 2;
     }else if(str.compare("Go down") == 0)  
     {
-    
+      tw.linear.x= now_x;
+      tw.linear.y= now_y;
+      tw.linear.z= now_z - 0.2;
     }else if(str.compare("Rotate") == 0)
     {
+      tw.angular.x = now_x;
+      tw.angular.y = now_y;
+      tw.angular.z = 1;
     
     }else if(str.compare("Take off") == 0)
     {
-    
+      tw.linear.x = now_x;
+      tw.linear.y = now_y;
+      tw.linear.z = 0;
     }
-  return str;
+  simulateQuadrotor(tw.linear.x, tw.linear.y, tw.linear.z);
 
+
+  ps.position.x = tw.linear.x;
+  ps.position.y = tw.linear.y;
+  ps.position.z = tw.linear.z;
+  pss.header = head;
+  pss.pose = ps;
+  stri.data = "move";
+  inta.type = stri;
+  inta.pose = pss;
+  std::vector<mhri_msgs::interpretation> test;
+  test.push_back(inta);
+  malti.action = test;
+  
 }
 
 void multimodalCallback(const mhri_msgs::multimodal::ConstPtr& msg)
@@ -250,42 +325,43 @@ bool startChecking(instruct_mission::multimodal_srv::Request &req,
   var = 1;
   cmd_type = checkCommandType(req.command);
   string str = req.command;
+  float data = req.data;
 
-  //  if(str.compare("Go right") == 0 || str.compare("Go left") == 0 || 
-  //   str.compare("Go up") == 0 || str.compare("Take off") == 0) ||
-  //  str.compare("Go down") == 0 || str.compare("Rotate") == 0)
-  //  {
-  //    ROS_INFO_STREAM(str);
+  if(str.compare("Go right") == 0 || str.compare("Go left") == 0 || 
+     str.compare("Go up") == 0 || str.compare("Take off") == 0 ||
+    str.compare("Go down") == 0 || str.compare("Rotate") == 0)
+    {
+      ROS_INFO_STREAM(str);
       
-      //cmd_interpreted = shortInterpretation(str);
-      //multi
-      //}else{
-      //ROS_INFO_STREAM(str);
+      shortInterpretation(str, data);
+      res.multi = malti;
+    }else{
+    ROS_INFO_STREAM(str);
       //interpret the command through the socket
-      cmd_interpreted =  interpretCommand(req.command);
-      ROS_INFO_STREAM("Send command to sendAsTopic");
-      ROS_INFO_STREAM(cmd_interpreted);
-      //   sendAsTopic(req.selected, req.command, cmd_interpreted, cmd_type, req.direction, req.location);
-      ros::Rate loop_rate(10);
-      ROS_INFO_STREAM("end startChecking");
-      ros::NodeHandle new_pub;
-      ROS_INFO_STREAM("start the multimodalcallback service");
-      ros::ServiceClient client = new_pub.serviceClient<instruct_mission::multimodal_lisp>("multimodal_lisp");
-      instruct_mission::multimodal_lisp srv;
-      srv.request.selected = req.selected;
-      srv.request.command = cmd_interpreted;
-      srv.request.type = cmd_type;
-      srv.request.gesture = req.direction;
-      srv.request.location = req.location;
-	if (client.call(srv))
-	  {
-	    ROS_INFO_STREAM(srv.response.mlisp);
-	  }
-	else
-	  {
-	    ROS_ERROR("Failed to call the service in lisp");
-	    return 1;
-	  }
+    cmd_interpreted =  interpretCommand(req.command);
+    ROS_INFO_STREAM("Send command to sendAsTopic");
+    ROS_INFO_STREAM(cmd_interpreted);
+    //   sendAsTopic(req.selected, req.command, cmd_interpreted, cmd_type, req.direction, req.location);
+    ros::Rate loop_rate(10);
+    ROS_INFO_STREAM("end startChecking");
+    ros::NodeHandle new_pub;
+    ROS_INFO_STREAM("start the multimodalcallback service");
+    ros::ServiceClient client = new_pub.serviceClient<instruct_mission::multimodal_lisp>("multimodal_lisp");
+    instruct_mission::multimodal_lisp srv;
+    srv.request.selected = req.selected;
+    srv.request.command = cmd_interpreted;
+    srv.request.type = cmd_type;
+    srv.request.gesture = req.direction;
+    srv.request.location = req.location;
+    if (client.call(srv))
+      {
+	ROS_INFO_STREAM(srv.response.mlisp);
+      }
+    else
+      {
+	ROS_ERROR("Failed to call the service in lisp");
+	return 1;
+      }
       //  ros::Subscriber sub;
       // while(ros::ok())
       //	{
@@ -299,8 +375,16 @@ bool startChecking(instruct_mission::multimodal_srv::Request &req,
       //}
 	ROS_INFO_STREAM("juhu klappt!");
 	ROS_INFO_STREAM(srv.response.mlisp);
-      res.multi = srv.response.mlisp;
-      ROS_INFO_STREAM("end the multimodalcallback");
+	mhri_msgs::multimodal ref = srv.response.mlisp;
+	mhri_msgs::interpretation in = ref.action[0];
+	geometry_msgs::PoseStamped pse = in.pose;
+	geometry_msgs::Pose pso = pse.pose;
+	geometry_msgs::Point po = pso.position;
+	simulateQuadrotor(po.x, po.y, po.z);
+	
+	res.multi = srv.response.mlisp;
+	ROS_INFO_STREAM("end the multimodalcallback");
+    }
       return true;
 }
 

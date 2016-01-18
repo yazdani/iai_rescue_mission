@@ -1,0 +1,634 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#">
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!-- <!ENTITY computable "http://ias.cs.tum.edu/kb/computable.owl#" > -->
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+   <!ENTITY cesena_lab "http://knowrob.org/kb/cesena_map.owl#" >
+]>
+
+<rdf:RDF xmlns="http://knowrob.org/kb/ias_semantic_map.owl#"
+    xml:base="http://knowrob.org/kb/ias_semantic_map.owl"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:map="http://knowrob.org/kb/ias_semantic_map.owl#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:knowrob="&knowrob;">
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <!-- http://knowrob.org/kb/knowrob.owl#in-ContGeneric -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;at-ContGeneric"/>
+
+    <!-- &knowrob;describedInMap -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;describedInMap"/>
+
+
+    <!-- &knowrobeventOccursAt -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;eventOccursAt"/>
+
+
+    <!-- &knowrob;objectActedOn -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;objectActedOn"/>
+
+
+    <!-- &knowrob;properPhysicalParts -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;properPhysicalParts"/>
+
+
+    <!-- &knowrob;startTime -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;startTime"/>
+
+
+    <!-- &knowrob;prismaticallyConnectedTo -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;prismaticallyConnectedTo"/>
+
+
+    <!-- &knowrob;hingedTo -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;hingedTo"/>
+
+
+    <!-- &knowrob;connectedTo-Rigidly -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;connectedTo-Rigidly"/>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+
+    <!-- &knowrob;depthOfObject -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;depthOfObject"/>
+
+
+
+    <!-- &knowrob;heightOfObject -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;heightOfObject"/>
+
+
+
+    <!-- &knowrob;m00 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m00"/>
+
+
+
+    <!-- &knowrob;m01 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m01"/>
+
+
+
+    <!-- &knowrob;m02 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m02"/>
+
+
+
+    <!-- &knowrob;m03 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m03"/>
+
+
+
+    <!-- &knowrob;m10 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m10"/>
+
+
+
+    <!-- &knowrob;m11 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m11"/>
+
+
+
+    <!-- &knowrob;m12 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m12"/>
+
+
+
+    <!-- &knowrob;m13 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m13"/>
+
+
+
+    <!-- &knowrob;m20 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m20"/>
+
+
+
+    <!-- &knowrob;m21 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m21"/>
+
+
+
+    <!-- &knowrob;m22 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m22"/>
+
+
+
+    <!-- &knowrob;m23 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m23"/>
+
+
+
+    <!-- &knowrob;m30 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m30"/>
+
+
+
+    <!-- &knowrob;m31 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m31"/>
+
+
+
+    <!-- &knowrob;m32 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m32"/>
+
+
+
+    <!-- &knowrob;m33 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m33"/>
+
+
+
+    <!-- &knowrob;widthOfObject -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;widthOfObject"/>
+
+
+
+    <!-- &knowrob;maxJointValue -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;maxJointValue"/>
+
+
+
+    <!-- &knowrob;minJointValue -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;minJointValue"/>
+
+
+
+    <!-- &knowrob;turnRadius -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;turnRadius"/>
+
+
+
+    <!-- &knowrob;vectorX -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;vectorX"/>
+
+
+
+    <!-- &knowrob;vectorY -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;vectorY"/>
+
+
+
+    <!-- &knowrob;vectorZ -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;vectorZ"/>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+   <!-- &knowrob;Properties in Classes -->
+<!--  <owl:Class rdf:about="&knowrob;Entity">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+    </owl:Class>
+
+  <owl:Class rdf:about="&knowrob;Environment">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+  </owl:Class>
+
+    <owl:Class rdf:about="&knowrob;Animate">
+	<rdfs:subClassOf rdf:resource="&knowrob;Entity"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&knowrob;Inanimate">
+	<rdfs:subClassOf rdf:resource="&knowrob;Entity"/>
+    </owl:Class>
+    
+    <owl:Class rdf:about="&knowrob;BigTree">
+	<rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&knowrob;Tree">
+	<rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&knowrob;Rock">
+      <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+    </owl:Class>
+ 
+    <owl:Class rdf:about="&knowrob;Mountain">
+      <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
+    </owl:Class>
+
+  <owl:Class rdf:about="&knowrob;Stream">
+      <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
+    </owl:Class>
+-->
+
+<owl:Class rdf:about="&knowrob;Environment">
+   <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+ </owl:Class>
+ 
+ <owl:Class rdf:about="&knowrob;Entity">
+   <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Animate">
+   <rdfs:subClassOf rdf:resource="&knowrob;Entity"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Inanimate">
+   <rdfs:subClassOf rdf:resource="&knowrob;Entity"/>
+ </owl:Class>
+    
+ <owl:Class rdf:about="&knowrob;BigTree">
+   <rdfs:subClassOf rdf:resource="&knowrob;Animate"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Tree">
+   <rdfs:subClassOf rdf:resource="&knowrob;Animate"/>
+ </owl:Class>
+
+
+ <owl:Class rdf:about="&knowrob;Wood">
+   <rdfs:subClassOf rdf:resource="&knowrob;Animate"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Rock">
+   <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+ </owl:Class>
+ 
+ <owl:Class rdf:about="&knowrob;Mountain">
+   <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
+ </owl:Class>
+
+ <owl:Class rdf:about="&knowrob;Grass">
+   <rdfs:subClassOf rdf:resource="&knowrob;Environment"/>
+ </owl:Class>
+
+  <owl:Class rdf:about="&knowrob;River">
+      <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+    </owl:Class>
+
+  <owl:Class rdf:about="&knowrob;House">
+      <rdfs:subClassOf rdf:resource="&knowrob;Inanimate"/>
+    </owl:Class>
+
+  <rdf:Description rdf:about="&knowrob;BigTree">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/bigtree/meshes/tanne2.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+
+  <rdf:Description rdf:about="&knowrob;Tree">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/tree/meshes/tanne1.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+  <rdf:Description rdf:about="&knowrob;River">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/stream/meshes/stream.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+  <rdf:Description rdf:about="&knowrob;Rock">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/rock/meshes/rock.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+  <rdf:Description rdf:about="&knowrob;Mountain">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/alpine/meshes/alpine.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+  <rdf:Description rdf:about="&knowrob;House">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/alpine/meshes/alpine.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+ <rdf:Description rdf:about="&knowrob;Wood">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/alpine/meshes/alpine.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+ <rdf:Description rdf:about="&knowrob;Grass">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://world_mission/models/alpine/meshes/alpine.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+
+    <!-- &knowrob;RotationMatrix3D -->
+
+    <owl:Class rdf:about="&knowrob;RotationMatrix3D"/>
+
+
+    <!-- &knowrob;SemanticEnvironmentMap -->
+
+    <owl:Class rdf:about="&knowrob;SemanticEnvironmentMap"/>
+
+
+    <!-- &knowrob;SemanticMapPerception -->
+
+    <owl:Class rdf:about="&knowrob;SemanticMapPerception"/>
+
+
+    <!-- &knowrob;TimePoint -->
+
+    <owl:Class rdf:about="&knowrob;TimePoint"/>
+
+
+    <!-- &knowrob;PrismaticJoint -->
+
+    <owl:Class rdf:about="&knowrob;PrismaticJoint"/>
+
+
+    <!-- &knowrob;HingedJoint -->
+
+    <owl:Class rdf:about="&knowrob;HingedJoint"/>
+
+
+    <!-- &knowrob;Vector -->
+
+    <owl:Class rdf:about="&knowrob;Vector"/>
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+
+    <!-- http://knowrob/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM581j -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j">
+        <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
+    </owl:NamedIndividual>
+
+
+    <!-- http://knowrob/kb/ias_semantic_map.owl#timepoint_1399894481 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_1399894481">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+    </owl:NamedIndividual>
+
+
+
+    <owl:NamedIndividual rdf:about="&knowrob;VectorX">
+      <rdf:type rdf:resource="&knowrob;Vector"/>
+      <knowrob:vectorX rdf:datatype="&xsd;double">1.0</knowrob:vectorX>
+      <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+      <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&knowrob;VectorXneg">
+      <rdf:type rdf:resource="&knowrob;Vector"/>
+      <knowrob:vectorX rdf:datatype="&xsd;double">-1.0</knowrob:vectorX>
+      <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+      <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&knowrob;VectorTable"> <!-- -61.11 Deg-->
+      <rdf:type rdf:resource="&knowrob;Vector"/>
+      <knowrob:vectorX rdf:datatype="&xsd;double">0.48313</knowrob:vectorX>
+      <knowrob:vectorY rdf:datatype="&xsd;double">-0.875549</knowrob:vectorY>
+      <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+    </owl:NamedIndividual>
+
+<!-- Wood -->
+<owl:NamedIndividual rdf:about="&knowrob;Wood1">
+  <rdf:type rdf:resource="&knowrob;Wood"/>
+  <knowrob:heightOfObject rdf:datatype="&xsd;double">2.0</knowrob:heightOfObject>
+  <knowrob:depthOfObject rdf:datatype="&xsd;double">4.0</knowrob:depthOfObject>
+  <knowrob:widthOfObject rdf:datatype="&xsd;double">2.0</knowrob:widthOfObject>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_00">
+  <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+  <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_1399894481"/>
+  <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_00"/>
+  <knowrob:objectActedOn rdf:resource="&knowrob;Wood1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_00">
+  <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+  <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+  <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+  <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+  <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+  <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+  <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+  <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+  <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+  <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+  <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+  <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+  <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+  <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+  <knowrob:m03 rdf:datatype="&xsd;double">2.0</knowrob:m03>
+  <knowrob:m13 rdf:datatype="&xsd;double">1.0</knowrob:m13>
+  <knowrob:m23 rdf:datatype="&xsd;double">0.0</knowrob:m23>
+</owl:NamedIndividual>
+
+<!-- River -->
+<owl:NamedIndividual rdf:about="&knowrob;River1">
+  <rdf:type rdf:resource="&knowrob;River"/>
+  <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
+  <knowrob:depthOfObject rdf:datatype="&xsd;double">10.0</knowrob:depthOfObject>
+  <knowrob:widthOfObject rdf:datatype="&xsd;double">0.0</knowrob:widthOfObject>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_01">
+  <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+  <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_1399894481"/>
+  <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_01"/>
+  <knowrob:objectActedOn rdf:resource="&knowrob;River1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_01">
+  <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+  <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+  <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+  <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+  <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+  <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+  <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+  <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+  <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+  <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+  <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+  <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+  <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+  <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+  <knowrob:m03 rdf:datatype="&xsd;double">4.0</knowrob:m03>
+  <knowrob:m13 rdf:datatype="&xsd;double">5.0</knowrob:m13>
+  <knowrob:m23 rdf:datatype="&xsd;double">0.0</knowrob:m23>
+</owl:NamedIndividual>
+	
+
+<!-- House -->
+<owl:NamedIndividual rdf:about="&knowrob;House1">
+  <rdf:type rdf:resource="&knowrob;House"/>
+  <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
+  <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
+  <knowrob:widthOfObject rdf:datatype="&xsd;double">1.0</knowrob:widthOfObject>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_03">
+  <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+  <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_1399894481"/>
+  <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_03"/>
+  <knowrob:objectActedOn rdf:resource="&knowrob;House1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_03">
+  <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+  <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+  <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+  <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+  <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+  <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+  <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+  <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+  <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+  <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+  <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+  <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+  <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+  <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+  <knowrob:m03 rdf:datatype="&xsd;double">7.0</knowrob:m03>
+  <knowrob:m13 rdf:datatype="&xsd;double">7.0</knowrob:m13>
+  <knowrob:m23 rdf:datatype="&xsd;double">0</knowrob:m23>
+</owl:NamedIndividual>
+
+<!-- Mountain -->
+<owl:NamedIndividual rdf:about="&knowrob;Mountain1">
+  <rdf:type rdf:resource="&knowrob;Mountain"/>
+  <knowrob:heightOfObject rdf:datatype="&xsd;double">3.0</knowrob:heightOfObject>
+  <knowrob:depthOfObject rdf:datatype="&xsd;double">3.0</knowrob:depthOfObject>
+  <knowrob:widthOfObject rdf:datatype="&xsd;double">10.0</knowrob:widthOfObject>
+  <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_04">
+  <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+  <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_1399894481"/>
+  <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_04"/>
+  <knowrob:objectActedOn rdf:resource="&knowrob;Mountain1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_04">
+  <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+  <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+  <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+  <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+  <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+  <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+  <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+  <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+  <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+  <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+  <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+  <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+  <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+  <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+  <knowrob:m03 rdf:datatype="&xsd;double">8.5</knowrob:m03>
+  <knowrob:m13 rdf:datatype="&xsd;double">1.5</knowrob:m13>
+  <knowrob:m23 rdf:datatype="&xsd;double">0.0</knowrob:m23>
+</owl:NamedIndividual>
+
+
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.1592) http://owlapi.sourceforge.net -->     

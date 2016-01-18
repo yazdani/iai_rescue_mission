@@ -30,7 +30,7 @@
 
     <include>
       <name>Mountain</name>
-      <uri>model://bigrock</uri>
+      <uri>model://mountain</uri>
   <pose>0 0 0 0 0 0</pose>
     </include>
 

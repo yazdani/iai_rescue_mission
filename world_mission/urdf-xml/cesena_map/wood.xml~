@@ -6,26 +6,26 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
 
-<macro name="mountain">
+<macro name="wood">
 
-<joint name="mountain_joint" type="fixed">
-<origin xyz="0 0 0" rpy="0 0 0"/>
+<joint name="wood_joint" type="fixed">
+<origin xyz="1.0 2.0 0.0" rpy="0 0 0"/>
 <parent link="map_link"/>
-<child link="mountain_link"/>
+<child link="wood_link"/>
 </joint>
 
-<link name="mountain_link">
+<link name="wood_link">
 <visual>
-<!--origin xyz="0.0 0.0 0.0 " rpy="0 0 0"/-->
+<!--origin xyz="13 9.96 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/mountain/meshes/mountain_map.dae"/>
+<mesh filename="package://world_mission/models/wood/meshes/wood1.dae"/>
 </geometry>
-<material name="Grey2"/>
+<material name="Grey"/>
 </visual>
 <collision>
-<!--origin xyz="0.0 0.0 0.0 " rpy="0 0 0"/-->
+<!--origin xyz="13 9.96 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/mountain/meshes/mountain_map.dae"/>
+<mesh filename="package://world_mission/models/wood/meshes/wood1.dae"/>
 </geometry>
 </collision>
 </link>

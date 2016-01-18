@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <sdf version="1.5">
-  <model name="stream_model">
+  <model name="river_model">
 <static>
   true
 </static>
-    <link name="stream_link">
+    <link name="river_link">
       <inertial>
         <mass>0.390</mass>
         <inertia>
@@ -16,10 +16,10 @@
           <izz>0.00019</izz>
         </inertia>
       </inertial>
-      <collision name="stream_collision">
+      <collision name="river_collision">
         <geometry>
           <mesh>
-            <uri>model://stream/meshes/stream.dae</uri>
+            <uri>model://stream/meshes/river1.dae</uri>
           </mesh>
         </geometry>
         <surface>
@@ -42,7 +42,7 @@
       <visual name="stream_visual">
         <geometry>
           <mesh>
-            <uri>model://stream/meshes/stream.dae</uri>
+            <uri>model://stream/meshes/river1.dae</uri>
           </mesh>
         </geometry>
       </visual>
