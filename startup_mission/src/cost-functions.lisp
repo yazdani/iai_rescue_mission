@@ -52,6 +52,9 @@
   (let* ((sem-hash (slot-value semantic-map-utils::*cached-semantic-map* 'sem-map-utils:parts))
          (dim  (slot-value (gethash obj-name sem-hash) 'sem-map-utils:dimensions)))
     (setf height (/ (cl-transforms:z dim) 2))
+    (if (< height 1)
+	(setf height 1.5)
+	(format t "height is set~%"))
     (lambda (x y)
       (declare (ignore x y))
       (list height))))
@@ -177,4 +180,13 @@
     (cl-transforms:transform->pose (cl-tf:lookup-transform *tf* "world" frame-id :timeout 2.0))))
   ;;  (cl-transforms-stamped:transform->pose transform)))
 
-
+(defun semantic-map->geom-object (geom-objects object-name)
+(format t "inside smenatic map geom object ~%")
+(let*((geom-list geom-objects)
+      (object NIL))
+  (loop while (and (/= (length geom-list) 0) (equal object NIL))
+	do(cond ((string-equal (slot-value (car geom-list) 'sem-map-utils:name) object-name)
+		 (setf object (car geom-list)))
+		(t (setf geom-list (cdr geom-list)))))
+(list object)))
+	  

@@ -38,6 +38,8 @@
 (defmethod costmap-generator-name->score ((name gaussian-generator)) 6)
 (defclass range-generator () ())
 (defmethod costmap-generator-name->score ((name range-generator)) 2)
+(defmethod costmap-generator-name->score ((name (eql 'semantic-map-free-space)))
+  11)
 
 (def-fact-group cognitive-reasoning-costmap (desig-costmap)
   (<- (desig-costmap ?desig ?costmap)
@@ -109,8 +111,19 @@
     (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
     (lisp-fun check-the-right-direction ?pose ?object1-pose ?pred)
     (format "~a und ~a~%" ?pose ?object1-pose)
+      (costmap ?costmap)
+      (semantic-map-costmap::semantic-map-objects ?objects)
+      (format "object is ~a~%" ?objects)
+      (lisp-fun semantic-map->geom-object ?objects ?object1-name ?object)
+      (format "object is ~a~%" ?object)
+      (costmap-padding ?padding)
+      (costmap-add-function semantic-map-free-space
+			    (semantic-map-costmap::make-semantic-map-costmap
+			     ?object :invert t :padding ?padding)
+			    ?costmap)
+      (costmap ?costmap)
     (instance-of reasoning-generator ?reasoning-generator-id)
-    (costmap-add-function
+      (costmap-add-function
      ?reasoning-generator-id
      (make-reasoning-cost-function ?object1-pose :Y  ?pred 0.3)
      ?costmap)
