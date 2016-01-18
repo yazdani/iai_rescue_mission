@@ -47,6 +47,37 @@
                 0.0d0)
             0.0d0)))))
 
+(defun make-bb-height-function (obj-name height)
+  (sem-map-utils::get-semantic-map)
+  (let* ((sem-hash (slot-value semantic-map-utils::*cached-semantic-map* 'sem-map-utils:parts))
+         (dim  (slot-value (gethash obj-name sem-hash) 'sem-map-utils:dimensions)))
+    (setf height (/ (cl-transforms:z dim) 2))
+    (lambda (x y)
+      (declare (ignore x y))
+      (list height))))
+
+    
+  
+  ;; (format t "list height123---: ~a~%" (list height))
+  ;; (let* ((lists (force-ll
+	;; 	 (prolog `(and (bullet-world ?w)
+  ;;                  (cognitive-reasoning::environment-object-type ?w ?name ?type)
+  ;;                  (pose ?w ?name ?pose)))))
+  ;;        (pose (cdr (assoc '?pose (car lists))))
+  ;;        (z-origin (cl-transforms:z (cl-transforms:origin pose)))
+  ;;        (rob-name (cdadar (force-ll
+	;; 		    (prolog `(and (bullet-world ?w)
+  ;;                       (robot ?robot)))))))
+  ;;   (format t "poise ~a and ~a~%" pose z-origin)
+  ;;   (format t "rob-name is ~a~%" rob-name)
+  ;;   (cond ((string-equal rob-name 'red-hawk)
+  ;;          (format t "wir sind im ersten Teil von height und addieren die Zwei~%")
+  ;;          (setf height   (+ 2 z-origin)))
+  ;;         (t (format t "sind anscheinend noch bei zwei~%")))
+  ;;   (lambda (x y)
+  ;;     (declare (ignore x y))
+  ;;    (list height))))
+
 (defun check-the-right-direction (human-pose obj-pose)
   (let((human-origin (cl-transforms:origin human-pose))
        (obj-origin (cl-transforms:origin obj-pose))

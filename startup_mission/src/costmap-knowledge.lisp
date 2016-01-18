@@ -29,10 +29,10 @@
 (in-package :startup-mission)
 
 (def-fact-group costmap-metadata ()
-  (<- (costmap-size 10 10))
-  (<- (costmap-origin -5 -5))
-  (<- (costmap-resolution 0.025))
-  (<- (costmap-padding 0.35)))
+  (<- (costmap-size 25 25))
+  (<- (costmap-origin -12.5 -12.5))
+  (<- (costmap-resolution 0.035))
+  (<- (costmap-padding 0.25)))
 
 
 (def-fact-group semantic-map-data (semantic-map-name)

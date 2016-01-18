@@ -56,7 +56,12 @@
     (costmap-add-function
      ?reasoning-generator-id
      (make-reasoning-cost-function ?object1-pose :X  ?pred 0.6)
+     ?costmap)
+    (costmap ?costmap)
+    (costmap-add-height-generator
+     (make-bb-height-function ?object1-name ?resulting-z)
      ?costmap))
+    
 
  (<- (prepositions ?desig ?pose ?costmap)
    (or (desig-prop ?desig (:next-to ?object1-name))
@@ -69,7 +74,11 @@
    (costmap-add-function
     ?reasoning-generator-id
     (make-reasoning-cost-function ?object1-pose :Y  ?pred 0.6)
-    ?costmap))
+    ?costmap)
+   (costmap ?costmap)
+   (costmap-add-height-generator
+     (make-bb-height-function ?object1-name ?resulting-z)
+     ?costmap))
 
    (<- (prepositions ?desig ?pose ?costmap)
      (desig-prop ?desig (:in-front-of ?object1-name))
@@ -79,7 +88,20 @@
      (costmap-add-function
       ?reasoning-generator-id
       (make-reasoning-cost-function ?object1-pose :X  ?pred 0.5)
-      ?costmap))
+      ?costmap)
+     (costmap-add-height-generator
+     (make-bb-height-function ?object1-name ?resulting-z)
+     ?costmap))
+
+ (<- (prepositions ?desig ?pose ?costmap)
+     (desig-prop ?desig (:above ?object1-name))
+     (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
+     (lisp-fun check-the-right-direction ?pose ?object1-pose ?pred)
+   (instance-of gaussian-generator ?gaussian-generator-id)
+   (costmap-add-function ?gaussian-generator-id
+                         (make-location-cost-function ?object1-pose  1.0)
+                         ?costmap))
+  
   
   (<- (prepositions ?desig ?pose ?costmap)
     (or (desig-prop ?desig (:right-of ?object1-name))
@@ -91,8 +113,11 @@
     (costmap-add-function
      ?reasoning-generator-id
      (make-reasoning-cost-function ?object1-pose :Y  ?pred 0.3)
+     ?costmap)
+    (costmap-add-height-generator
+     (make-bb-height-function ?object1-name ?resulting-z)
      ?costmap))
-   
+  
   (<- (prepositions ?desig ?pose ?costmap)
     (or (desig-prop ?desig (:left-of ?object1-name))
         (desig-prop ?desig (:left ?object1-name)))
@@ -103,6 +128,9 @@
     (costmap-add-function
      ?reasoning-generator-id
      (make-reasoning-cost-function ?object1-pose :Y  ?pred 0.3)
+     ?costmap)
+    (costmap-add-height-generator
+     (make-bb-height-function ?object1-name ?resulting-z)
      ?costmap)))
 
 
