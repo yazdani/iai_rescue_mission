@@ -29,9 +29,9 @@
 (in-package :startup-mission)
 
 (def-fact-group costmap-metadata ()
-  (<- (costmap-size 25 25))
-  (<- (costmap-origin -12.5 -12.5))
-  (<- (costmap-resolution 0.035))
+  (<- (costmap-size 15 15))
+  (<- (costmap-origin -7.5 -7.5))
+  (<- (costmap-resolution 0.030))
   (<- (costmap-padding 0.25)))
 
 
@@ -42,3 +42,4 @@
 (desig::disable-location-validation-function 'btr-desig::check-ik-solution)
 ;;(desig::disable-location-generator-function 'gaussian-costmap::robot-current-pose-generator)
 ;;(*disable-location-validation-function* desig::filter-solution)
+

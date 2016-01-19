@@ -44,12 +44,12 @@
 (roslisp:def-service-callback instruct_mission-srv:multimodal_lisp (selected type command gesture location)
   (let*((desig (parse-cmd-into-designator selected type command gesture location)))
     (setf *desig* desig)
-    (format t "desig: ~a~%" desig)
-    (format t "desig2: ~a~%" (instruct-mission::designator-into-mhri-msg desig))
+   ;; (format t "desig: ~a~%" desig)
+   ;; (format t "desig2: ~a~%" (instruct-mission::designator-into-mhri-msg desig))
     (roslisp:make-response :mlisp (instruct-mission::designator-into-mhri-msg desig))))
 
 (defun service-call ()
-  (roslisp:with-ros-node ("starting_ros_node" :spin t)
+ (roslisp:with-ros-node ("starting_ros_node" :spin t)
     (roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
     (roslisp:ros-info (basics-system) "the msg.")))
 
@@ -64,4 +64,5 @@
          ;;                                            (svref location 1)
          ;;                                            (svref location 2)))
          (gesture-elem  (give-obj-pointed-at ge-vector)))
+    (format t "gesture elem ~a~%" gesture-elem)
     (instruct-mission::count-actions type agent icmd gesture-elem)))
