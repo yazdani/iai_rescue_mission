@@ -36,7 +36,7 @@
 
 
 (def-fact-group semantic-map-data (semantic-map-name)
-  (<- (semantic-map-object-name "http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM582j")))
+  (<- (semantic-map-object-name "http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j")))
 
 (desig::disable-location-validation-function 'btr-desig::validate-designator-solution)
 (desig::disable-location-validation-function 'btr-desig::check-ik-solution)

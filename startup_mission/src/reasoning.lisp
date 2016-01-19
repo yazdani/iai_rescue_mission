@@ -54,6 +54,15 @@
         (desig-prop ?desig (:behind ?object1-name)))
     (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
     (lisp-fun check-the-left-direction ?pose ?object1-pose ?pred)
+     (costmap ?costmap)
+      (semantic-map-costmap::semantic-map-objects ?objects)
+      (lisp-fun semantic-map->geom-object ?objects ?object1-name ?object)
+      (costmap-padding ?padding)
+      (costmap-add-function semantic-map-free-space
+			    (semantic-map-costmap::make-semantic-map-costmap
+			     ?object :invert t :padding ?padding)
+			    ?costmap)
+      (costmap ?costmap)
     (instance-of reasoning-generator ?reasoning-generator-id)
     (costmap-add-function
      ?reasoning-generator-id
@@ -72,6 +81,15 @@
        (desig-prop ?desig (:close ?object1-name)))
    (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
    (lisp-fun check-the-left-direction ?pose ?object1-pose ?pred)
+    (costmap ?costmap)
+      (semantic-map-costmap::semantic-map-objects ?objects)
+      (lisp-fun semantic-map->geom-object ?objects ?object1-name ?object)
+      (costmap-padding ?padding)
+      (costmap-add-function semantic-map-free-space
+			    (semantic-map-costmap::make-semantic-map-costmap
+			     ?object :invert t :padding ?padding)
+			    ?costmap)
+      (costmap ?costmap)
    (instance-of reasoning-generator ?reasoning-generator-id)
    (costmap-add-function
     ?reasoning-generator-id
@@ -86,6 +104,15 @@
      (desig-prop ?desig (:in-front-of ?object1-name))
      (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
      (lisp-fun check-the-right-direction ?pose ?object1-pose ?pred)
+      (costmap ?costmap)
+      (semantic-map-costmap::semantic-map-objects ?objects)
+      (lisp-fun semantic-map->geom-object ?objects ?object1-name ?object)
+      (costmap-padding ?padding)
+      (costmap-add-function semantic-map-free-space
+			    (semantic-map-costmap::make-semantic-map-costmap
+			     ?object :invert t :padding ?padding)
+			    ?costmap)
+      (costmap ?costmap)
      (instance-of reasoning-generator ?reasoning-generator-id)
      (costmap-add-function
       ?reasoning-generator-id
@@ -102,7 +129,10 @@
    (instance-of gaussian-generator ?gaussian-generator-id)
    (costmap-add-function ?gaussian-generator-id
                          (make-location-cost-function ?object1-pose  1.0)
-                         ?costmap))
+                         ?costmap)
+   (costmap-add-height-generator
+     (make-constant-height-function ?object1-name ?resulting-z)
+     ?costmap))
   
   
   (<- (prepositions ?desig ?pose ?costmap)
@@ -110,7 +140,7 @@
         (desig-prop ?desig (:right ?object1-name)))
     (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
     (lisp-fun check-the-right-direction ?pose ?object1-pose ?pred)
-    (format "~a und ~a~%" ?pose ?object1-pose)
+     (format "~a und ~a~%" ?pose ?object1-pose)
       (costmap ?costmap)
       (semantic-map-costmap::semantic-map-objects ?objects)
       (format "object is ~a~%" ?objects)
@@ -136,6 +166,15 @@
         (desig-prop ?desig (:left ?object1-name)))
     (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
     (lisp-fun check-the-left-direction ?pose ?object1-pose ?pred)
+     (costmap ?costmap)
+      (semantic-map-costmap::semantic-map-objects ?objects)
+      (lisp-fun semantic-map->geom-object ?objects ?object1-name ?object)
+      (costmap-padding ?padding)
+      (costmap-add-function semantic-map-free-space
+			    (semantic-map-costmap::make-semantic-map-costmap
+			     ?object :invert t :padding ?padding)
+			    ?costmap)
+      (costmap ?costmap)
     (instance-of reasoning-generator ?reasoning-generator-id)
     (costmap ?costmap)
     (costmap-add-function
