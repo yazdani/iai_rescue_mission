@@ -82,14 +82,15 @@
    (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
    (lisp-fun check-the-left-direction ?pose ?object1-pose ?pred)
     (costmap ?costmap)
-      (semantic-map-costmap::semantic-map-objects ?objects)
-      (lisp-fun semantic-map->geom-object ?objects ?object1-name ?object)
+      (semantic-map-costmap::semantic-map-objects ?all-objects)
+      (lisp-fun semantic-map->geom-objects ?all-objects ?object1-name ?objects)
       (costmap-padding ?padding)
       (costmap-add-function semantic-map-free-space
 			    (semantic-map-costmap::make-semantic-map-costmap
-			     ?object :invert t :padding ?padding)
+			     ?objects :invert t :padding ?padding)
 			    ?costmap)
       (costmap ?costmap)
+   (format "pred ~a~%" ?pred)
    (instance-of reasoning-generator ?reasoning-generator-id)
    (costmap-add-function
     ?reasoning-generator-id
@@ -139,37 +140,40 @@
     (or (desig-prop ?desig (:right-of ?object1-name))
         (desig-prop ?desig (:right ?object1-name)))
     (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
-    (lisp-fun check-the-right-direction ?pose ?object1-pose ?pred)
-      (costmap ?costmap)
-      (semantic-map-costmap::semantic-map-objects ?all-objects)
-    ;; (format "?objects ~a~%" ?all-objects)
-      (lisp-fun semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)
-    ;;(format "?objects ~a~%" ?objects)
-      (costmap-padding ?padding)
-      (costmap-add-function semantic-map-free-space
-			    (semantic-map-costmap::make-semantic-map-costmap
-			     ?objects :invert t :padding ?padding)
-			    ?costmap)
-      (costmap ?costmap)
-    (instance-of reasoning-generator ?reasoning-generator-id)
-      (costmap-add-function
-     ?reasoning-generator-id
-     (make-reasoning-cost-function ?object1-pose :Y  ?pred 0.3)
-     ?costmap)
-    (costmap-add-height-generator
-     (make-bb-height-function ?object1-name ?resulting-z)
-     ?costmap))
+    (lisp-fun tf-right-direction ?list-values)
+    (format "~a~%" ?list-values)
+    (prolog::equal (?fvalue ?svalue) ?list-values)
+    (format "fvalue ~%" ?fvalue)
+    (costmap ?costmap)
+    (semantic-map-costmap::semantic-map-objects ?all-objects)
+    (lisp-fun semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)
+    (costmap-padding ?padding)
+    (costmap-add-function semantic-map-free-space
+                        (semantic-map-costmap::make-semantic-map-costmap
+	     ?objects :invert t :padding ?padding)
+	    ?costmap)
+    (costmap ?costmap)
+   (instance-of reasoning-generator ?reasoning-generator-id)
+    (costmap-add-function
+   ?reasoning-generator-id
+    (make-reasoning-cost-function ?object1-pose ?fvalue ?svalue 0.3)
+    ?costmap)
+   (costmap-add-height-generator
+    (make-bb-height-function ?object1-name ?resulting-z)
+    ?costmap))
   
   (<- (prepositions ?desig ?pose ?costmap)
     (or (desig-prop ?desig (:left-of ?object1-name))
         (desig-prop ?desig (:left ?object1-name)))
     (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
-    (lisp-fun check-the-left-direction ?pose ?object1-pose ?pred)
+    (lisp-fun check-l-direction ?pose ?object1-pose ?list-values)
+    (lisp-fun return-first-value ?list-values ?fvalue)
+    (lisp-fun return-second-value ?list-values ?svalue)
      (costmap ?costmap)
       (semantic-map-costmap::semantic-map-objects ?all-objects)
-    ;; (format "?all-objects ~a~%" ?all-objects)
+     (format "?all-objects ~a~%" ?all-objects)
       (lisp-fun semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)
-    ;;(format "?objects ~a~%" ?objects)
+    (format "?objects ~a~%" ?objects)
       (costmap-padding ?padding)
       (costmap-add-function semantic-map-free-space
 			    (semantic-map-costmap::make-semantic-map-costmap
@@ -180,12 +184,26 @@
     (costmap ?costmap)
     (costmap-add-function
      ?reasoning-generator-id
-     (make-reasoning-cost-function ?object1-pose :Y  ?pred 0.3)
+     (make-reasoning-cost-function ?object1-pose ?fvalue ?svalue 0.3)
      ?costmap)
+    (format "pred ~a~%" ?pred)
     (costmap-add-height-generator
      (make-bb-height-function ?object1-name ?resulting-z)
      ?costmap)))
 
+
+
+
+
+
+
+
+
+
+
+  ;;; combination of both TODO: find a better solution ;;;
+
+  
 
 (def-fact-group location-desig-utils ()
   
