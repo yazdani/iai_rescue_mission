@@ -19,10 +19,10 @@ add_action_files(
  )
 
 #SWITCH THIS ON and OFF then u got ur header files FIXBUG
-#generate_messages(
-#DEPENDENCIES
-#  actionlib_msgs  geometry_msgs  std_msgs
-#)
+generate_messages(
+DEPENDENCIES
+  actionlib_msgs  geometry_msgs  std_msgs
+)
 
 ## Declare a C++ executable
 add_executable(cmdVel_controller src/cmdVel_controller.cpp)
