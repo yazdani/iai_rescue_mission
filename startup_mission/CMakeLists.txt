@@ -16,9 +16,9 @@ find_package(catkin REQUIRED COMPONENTS
   cram_robot_pose_gaussian_costmap
 #  cram_roslisp_common
   cram_semantic_map_designators
-  occupancy_grid_costmap
+  cram_occupancy_grid_costmap
   cram_semantic_map_costmap
-  spatial_relations_costmap
+  cram_spatial_relations_costmap
   instruct_mission
 )
 

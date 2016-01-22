@@ -1,19 +1,19 @@
 <launch>
 
-<!--include file="$(find gazebo_ros)/launch/empty_world.launch">   
+<include file="$(find gazebo_ros)/launch/empty_world.launch">   
  <arg name="world_name" value="$(find world_mission)/worlds/mountain_map.world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
-</include-->
+</include>
 
 
 
-<!--
+
 <include file="$(find agent_mission)/launch/spawn_quadrotor.launch"/> 
--->
+
 <param name="mountain_description"
        command="$(find xacro)/xacro.py '$(find world_mission)/urdf-xml/mountain_map/mountain_map.urdf.xml'"/>
 
