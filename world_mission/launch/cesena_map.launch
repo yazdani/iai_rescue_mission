@@ -7,10 +7,11 @@
     <arg name="gui" value="true"/>
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
-</include>
+</include> 
 
 <param name="mountain_description"
        command="$(find xacro)/xacro.py '$(find world_mission)/urdf-xml/cesena_map/cesena_map.urdf.xml'"/>
+
 
 <param name="initial_package" type="string" value="knowrob_map_data" />
 <param name="initial_goal" type="string" value="owl_parse('package://world_mission/owl/cesena_map.owl')" />
@@ -34,7 +35,6 @@
     <param name="publish_frequency" value="1000"/>
     <remap from="robot_description" to="mountain_description" />
   </node>
-
 
 <!--
 

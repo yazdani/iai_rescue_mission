@@ -8,7 +8,7 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="house">
 
 <joint name="house_joint" type="fixed">
-<origin xyz="6.5 -7.0 0.0" rpy="0 0 0"/>
+<origin xyz="7 6.5 0.0" rpy="0 0 1.55"/>
 <parent link="house_link"/>
 <child link="house_link"/>
 </joint>

@@ -474,7 +474,7 @@
     </owl:NamedIndividual>
 
 <!-- Wood -->
-<owl:NamedIndividual rdf:about="&knowrob;Wood1">
+<owl:NamedIndividual rdf:about="&knowrob;wood">
   <rdf:type rdf:resource="&knowrob;Wood"/>
   <knowrob:heightOfObject rdf:datatype="&xsd;double">2.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">4.0</knowrob:depthOfObject>
@@ -490,7 +490,7 @@
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_00">
-  <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+ <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
   <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
   <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
   <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
@@ -504,13 +504,13 @@
   <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
   <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
   <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
-  <knowrob:m03 rdf:datatype="&xsd;double">1.0</knowrob:m03>
-  <knowrob:m13 rdf:datatype="&xsd;double">-2.0</knowrob:m13>
+  <knowrob:m03 rdf:datatype="&xsd;double">2.0</knowrob:m03>
+  <knowrob:m13 rdf:datatype="&xsd;double">-1.0</knowrob:m13>
   <knowrob:m23 rdf:datatype="&xsd;double">0.0</knowrob:m23>
 </owl:NamedIndividual>
 
 <!-- River -->
-<owl:NamedIndividual rdf:about="&knowrob;River1">
+<owl:NamedIndividual rdf:about="&knowrob;river">
   <rdf:type rdf:resource="&knowrob;River"/>
   <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">10.0</knowrob:depthOfObject>
@@ -547,7 +547,7 @@
 	
 
 <!-- House -->
-<owl:NamedIndividual rdf:about="&knowrob;House1">
+<owl:NamedIndividual rdf:about="&knowrob;house">
   <rdf:type rdf:resource="&knowrob;House"/>
   <knowrob:heightOfObject rdf:datatype="&xsd;double">1.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">2.0</knowrob:depthOfObject>
@@ -583,7 +583,7 @@
 </owl:NamedIndividual>
 
 <!-- Mountain -->
-<owl:NamedIndividual rdf:about="&knowrob;Mountain1">
+<owl:NamedIndividual rdf:about="&knowrob;mountain">
   <rdf:type rdf:resource="&knowrob;Mountain"/>
   <knowrob:heightOfObject rdf:datatype="&xsd;double">3.0</knowrob:heightOfObject>
   <knowrob:depthOfObject rdf:datatype="&xsd;double">3.0</knowrob:depthOfObject>

@@ -7,7 +7,7 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="river">
 
 <joint name="river_joint" type="fixed">
-<origin xyz="4.5 -5.0 0.0" rpy="0 0 0"/>
+<origin xyz="5.0 4.5 0.0" rpy="0 0 1.55"/>
 <parent link="map_link"/>
 <child link="river_link"/>
 </joint>
@@ -23,7 +23,7 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <collision>
 <!--origin xyz="11.99 14.99 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/stream/meshes/river1.stl"/>
+<mesh filename="package://world_mission/models/stream/meshes/river1.dae"/>
 </geometry>
 </collision>
 </link>
