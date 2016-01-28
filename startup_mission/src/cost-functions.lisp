@@ -67,7 +67,87 @@
     (lambda (x y)
       (declare (ignore x y))
       (list height))))
-  
+
+
+(defun right-direction (human-pose obj-pose)
+  (let*((pred NIL)
+        (axis NIL))
+     (format t "~a axis~%" (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
+    (format t "obj-pose2 ~a und human ~a~%" obj-pose human-pose)  
+    (cond ((and 
+            (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
+             (<=  (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose)))
+                 -0.3))
+           (setf pred '<)
+           (setf axis :X)
+           (format t "eins ~a ~a~%" pred axis))
+
+          
+          ((and 
+            (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
+             (>  (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose)))
+                 -0.3))
+           (setf pred '<)
+           (setf axis :Y)
+           (format t "zwei ~a  ~a~%" pred axis))
+
+
+          ((and 
+            (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (= (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0))
+           (setf pred '<)
+           (setf axis :Y)
+           (format t "drei ~a ~a~%" pred axis))
+
+          ((and 
+            (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+             (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
+            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0.3))
+           (setf pred '<)
+           (setf axis :Y)
+           (format t "vier ~a ~a~%" pred axis))
+
+
+          ((and 
+            (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '>)
+           (setf axis :X)
+           (format t "fuenf ~a ~a~%" pred axis))
+
+          
+   ((and 
+            (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
+            (> (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '>)
+           (setf axis :Y)
+           (format t "sechs ~a ~a~%" pred axis))
+
+   ((and 
+            (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (< (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '<)
+           (setf axis :X)
+           (format t "sieben ~a ~a~%" pred axis))
+  ((and 
+            (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (>= (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '>)
+           (setf axis :Y)
+           (format t "Acht ~a ~a~%" pred axis)))
+    (list axis pred)))
+         
 (defun tf-right-direction (obj-name)
   (let*((obj-pose (get-model-pose->relative-genius obj-name))
        (obj-ori (cl-transforms:origin obj-pose))
@@ -157,6 +237,7 @@
        (obj-orient (cl-transforms:orientation obj-pose))
        (pred NIL)
        (axis NIL))
+    (format t "obj pose ~a~%" obj-pose)
     (cond ((and (minusp (cl-transforms:y obj-ori)) 
                 (plusp (cl-transforms:z obj-orient))
                 (plusp (cl-transforms:w obj-orient)))
@@ -174,6 +255,11 @@
            (setf axis :Y))
             ((and (plusp (cl-transforms:y obj-ori))
                 (plusp (cl-transforms:x obj-ori))
+                 (minusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
+           (setf pred '<)
+             (setf axis :Y))
+                 ((and (plusp (cl-transforms:y obj-ori))
+                (minusp (cl-transforms:x obj-ori))
                  (minusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
            (setf pred '<)
              (setf axis :Y))
@@ -284,22 +370,38 @@
     (make-gauss-cost-function loc `((,(float (* std-dev std-dev) 0.0d0) 0.0d0)
                                     (0.0d0 ,(float (* std-dev std-dev)))))))
 
-(defun get-object-pose->semantic-map (object &optional (semantic-map (sem-map-utils::get-semantic-map)))
-  (let((obj (sem-map-utils::semantic-map-part semantic-map object)))
-       (slot-value obj 'sem-map-utils:pose)))
+(defun get-sem-object-pose->map (object &optional (semantic-map (sem-map-utils::get-semantic-map)))
+  (let*((obj (sem-map-utils::semantic-map-part semantic-map object))
+       (obj-pose (slot-value obj 'sem-map-utils:pose))
+       (obj-pstamped (cl-transforms-stamped:ensure-pose-stamped
+                      obj-pose "/map" 0.0)))
+       (get-sem-object-transform->relative-map obj-pstamped)))
 
-(defun get-genius-pose->world-model (frame-id)
+(defun get-sem-object-pose->genius (object &optional (semantic-map (sem-map-utils::get-semantic-map)))
+  (let*((obj (sem-map-utils::semantic-map-part semantic-map object))
+       (obj-pose (slot-value obj 'sem-map-utils:pose))
+       (obj-pstamped (cl-transforms-stamped:ensure-pose-stamped
+                      obj-pose "/map" 0.0)))
+       (get-model-pose->relative-genius obj-pstamped)))
+
+(defun get-genius-pose->map-frame (frame-id)
   (roslisp:ros-info (STARTUP-MISSION::cost-functions) "Get the position of the genius a link in relation with the world_frame")
  ;; (roslisp-utilities:startup-ros)
   (let((*tf* (make-instance 'cl-tf:transform-listener)))
-    (cl-transforms:transform->pose (cl-tf:lookup-transform *tf* "world" frame-id :timeout 2.0))))
+    (cl-transforms:transform->pose (cl-tf:lookup-transform *tf* "map" frame-id :timeout 2.0))))
   ;;  (cl-transforms-stamped:transform->pose transform)))
 
-(defun get-model-pose->relative-genius (frame-id)
+(defun get-sem-object-transform->relative-map (obj-stamped)
+  (roslisp:ros-info (STARTUP-MISSION::cost-functions) "Get the position of the object in relation with the map_frame")
+ ;; (roslisp-utilities:startup-ros)
+  (let((*tf* (make-instance 'cl-tf:transform-listener)))
+    (cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose  *tf* :pose obj-stamped :target-frame "map"))))
+                                                          
+(defun get-model-pose->relative-genius (obj-pst)
   (roslisp:ros-info (STARTUP-MISSION::cost-functions) "Get the position of a link in relation with the world_frame")
  ;; (roslisp-utilities:startup-ros)
   (let((*tf* (make-instance 'cl-tf:transform-listener)))
-    (cl-transforms:transform->pose (cl-tf:lookup-transform *tf* (concatenate 'string frame-id "_link") "genius_link" :timeout 2.0))))
+     (cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose  *tf* :pose obj-pst :target-frame "genius_link"))))
 
 (defun semantic-map->geom-object (geom-objects object-name)
 (let*((geom-list geom-objects)

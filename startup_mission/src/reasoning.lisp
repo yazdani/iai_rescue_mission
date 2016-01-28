@@ -43,7 +43,7 @@
 (def-fact-group cognitive-reasoning-costmap (desig-costmap)
   (<- (desig-costmap ?desig ?costmap)
     (costmap ?costmap)
-    (lisp-fun get-genius-pose->world-model "genius_link" ?pose)
+    (lisp-fun get-genius-pose->map-frame "genius_link" ?pose)
     (prepositions ?desig ?pose ?costmap))
 
    ;;right and close/next 
@@ -54,21 +54,35 @@
         (desig-prop ?desig (:next ?object2-name))
         (desig-prop ?desig (:close-to ?object2-name))
         (desig-prop ?desig (:close ?object2-name)))
+   (format "aehm hallo~%")
    (right-next ?desig ?object1-name ?object2-name ?costmap))
 
-
+  (<- (prepositions ?desig ?pose ?costmap)
+    (or (desig-prop ?desig (:right-of ?object1-name))
+        (desig-prop ?desig (:right ?object1-name)))
+    (format "get the pose, first~%")
+    (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
+    (lisp-fun right-direction ?pose ?object1-pose ?list-values)
+    (format "~a~%" ?list-values)
+    (prolog::equal (?fvalue ?svalue) ?list-values)
+     (costmap ?costmap)
+    (instance-of reasoning-generator ?reasoning-generator-id)
+    (costmap-add-function
+     ?reasoning-generator-id
+     (make-reasoning-cost-function ?object1-pose ?fvalue ?svalue 0.3)
+     ?costmap)
+    (costmap-add-height-generator
+     (make-bb-height-function ?object1-name ?resulting-z)
+     ?costmap))
+  
 
    ;;behind
   (<- (prepositions ?desig ?pose ?costmap)
+    (format "into behind~%")
     (or (desig-prop ?desig (:behind-of ?object1-name))
         (desig-prop ?desig (:behind ?object1-name)))
-    (behind-of ?desig ?object1-name ?object2-name ?costmap))
-
-
-  
- 
-
- 
+        (format "into behind2~%")
+    (behind-of ?desig ?object1-name ?costmap))
 
   (<- (right-next ?desig ?name1 ?name2 ?costmap)
     (format"name ~a und name ~a~%" ?name1 ?name2)
@@ -107,18 +121,23 @@
      ?costmap))
 
    (<- (behind-of ?desig ?name1 ?costmap)
+     (format "hahaha~%")
     (lisp-fun get-object-pose->semantic-map ?name1 ?pose1)
     (lisp-fun tf-behind-direction ?name1 ?list-values)
     (prolog::equal (?fvalue ?svalue) ?list-values)
     (costmap ?costmap)
+        (format "hahaha333~%")
     (semantic-map-costmap::semantic-map-objects ?all-objects)
-    (lisp-fun semantic-map->geom-objects ?all-objects 10 ?pose1 ?objects)
+    (lisp-fun semantic-map->geom-objects ?all-objects 3 ?pose1 ?objects)
     (costmap-padding ?padding)
-    (costmap-add-function semantic-map-free-space
-                        (semantic-map-costmap::make-semantic-map-costmap
-	     ?objects :invert t :padding ?padding)
-	    ?costmap)
-      (costmap ?costmap)
+        (format "hahaeeeha~%")
+  ;;  (costmap-add-function semantic-map-free-space
+   ;;                     (semantic-map-costmap::make-semantic-map-costmap
+	;;     ?objects :invert t :padding ?padding)
+	;;    ?costmap)
+     (format "objects ~a~%" ?objects)
+         (format "hahafefeeeha~%")
+  ;;    (costmap ?costmap)
        (instance-of reasoning-generator ?reasoning-generator-id)
     (costmap-add-function
    ?reasoning-generator-id
@@ -164,12 +183,12 @@
     (format "fvalue ~%" ?fvalue)
     (costmap ?costmap)
     (semantic-map-costmap::semantic-map-objects ?all-objects)
-    (lisp-fun semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)
+ ;;   (lisp-fun semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)
     (costmap-padding ?padding)
-    (costmap-add-function semantic-map-free-space
-                        (semantic-map-costmap::make-semantic-map-costmap
-	     ?objects :invert t :padding ?padding)
-	    ?costmap)
+  ;;  (costmap-add-function semantic-map-free-space
+  ;;                      (semantic-map-costmap::make-semantic-map-costmap
+	 ;;    ?objects :invert t :padding ?padding)
+	 ;;   ?costmap)
       (costmap ?costmap)
        (instance-of reasoning-generator ?reasoning-generator-id)
     (costmap-add-function
@@ -193,32 +212,33 @@
      ?costmap))
   
   
-  (<- (prepositions ?desig ?pose ?costmap)
-    (format "preposition pose costmap~%")
-    (or (desig-prop ?desig (:right-of ?object1-name))
-        (desig-prop ?desig (:right ?object1-name)))
-    (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
-    (lisp-fun tf-right-direction ?object1-name ?list-values)
-    (format "~a~%" ?list-values)
-    (prolog::equal (?fvalue ?svalue) ?list-values)
-    (format "fvalue ~%" ?fvalue)
-    (costmap ?costmap)
-    (semantic-map-costmap::semantic-map-objects ?all-objects)
-    (lisp-fun semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)
-    (costmap-padding ?padding)
-    (costmap-add-function semantic-map-free-space
-                        (semantic-map-costmap::make-semantic-map-costmap
-	     ?objects :invert t :padding ?padding)
-	    ?costmap)
-    (costmap ?costmap)
-   (instance-of reasoning-generator ?reasoning-generator-id)
-    (costmap-add-function
-   ?reasoning-generator-id
-    (make-reasoning-cost-function ?object1-pose ?fvalue ?svalue 0.3)
-    ?costmap)
-   (costmap-add-height-generator
-    (make-bb-height-function ?object1-name ?resulting-z)
-    ?costmap))
+  ;; (<- (prepositions ?desig ?pose ?costmap)
+  ;;   (format "preposition pose costmap ~a~%" ?desig)
+  ;;   (or (desig-prop ?desig (:right-of ?object1-name))
+  ;;       (desig-prop ?desig (:right ?object1-name)))
+  ;;   (format "preposition pose costmap444~%")
+  ;;   (lisp-fun get-object-pose->semantic-map ?object1-name ?object1-pose)
+  ;;   (lisp-fun tf-right-direction ?object1-name ?list-values)
+  ;;   (format "~a~%" ?list-values)
+  ;;   (prolog::equal (?fvalue ?svalue) ?list-values)
+  ;;   (costmap ?costmap)
+  ;;  ;;     (semantic-map-costmap::semantic-map-objects ?all-objects)
+  ;; ;;  (lisp-fun semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)
+  ;;   (costmap-padding ?padding)
+  ;; ;;  (costmap-add-function semantic-map-free-space
+  ;;  ;;                     (semantic-map-costmap::make-semantic-map-costmap
+  ;;   ;;                     ?objects :invert t :padding ?padding)
+  ;;  ;;                     ?costmap)
+  ;; ; (format "?objects ~a~%" ?objects)
+  ;;    (costmap ?costmap)
+  ;;   (instance-of reasoning-generator ?reasoning-generator-id)
+  ;;   (costmap-add-function
+  ;;    ?reasoning-generator-id
+  ;;    (make-reasoning-cost-function ?object1-pose ?fvalue ?svalue 0.3)
+  ;;    ?costmap)
+  ;;   (costmap-add-height-generator
+  ;;    (make-bb-height-function ?object1-name ?resulting-z)
+  ;;    ?costmap))
   
   (<- (prepositions ?desig ?pose ?costmap)
     (or (desig-prop ?desig (:left-of ?object1-name))
@@ -229,13 +249,13 @@
     (prolog::equal (?fvalue ?svalue) ?list-values)
     (format "fvalue ~%" ?fvalue)
     (costmap ?costmap)
-    (semantic-map-costmap::semantic-map-objects ?all-objects)
-    (lisp-fun semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)
+   ;; (semantic-map-costmap::semantic-map-objects ?all-objects)
+   ;; (lisp-fun semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)
     (costmap-padding ?padding)
-    (costmap-add-function semantic-map-free-space
-                        (semantic-map-costmap::make-semantic-map-costmap
-	     ?objects :invert t :padding ?padding)
-	    ?costmap)
+   ;; (costmap-add-function semantic-map-free-space
+    ;;                    (semantic-map-costmap::make-semantic-map-costmap
+	  ;;   ?objects :invert t :padding ?padding)
+	  ;;  ?costmap)
       (costmap ?costmap)
     (instance-of reasoning-generator ?reasoning-generator-id)
     (costmap ?costmap)
