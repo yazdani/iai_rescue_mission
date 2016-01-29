@@ -29,10 +29,15 @@
 (in-package :startup-mission)
 
 (def-fact-group costmap-metadata ()
-  (<- (costmap-size 15 15))
-  (<- (costmap-origin -7.5 -7.5))
-  (<- (costmap-resolution 0.030))
-  (<- (costmap-padding 0.25)))
+  (<- (costmap-size 12 12))
+  (<- (costmap-origin -1 -1))
+  (<- (costmap-resolution 0.4))
+  (<- (costmap-padding 0.5)))
+
+;;  (<- (costmap-size 20 20))
+;;  (<- (costmap-origin -10 -10)) ;; out of bounds ERROR
+;;  (<- (costmap-resolution 0.95)) ;;MOD ERROR
+;;  (<- (costmap-padding 0.025)))
 
 
 (def-fact-group semantic-map-data (semantic-map-name)

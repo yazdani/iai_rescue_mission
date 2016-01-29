@@ -16,14 +16,14 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <visual>
 <!--origin xyz="11.99 14.99 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/stream/meshes/river1.dae"/>
+<mesh filename="package://world_mission/models/stream/meshes/river_olaf.dae"/>
 </geometry>
 <material name="DarkGreen"/>
 </visual>
 <collision>
 <!--origin xyz="11.99 14.99 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/stream/meshes/river1.dae"/>
+<mesh filename="package://world_mission/models/stream/meshes/river_olaf.dae"/>
 </geometry>
 </collision>
 </link>

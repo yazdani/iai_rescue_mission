@@ -19,7 +19,7 @@
       <collision name="wood_collision">
         <geometry>
           <mesh>
-            <uri>model://wood/meshes/wood1.dae</uri>
+            <uri>model://wood/meshes/wood_olaf.dae</uri>
           </mesh>
         </geometry>
         <surface>
@@ -42,7 +42,7 @@
       <visual name="wood_visual">
         <geometry>
           <mesh>
-            <uri>model://wood/meshes/wood1.dae</uri>
+            <uri>model://wood/meshes/wood_olaf.dae</uri>
           </mesh>
         </geometry>
       </visual>

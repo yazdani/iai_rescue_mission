@@ -31,25 +31,25 @@
     <include>
       <name>Mountain</name>
       <uri>model://bigrock</uri>
-      <pose>8.5 -1.5 0 0 0 -1.6</pose>
+      <pose>1.5 8.5 0 0 0 0.0</pose>
     </include>
     
     <include>
       <name>Wood</name>
       <uri>model://wood</uri>
-      <pose>1.0 -2.0 0 0 0 0</pose>
+      <pose>2.0 1.0 0 0 0 0</pose>
     </include>
     
     <include>
       <name>River</name>
       <uri>model://stream</uri>
-      <pose>4.5 -5.0 0 0 0 0</pose>
+      <pose>5.0 4.5 0 0 0 0</pose>
     </include>
     
     <include>
       <name>House</name>
       <uri>model://box</uri>
-      <pose>6.5 -7.0 0 0 0 0</pose>
+      <pose>7.0 6.5 0 0 0 0</pose>
     </include>
   
   </world>

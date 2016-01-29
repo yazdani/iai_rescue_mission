@@ -25,11 +25,11 @@
 
 <node pkg="tf" type="static_transform_publisher" name="cesena_map_map3" args="1.5 8.5 0 0 0 0 1 /map_link /mountain_link 100"/>
 
-<node pkg="tf" type="static_transform_publisher" name="cesena_map_map4" args="7.0 6.5 0 0 0 1 1 /map_link /house_link 100"/>
+<node pkg="tf" type="static_transform_publisher" name="cesena_map_map4" args="7.0 6.5 0 0 0 0 1 /map_link /house_link 100"/>
 
-<node pkg="tf" type="static_transform_publisher" name="cesena_map_map5" args="2.0 1.0 0 0 0 1 1 /map_link /wood_link 100"/>
+<node pkg="tf" type="static_transform_publisher" name="cesena_map_map5" args="2.0 1.0 0 0 0 0 1 /map_link /wood_link 100"/>
 
-<node pkg="tf" type="static_transform_publisher" name="cesena_map_map6" args="5.0 4.5 0 0 0 1 1 /map_link /river_link 100"/>
+<node pkg="tf" type="static_transform_publisher" name="cesena_map_map6" args="5.0 4.5 0 0 0 0 1 /map_link /river_link 100"/>
 
 
 

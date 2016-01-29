@@ -19,7 +19,7 @@
       <collision name="river_collision">
         <geometry>
           <mesh>
-            <uri>model://stream/meshes/river1.dae</uri>
+            <uri>model://stream/meshes/river_olaf.dae</uri>
           </mesh>
         </geometry>
         <surface>
@@ -42,7 +42,7 @@
       <visual name="stream_visual">
         <geometry>
           <mesh>
-            <uri>model://stream/meshes/river1.dae</uri>
+            <uri>model://stream/meshes/river_olaf.dae</uri>
           </mesh>
         </geometry>
       </visual>

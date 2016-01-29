@@ -68,255 +68,6 @@
       (declare (ignore x y))
       (list height))))
 
-
-(defun right-direction (human-pose obj-pose)
-  (let*((pred NIL)
-        (axis NIL))
-     (format t "~a axis~%" (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
-    (format t "obj-pose2 ~a und human ~a~%" obj-pose human-pose)  
-    (cond ((and 
-            (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
-                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
-            (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
-             (<=  (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose)))
-                 -0.3))
-           (setf pred '<)
-           (setf axis :X)
-           (format t "eins ~a ~a~%" pred axis))
-
-          
-          ((and 
-            (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
-                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
-            (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
-             (>  (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose)))
-                 -0.3))
-           (setf pred '<)
-           (setf axis :Y)
-           (format t "zwei ~a  ~a~%" pred axis))
-
-
-          ((and 
-            (< (- (cl-transforms:y (cl-transforms:origin human-pose))
-                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
-            (= (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0))
-           (setf pred '<)
-           (setf axis :Y)
-           (format t "drei ~a ~a~%" pred axis))
-
-          ((and 
-            (< (- (cl-transforms:y (cl-transforms:origin human-pose))
-                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
-             (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
-            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0.3))
-           (setf pred '<)
-           (setf axis :Y)
-           (format t "vier ~a ~a~%" pred axis))
-
-
-          ((and 
-            (< (- (cl-transforms:y (cl-transforms:origin human-pose))
-                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
-            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0.9))
-           (setf pred '>)
-           (setf axis :X)
-           (format t "fuenf ~a ~a~%" pred axis))
-
-          
-   ((and 
-            (< (- (cl-transforms:y (cl-transforms:origin human-pose))
-                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
-            (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
-            (> (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0.9))
-           (setf pred '>)
-           (setf axis :Y)
-           (format t "sechs ~a ~a~%" pred axis))
-
-   ((and 
-            (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
-                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
-            (< (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0.9))
-           (setf pred '<)
-           (setf axis :X)
-           (format t "sieben ~a ~a~%" pred axis))
-  ((and 
-            (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
-                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
-            (>= (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))) 0.9))
-           (setf pred '>)
-           (setf axis :Y)
-           (format t "Acht ~a ~a~%" pred axis)))
-    (list axis pred)))
-         
-(defun tf-right-direction (obj-name)
-  (let*((obj-pose (get-model-pose->relative-genius obj-name))
-       (obj-ori (cl-transforms:origin obj-pose))
-       (obj-orient (cl-transforms:orientation obj-pose))
-       (pred NIL)
-       (axis NIL))
-    (format t "obj-pose ~a~%" obj-pose)
-    (cond ((and (minusp (cl-transforms:y obj-ori)) 
-                (plusp (cl-transforms:z obj-orient))
-                (plusp (cl-transforms:w obj-orient)))
-           (setf pred '>)
-           (setf axis :X))
-          ((and (minusp (cl-transforms:y obj-ori)) 
-                (minusp (cl-transforms:z obj-orient))
-                (minusp (cl-transforms:w obj-orient)))
-           (setf pred '>)
-           (setf axis :Y))
-          ((and (plusp (cl-transforms:y obj-ori))
-                (plusp (cl-transforms:x obj-ori)) 
-                (plusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
-           (setf pred '<)
-           (setf axis :X))
-            ((and (plusp (cl-transforms:y obj-ori))
-                (plusp (cl-transforms:x obj-ori))
-                 (minusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
-           (setf pred '>)
-           (setf axis :Y))
-            
-          ((and (minusp (cl-transforms:x obj-ori))
-                (plusp (cl-transforms:y obj-ori))
-                (and (= 0 (cl-transforms:z obj-orient))
-                     (= 1 (cl-transforms:w obj-orient))))
-           (setf pred '<)
-           (setf axis :Y))
-                 ((and (minusp (cl-transforms:x obj-ori))
-                (plusp (cl-transforms:y obj-ori))
-                (and (> 0 (cl-transforms:z obj-orient))
-                     (> 1 (cl-transforms:w obj-orient))))
-           (setf pred '<)
-           (setf axis :X)))
-    (list axis pred)))
-
-(defun tf-left-direction (obj-name)
-  (let*((obj-pose (get-model-pose->relative-genius obj-name))
-       (obj-ori (cl-transforms:origin obj-pose))
-       (obj-orient (cl-transforms:orientation obj-pose))
-       (pred NIL)
-       (axis NIL))
-    (format t "obj-pose ~a~%" obj-pose)
-    (cond ((and (minusp (cl-transforms:y obj-ori)) 
-                (plusp (cl-transforms:z obj-orient))
-                (plusp (cl-transforms:w obj-orient)))
-           (setf pred '<)
-           (setf axis :X))
-          ((and (minusp (cl-transforms:y obj-ori)) 
-                (minusp (cl-transforms:z obj-orient))
-                (minusp (cl-transforms:w obj-orient)))
-           (setf pred '<)
-           (setf axis :Y))
-          ((and (plusp (cl-transforms:y obj-ori))
-                (plusp (cl-transforms:x obj-ori)) 
-                (plusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
-           (setf pred '>)
-           (setf axis :X))
-            ((and (plusp (cl-transforms:y obj-ori))
-                (plusp (cl-transforms:x obj-ori))
-                 (minusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
-           (setf pred '<)
-           (setf axis :Y))
-            ((and (minusp (cl-transforms:x obj-ori))
-                (plusp (cl-transforms:y obj-ori))
-                (and (= 0 (cl-transforms:z obj-orient))
-                     (= 1 (cl-transforms:w obj-orient))))
-           (setf pred '>)
-           (setf axis :Y))
-                 ((and (minusp (cl-transforms:x obj-ori))
-                (plusp (cl-transforms:y obj-ori))
-                (and (> 0 (cl-transforms:z obj-orient))
-                     (> 1 (cl-transforms:w obj-orient))))
-           (setf pred '>)
-           (setf axis :X)))
-    (list axis pred)))
-
-(defun tf-behind-direction (obj-name)
-  (let*((obj-pose (get-model-pose->relative-genius obj-name))
-       (obj-ori (cl-transforms:origin obj-pose))
-       (obj-orient (cl-transforms:orientation obj-pose))
-       (pred NIL)
-       (axis NIL))
-    (format t "obj pose ~a~%" obj-pose)
-    (cond ((and (minusp (cl-transforms:y obj-ori)) 
-                (plusp (cl-transforms:z obj-orient))
-                (plusp (cl-transforms:w obj-orient)))
-           (setf pred '>)
-           (setf axis :Y)) 
-          ((and (minusp (cl-transforms:y obj-ori)) 
-                (minusp (cl-transforms:z obj-orient))
-                (minusp (cl-transforms:w obj-orient)))
-           (setf pred '<)
-           (setf axis :X))
-          ((and (plusp (cl-transforms:y obj-ori))
-                (plusp (cl-transforms:x obj-ori)) 
-                (plusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
-           (setf pred '<)
-           (setf axis :Y))
-            ((and (plusp (cl-transforms:y obj-ori))
-                (plusp (cl-transforms:x obj-ori))
-                 (minusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
-           (setf pred '<)
-             (setf axis :Y))
-                 ((and (plusp (cl-transforms:y obj-ori))
-                (minusp (cl-transforms:x obj-ori))
-                 (minusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
-           (setf pred '<)
-             (setf axis :Y))
-            ((and (minusp (cl-transforms:x obj-ori))
-                (plusp (cl-transforms:y obj-ori))
-                (and (= 0 (cl-transforms:z obj-orient))
-                     (= 1 (cl-transforms:w obj-orient))))
-           (setf pred '>)
-             (setf axis :X))
-                 ((and (minusp (cl-transforms:x obj-ori))
-                (plusp (cl-transforms:y obj-ori))
-                (and (> 0 (cl-transforms:z obj-orient))
-                     (> 1 (cl-transforms:w obj-orient))))
-           (setf pred '<)
-                  (setf axis :Y)))
-    (list axis pred)))
-
-(defun tf-front-direction (obj-name)
-  (let*((obj-pose (get-model-pose->relative-genius obj-name))
-       (obj-ori (cl-transforms:origin obj-pose))
-       (obj-orient (cl-transforms:orientation obj-pose))
-       (pred NIL)
-       (axis NIL))
-    (cond ((and (minusp (cl-transforms:y obj-ori)) 
-                (plusp (cl-transforms:z obj-orient))
-                (plusp (cl-transforms:w obj-orient)))
-           (setf pred '<)
-           (setf axis :Y))
-          ((and (minusp (cl-transforms:y obj-ori)) 
-                (minusp (cl-transforms:z obj-orient))
-                (minusp (cl-transforms:w obj-orient)))
-           (setf pred '>)
-           (setf axis :X))
-          ((and (plusp (cl-transforms:y obj-ori))
-                (plusp (cl-transforms:x obj-ori)) 
-                (plusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
-           (setf pred '>)
-           (setf axis :Y))
-            ((and (plusp (cl-transforms:y obj-ori))
-                (plusp (cl-transforms:x obj-ori))
-                 (minusp (+ (cl-transforms:z obj-orient) (cl-transforms:w obj-orient))))
-           (setf pred '>)
-           (setf axis :Y))
-            ((and (minusp (cl-transforms:x obj-ori))
-                (plusp (cl-transforms:y obj-ori))
-                (and (= 0 (cl-transforms:z obj-orient))
-                     (= 1 (cl-transforms:w obj-orient))))
-           (setf pred '<)
-           (setf axis :X))
-                 ((and (minusp (cl-transforms:x obj-ori))
-                (plusp (cl-transforms:y obj-ori))
-                (and (> 0 (cl-transforms:z obj-orient))
-                     (> 1 (cl-transforms:w obj-orient))))
-                  (setf pred '>)
-                  (setf axis :Y))) 
-    (list axis pred)))
-
 (defun make-costmap-bbox-gen (objs &key invert padding)
 (force-ll objs)
  ;;(format t "objs ~a jdjddsj~%" objs)
@@ -362,7 +113,6 @@
                  (> a (- (cl-transforms:x bb-center) dim-x/2))
                  (< b (+ (cl-transforms:y bb-center) dim-y/2))
                  (> b (- (cl-transforms:y bb-center) dim-y/2)))
-            (format t "-----> a ~a~% and y~a~%" a b)
             (return (if invert 0.0d0 1.0d0))))))))
 
 (defun make-location-cost-function (loc std-dev)
@@ -446,3 +196,326 @@ objects))
     test))
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;; spatial reasoning functions for right, left, behind, in-front-of and next
+
+(defun right-direction (human-pose obj-pose)
+  (let*((pred NIL)
+        (axis NIL))
+    (cond((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
+           (<=  (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose)))
+                 -0.3))
+          (setf pred '<)
+          (setf axis :X))
+          ;;(format t "eins ~a ~a~%" pred axis))        
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
+           (>  (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose)))
+               -0.3))
+          (setf pred '<)
+          (setf axis :Y))
+      ;;    (format t "zwei ~a  ~a~%" pred axis))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                (cl-transforms:orientation human-pose))) 0))
+          (setf pred '<)
+           (setf axis :Y))
+         ;;         (format t "drei ~a ~a~%" pred axis))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                    (cl-transforms:orientation human-pose))))
+            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.3))
+          (setf pred '<)
+          (setf axis :Y))
+          ;; (format t "vier ~a ~a~%" pred axis))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '>)
+           (setf axis :X))
+         ;;    (format t "fuenf ~a ~a~%" pred axis))        
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                    (cl-transforms:orientation human-pose))))
+            (> (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '>)
+           (setf axis :Y))
+         ;; (format t "sechs ~a ~a~%" pred axis))
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (< (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '<)
+           (setf axis :X))
+       ;;    (format t "sieben ~a ~a~%" pred axis))
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (>= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.9))
+          (setf pred '>)
+          (setf axis :Y)))
+     ;;      (format t "Acht ~a ~a~%" pred axis)))
+         (list axis pred)))
+  
+(defun left-direction (human-pose obj-pose)
+  (let*((pred NIL)
+        (axis NIL))
+    (cond((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
+           (<=  (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose)))
+                 -0.3))
+          (setf pred '>)
+          (setf axis :X))
+          ;;(format t "eins ~a ~a~%" pred axis))        
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
+           (>  (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose)))
+               -0.3))
+          (setf pred '>)
+          (setf axis :Y))
+      ;;    (format t "zwei ~a  ~a~%" pred axis))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                (cl-transforms:orientation human-pose))) 0))
+          (setf pred '>)
+           (setf axis :Y))
+         ;;         (format t "drei ~a ~a~%" pred axis))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                    (cl-transforms:orientation human-pose))))
+            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.3))
+          (setf pred '>)
+          (setf axis :Y))
+          ;; (format t "vier ~a ~a~%" pred axis))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '<)
+           (setf axis :X))
+         ;;    (format t "fuenf ~a ~a~%" pred axis))        
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                    (cl-transforms:orientation human-pose))))
+            (> (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '<)
+           (setf axis :Y))
+         ;; (format t "sechs ~a ~a~%" pred axis))
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (< (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '>)
+           (setf axis :X))
+       ;;    (format t "sieben ~a ~a~%" pred axis))
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (>= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.9))
+          (setf pred '<)
+          (setf axis :Y)))
+     ;;      (format t "Acht ~a ~a~%" pred axis)))
+         (list axis pred)))
+  
+
+(defun behind-direction (human-pose obj-pose)
+  (let*((pred NIL)
+        (axis NIL))
+    (cond((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                     (cl-transforms:orientation human-pose))))
+           (<=  (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose)))
+                 -0.3))
+          (setf pred '<)
+           (format t "eins ~a ~a~%" pred axis)
+          (setf axis :Y))        
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                     (cl-transforms:orientation human-pose))))
+           (>  (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose)))
+               -0.3))
+          (setf pred '>)
+           (format t "zwei ~a ~a~%" pred axis)
+
+          (setf axis :X))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                (cl-transforms:orientation human-pose))) 0))
+          (setf pred '>)
+           (format t "drei ~a ~a~%" pred axis)
+          (setf axis :X))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                    (cl-transforms:orientation human-pose))))
+            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.3))
+          (setf pred '>)
+           (format t "vier ~a ~a~%" pred axis)
+          (setf axis :X))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '>)
+           (setf axis :Y))        
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                    (cl-transforms:orientation human-pose))))
+            (> (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '<)
+           (setf axis :X))
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (< (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '>)
+           (setf axis :Y))
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (>= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.9))
+          (setf pred '<)
+          (setf axis :X)))
+         (list axis pred)))
+
+
+(defun front-direction (human-pose obj-pose)
+  (let*((pred NIL)
+        (axis NIL))
+    (cond((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                     (cl-transforms:orientation human-pose))))
+           (<=  (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose)))
+                 -0.3))
+          (setf pred '>)
+           (format t "eins ~a ~a~%" pred axis)
+          (setf axis :Y))        
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (minusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                     (cl-transforms:orientation human-pose))))
+           (>  (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose)))
+               -0.3))
+          (setf pred '<)
+           (format t "zwei ~a ~a~%" pred axis)
+
+          (setf axis :X))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                (cl-transforms:orientation human-pose))) 0))
+          (setf pred '<)
+           (format t "drei ~a ~a~%" pred axis)
+          (setf axis :X))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                    (cl-transforms:orientation human-pose))))
+            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.3))
+          (setf pred '<)
+           (format t "vier ~a ~a~%" pred axis)
+          (setf axis :X))
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (<= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '<)
+           (setf axis :Y))        
+         ((and 
+           (< (- (cl-transforms:y (cl-transforms:origin human-pose))
+                 (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+           (plusp (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                    (cl-transforms:orientation human-pose))))
+            (> (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '>)
+           (setf axis :X))
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (< (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                 (cl-transforms:orientation human-pose))) 0.9))
+           (setf pred '<)
+           (setf axis :Y))
+         ((and 
+           (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
+                  (cl-transforms:y (cl-transforms:origin obj-pose))) 0)
+            (>= (cl-transforms:z (cl-transforms:quaternion->axis-angle
+                                  (cl-transforms:orientation human-pose))) 0.9))
+          (setf pred '>)
+          (setf axis :X)))
+         (list axis pred)))

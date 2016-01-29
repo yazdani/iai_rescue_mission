@@ -19,7 +19,7 @@
       <collision name="box_collision">
         <geometry>
           <mesh>
-            <uri>model://box/meshes/box1.dae</uri>
+            <uri>model://box/meshes/house_olaf.dae</uri>
           </mesh>
         </geometry>
         <surface>
@@ -42,7 +42,7 @@
       <visual name="box_visual">
         <geometry>
           <mesh>
-            <uri>model://box/meshes/box1.dae</uri>
+            <uri>model://box/meshes/house_olaf.dae</uri>
           </mesh>
         </geometry>
       </visual>

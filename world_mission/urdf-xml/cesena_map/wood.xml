@@ -18,14 +18,14 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <visual>
 <!--origin xyz="13 9.96 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/wood/meshes/wood1.dae"/>
+<mesh filename="package://world_mission/models/wood/meshes/wood_olaf.dae"/>
 </geometry>
 <material name="Grey"/>
 </visual>
 <collision>
 <!--origin xyz="13 9.96 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/wood/meshes/wood1.dae"/>
+<mesh filename="package://world_mission/models/wood/meshes/wood_olaf.dae"/>
 </geometry>
 </collision>
 </link>
