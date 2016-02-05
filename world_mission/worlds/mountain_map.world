@@ -176,11 +176,11 @@
       <pose>-3.57 0 0 0 0 0</pose>
     </include>
 
- <!--include>
+ <include>
       <name>busy_genius</name>
       <uri>model://genius</uri>
-      <pose>16 0 0 0 0 -1.5</pose>
-    </include-->
+      <pose>20 0 0 0 0 17</pose>
+    </include>
 
  <include>
       <name>rock07</name>

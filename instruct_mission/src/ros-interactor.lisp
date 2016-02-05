@@ -41,7 +41,7 @@
 
 
 (defun designator-into-mhri-msg (desig)
-   (format t "endlich gehts voranCDE------> ~a~%" desig) 
+ ;;  (format t "endlich gehts voranCDE------> ~a~%" desig) 
 (let* ((combiner NIL)
        (msg NIL)
        (msg2 NIL))
@@ -55,7 +55,7 @@
                         (pose (second (assoc ':loc elem)))
                         (type (string (second (assoc ':type elem)))))
                       ;; (format t "pose is : ~a~%" pose)
-                    (format t "pose is a : ~a~%" (cl-transforms-stamped::to-msg pose))
+                 ;;   (format t "pose is a : ~a~%" (cl-transforms-stamped::to-msg pose))
                     (setf desig (cdr desig))
                     (setf str (cl-transforms-stamped::make-msg "std_msgs/String"
                                                                :data  type))
@@ -69,8 +69,8 @@
         (t (let*((description (desig:description desig))
                  (pose (second (assoc ':loc description)))
                  (type (string (second (assoc ':type description)))))
-             (format t "pose is : ~a~%" pose)
-              (format t "pose is a : ~a~%" (cl-transforms-stamped::to-msg pose))
+          ;;   (format t "pose is : ~a~%" pose)
+          ;;    (format t "pose is a : ~a~%" (cl-transforms-stamped::to-msg pose))
              (setf str (cl-transforms-stamped::make-msg "std_msgs/String"
                                                         :data  type))
              (setf msg (vector (roslisp:make-message "mhri_msgs/interpretation"

@@ -373,14 +373,14 @@ bool startChecking(instruct_mission::multimodal_srv::Request &req,
       //	  ROS_INFO_STREAM("Still Inside the loop");
       //	}
       //}
-	ROS_INFO_STREAM("juhu klappt!");
-	ROS_INFO_STREAM(srv.response.mlisp);
-	mhri_msgs::multimodal ref = srv.response.mlisp;
-	mhri_msgs::interpretation in = ref.action[0];
-	geometry_msgs::PoseStamped pse = in.pose;
-	geometry_msgs::Pose pso = pse.pose;
-	geometry_msgs::Point po = pso.position;
-	simulateQuadrotor(po.x, po.y, po.z);
+    //	ROS_INFO_STREAM("juhu klappt!");
+    //	ROS_INFO_STREAM(srv.response.mlisp);
+    //	mhri_msgs::multimodal ref = srv.response.mlisp;
+    //	mhri_msgs::interpretation in = ref.action[0];
+    //	geometry_msgs::PoseStamped pse = in.pose;
+    //	geometry_msgs::Pose pso = pse.pose;
+    //	geometry_msgs::Point po = pso.position;
+    //	simulateQuadrotor(po.x, po.y, po.z);
 	
 	res.multi = srv.response.mlisp;
 	ROS_INFO_STREAM("end the multimodalcallback");

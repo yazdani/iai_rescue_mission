@@ -73,7 +73,7 @@
     (semantic-map-costmap::get-aabb min-vec max-vec)))
                  
       
-;; the parameter is a point which will be given by the human rescuer...
+;; getting all the objects close to the rescuer...
 (defun give-objs-close-to-human (distance position)
   (format t "Give objs close to human ~%")
   (sem-map-utils:get-semantic-map)
@@ -130,17 +130,19 @@
     (setf ret (get-the-direction vec))
     (car ret)))
 
-;; Go into a negative direction, because x < 0
+;; visualization in rviz and computation of the gesture 
 (defun get-the-direction (point)
+  (format t "pointi ~a~%" point)
 (let*((elem NIL)
       (eps 0)
       (var 0)
       (value NIL))
-  (loop for index in '(0 0.5 1 1.5 2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9 9.5 10 10.5 11 11.5 12 12.5 13 13.5 14 14.5)
+  (loop for index in '(0 0.5 1 1.5 2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9 9.5 10 10.5 11 11.5 12 12.5 13 13.5 14 14.5 15 15.5 16 16.5 17 17.5 18 18.5 19 19.5 20 20.5 21 21.5 22)
         do(let*((new-point (get-gesture->relative-genius (cl-transforms:make-3d-vector (+ (cl-transforms:x point) index)
                                                                                        (cl-transforms:y point)
                                                                                        (+ (cl-transforms:z point) 1.5)))))
             (setf eps (+ eps 1))
+            (format t "new-pint ~a~%" new-point)
             (if (equal elem NIL)
                 (set-my-marker new-point eps)
                 (setf var 1))
