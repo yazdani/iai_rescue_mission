@@ -32,7 +32,7 @@
 #include "instruct_mission/multimodal_srv.h"
 #include "instruct_mission/multimodal_values.h"
 #include "instruct_mission/multimodal_lisp.h"
-#include "agent_mission/GeniusMsg.h"
+//#include "agent_mission/GeniusMsg.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -75,6 +75,7 @@ mhri_msgs::multimodal malti;
 int var = 0;
 geometry_msgs::Transform transforming;
 
+/*
 void getTransformOfAgent(string str)
 {
   ROS_INFO_STREAM("Send command as getTransformOfAgent");
@@ -97,7 +98,7 @@ void getTransformOfAgent(string str)
   ROS_INFO_STREAM("end the multimodalcallback");
 
 }
-
+*/
 // TODO need position of robot and human
 int simulateQuadrotor(float x, float y, float z)
 {
