@@ -56,10 +56,11 @@
 #include <sstream>
 
 //Hector in simulation
-#include <actionlib/client/simple_action_client.h>
+
+/*#include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/terminal_state.h>
 #include <quadrotor_controller/cmdVelAction.h>
-#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/Pose.h>*/
 
 using namespace std;
 
@@ -100,6 +101,8 @@ void getTransformOfAgent(string str)
 }
 */
 // TODO need position of robot and human
+
+/*
 int simulateQuadrotor(float x, float y, float z)
 {
 
@@ -125,8 +128,9 @@ int simulateQuadrotor(float x, float y, float z)
   return 0;
 
 }
+*/
 
-
+/*
 void shortInterpretation(string str, float data)
 {
   //getTransformOfAgent("/genius_link");
@@ -205,7 +209,7 @@ void shortInterpretation(string str, float data)
   malti.action = test;
   
 }
-
+*/
 void multimodalCallback(const mhri_msgs::multimodal::ConstPtr& msg)
 {
   var = 0;
@@ -334,7 +338,7 @@ bool startChecking(instruct_mission::multimodal_srv::Request &req,
     {
       ROS_INFO_STREAM(str);
       
-      shortInterpretation(str, data);
+      // shortInterpretation(str, data);
       res.multi = malti;
     }else{
     ROS_INFO_STREAM(str);
