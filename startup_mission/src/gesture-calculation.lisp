@@ -37,6 +37,8 @@
 (defparameter *distance* 25)
 (defparameter *s* 0)
 
+
+
 ;;getting the bounding boxes of different elements within the semantic map
 (defun get-bbox-as-aabb (index)
 (let*((dim-x (cl-transforms:x (car (nthcdr index *liste-dim*))))
@@ -130,6 +132,8 @@
     (setf ret (get-the-direction vec))
     (car ret)))
 
+
+
 ;; visualization in rviz and computation of the gesture 
 (defun get-the-direction (point)
   (format t "pointi ~a~%" point)
@@ -186,4 +190,3 @@
   
 (defun square (x)
   (* x x))
-

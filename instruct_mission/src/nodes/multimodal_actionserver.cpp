@@ -32,6 +32,10 @@
 #include "instruct_mission/multimodal_srv.h"
 #include "instruct_mission/multimodal_values.h"
 #include "instruct_mission/multimodal_lisp.h"
+#include "mhri_msgs/multimodal_action.h"
+#include "mhri_msgs/multimodal.h"
+#include "mhri_srvs/multimodal_srv.h"
+
 //#include "agent_mission/GeniusMsg.h"
 #include <iostream>
 #include <vector>
@@ -53,6 +57,7 @@
 #include <gazebo_msgs/SetModelState.h>
 #include <gazebo_msgs/GetModelState.h>
 #include <gazebo_msgs/GetPhysicsProperties.h>
+#include <geographic_msgs/GeoPose.h>
 #include <sstream>
 
 //Hector in simulation
@@ -64,6 +69,12 @@
 
 using namespace std;
 
+const float ANTON = 6378137;    
+const float BERTA = 6356752.3124;
+const float LAT = 44.153278;    
+const float LON = 12.241426;
+const float ALT = 41.0;
+
 int sockfd, newsockfd, portno, clilen;
 char buffer[512];
 struct sockaddr_in serv_addr, cli_addr;
@@ -71,145 +82,14 @@ int  no;
 string cmd_interpreted;
 string cmd_type;
 ros::Publisher pub;
+
+
 mhri_msgs::multimodal multi;
 mhri_msgs::multimodal malti;
+
 int var = 0;
 geometry_msgs::Transform transforming;
 
-/*
-void getTransformOfAgent(string str)
-{
-  ROS_INFO_STREAM("Send command as getTransformOfAgent");
-  
-  ros::Rate loop_rate(10);
-  ros::NodeHandle new_pub;
-  ros::ServiceClient client = new_pub.serviceClient<agent_mission::GeniusMsg>("agent_pose");
-  agent_mission::GeniusMsg srv;
-  srv.request.msg = str;
-  if (client.call(srv))
-    {
-      ROS_INFO_STREAM(srv.response.end);
-    }
-  else
-    {
-      ROS_ERROR("Failed to call the service in lisp");
-      return;
-    }
-  transforming = srv.response.end;
-  ROS_INFO_STREAM("end the multimodalcallback");
-
-}
-*/
-// TODO need position of robot and human
-
-/*
-int simulateQuadrotor(float x, float y, float z)
-{
-
-  actionlib::SimpleActionClient<quadrotor_controller::cmdVelAction> ac("cmdVel_tmp", true);
-  ROS_INFO("Waiting for action server to start.");
-  ac.waitForServer(); //will wait for infinite time
-  quadrotor_controller::cmdVelGoal goal;
-  goal.goal.position.x = x;
-  goal.goal.position.y = y;
-  goal.goal.position.z = z;
-  ac.sendGoal(goal);
-
- bool finished_before_timeout = ac.waitForResult(ros::Duration(30.0));
-
-  if (finished_before_timeout)
-  {
-    actionlib::SimpleClientGoalState state = ac.getState();
-    ROS_INFO("Action finished: %s",state.toString().c_str());
-  }
-  else
-    ROS_INFO("Action did not finish before the time out.");
-
-  return 0;
-
-}
-*/
-
-/*
-void shortInterpretation(string str, float data)
-{
-  //getTransformOfAgent("/genius_link");
-  //geometry_msgs::Transform trans_genius = transforming; 
-
-  std_msgs::String stri;
-  geometry_msgs::PoseStamped pss;
-  std_msgs::Header head;
-  head.seq = 0;
-  head.stamp = ros::Time::now();
-  //stri.data = "/world";
-  head.frame_id = "/world";
- 
-  mhri_msgs::interpretation inta;
-  geometry_msgs::Pose ps;
-  ros::NodeHandle mnode;
-  //ros::NodeHandle nnode;
-  ros::ServiceClient gmscl = mnode.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
-  // ros::ServiceClient smsl = nnode.serviceClient<gazebo_msgs::SetModelState>("/gazebo/set_model_state");
-  gazebo_msgs::GetModelState getmodelstate;
-  //  gazebo_msgs::SetModelState setmodelstate;
-  gazebo_msgs::ModelState modelstate;
-  geometry_msgs::Twist tw;
-  modelstate.model_name = (std::string) "red_hawk";
-  getmodelstate.request.model_name ="red_hawk";
-  gmscl.call(getmodelstate);
-  double now_x =  getmodelstate.response.pose.position.x;
-  double now_y =  getmodelstate.response.pose.position.y;
-  double now_z =  getmodelstate.response.pose.position.z;
-
-  if(str.compare("Go left") == 0)
-    {
-      tw.linear.x = now_x;
-      tw.linear.y = now_y - data;
-      tw.linear.z = now_z + 0.1;
-    }else if(str.compare("Go right") == 0)
-    {
-      tw.linear.x = now_x;
-      tw.linear.y = now_y + data;
-      tw.linear.z = now_z + 0.1;
-    }else if(str.compare("Go up") == 0)
-    {
-      tw.linear.x = now_x;
-      tw.linear.y = now_y;
-      tw.linear.z = now_z + 2;
-    }else if(str.compare("Go down") == 0)  
-    {
-      tw.linear.x= now_x;
-      tw.linear.y= now_y;
-      tw.linear.z= now_z - 0.2;
-    }else if(str.compare("Rotate") == 0)
-    {
-      tw.angular.x = now_x;
-      tw.angular.y = now_y;
-      tw.angular.z = 1;
-    
-    }else if(str.compare("Take off") == 0)
-    {
-      tw.linear.x = now_x;
-      tw.linear.y = now_y;
-      tw.linear.z = 0;
-    }
-  simulateQuadrotor(tw.linear.x, tw.linear.y, tw.linear.z);
-
-
-  ps.position.x = tw.linear.x;
-  ps.position.y = tw.linear.y;
-  ps.position.z = tw.linear.z;
-  pss.header = head;
-  pss.pose = ps;
-  stri.data = "move";
-  inta.type = stri;
-  inta.pose = pss;
-  std::vector<mhri_msgs::interpretation> test;
-  test.push_back(inta);
-  malti.action = test;
-  
-}
-*/
 void multimodalCallback(const mhri_msgs::multimodal::ConstPtr& msg)
 {
   var = 0;
@@ -221,39 +101,43 @@ void multimodalCallback(const mhri_msgs::multimodal::ConstPtr& msg)
   ROS_INFO_STREAM("HAHA IN DA FACE");
 }
 
-/*
- * Publishing the interpreted instruction through a topic an interpreted instruction.
- * @param string agent: agent which is performing the task
- * @param string command: interpreted instruction
- * @param string type: command type, e.g. order, question etc.
- * @param vector<float> gesture: pointing gesture of the busy genius
- * @param vector<float> gps: gps position of the busy genius 
- */
-void sendAsTopic(string agent, string command, string Icommand, string type, std::vector<float> gesture , std::vector<float> gps)
+std::vector<float> wgs84ToNed(float latitude, float longitude, float altitude, float latitude_home, float longitude_home, float altitude_home)
 {
-  ROS_INFO_STREAM("inside sendAsTopic");
-  ROS_INFO_STREAM(Icommand);
-  instruct_mission::multimodal_values mvalue;
-  mvalue.agent = agent;
-  mvalue.command = command;
-  mvalue.Icommand = Icommand;
-  mvalue.type = type;
-  mvalue.gesture.push_back(gesture[0]);
-  mvalue.gesture.push_back(gesture[1]);
-  mvalue.gesture.push_back(gesture[3]);
-  std::vector<float> gps_data;
-  mvalue.gps.push_back(gps[0]);
-  mvalue.gps.push_back(gps[1]);
-  mvalue.gps.push_back(gps[2]);  
-  ROS_INFO_STREAM(Icommand);  
-  pub.publish(mvalue);
+  double euler = sqrt(1-pow(BERTA,2)/pow(ANTON,2));
+  double lat_rad = latitude*M_PI/180.0f;
+  double lon_rad = longitude*M_PI/180.0f;
+  double lat_home_rad = latitude_home*M_PI/180.0f;
+  double lon_home_rad = longitude_home*M_PI/180.0f;
+  double radius = ANTON/sqrt(1-pow(euler,2)*pow(sin(lat_home_rad),2));
+  double x,y,z;
+  x = (lat_rad-lat_home_rad)*radius;
+  y = (lon_rad-lon_home_rad)*radius*cos(lat_home_rad);
+  z = altitude - altitude_home;
+  std::vector<float> vec;
+  vec.push_back(x);
+  vec.push_back(y);
+  vec.push_back(z);
+  return vec;
 }
 
-/*
- * Checking and defining the instruction type, e.g. order or question
- * @param string cmd: instruction to be checked
- * @return string: returning the instruction type 
- */
+std::vector<float> nedToWgs84(float x, float y, float z, float latitude_home, float longitude_home, float altitude_home)
+{
+  double euler = sqrt(1-pow(BERTA,2)/pow(ANTON,2));
+  double lat_home_rad = latitude_home*M_PI/180.0f;
+  double lon_home_rad = longitude_home*M_PI/180.0f;
+  double radius = ANTON/sqrt(1-pow(euler,2)*pow(sin(lat_home_rad),2));
+  double latitude = x/radius*180.0f/M_PI + latitude_home;
+  double longitude = y/radius*180.0f/M_PI/cos(lat_home_rad) + longitude_home;
+  double altitude = altitude_home + z;
+  std::vector<float> vec;
+  vec.push_back(latitude);
+  vec.push_back(longitude);
+  vec.push_back(altitude);
+  return vec;
+}
+
+
+
 string checkCommandType(string cmd)
 {
   std::stringstream ss(cmd);
@@ -286,11 +170,6 @@ string checkCommandType(string cmd)
     return "order";
 }
 
-/*
- * Interpreting the instruction via a parser
- * @param string cmd: instruction which has to be interpreted
- * @return string: returning the interpreted instruction
- */
 string interpretCommand(string cmd)
 {
   ROS_INFO_STREAM("interpretCommand");  
@@ -316,87 +195,77 @@ string interpretCommand(string cmd)
    return buffer;
 }
 
-/*
- * After the registration of the Client the Server is gonna start some processes in order to 
- * interpret the instruction into the context of the task.
- * @param Request: service which is comming from the client
- * @param Response: Service which is sent at the end
- * @return bool: Depending of the successful processing true/false
- */
-bool startChecking(instruct_mission::multimodal_srv::Request &req,
-		   instruct_mission::multimodal_srv::Response &res)
+bool startChecking(mhri_srvs::multimodal_srv::Request &req,
+		   mhri_srvs::multimodal_srv::Response &res)
 {
-  ROS_INFO_STREAM("startChecking");
+  ROS_INFO_STREAM("Inside: startChecking");
   var = 1;
-  cmd_type = checkCommandType(req.command);
-  string str = req.command;
-  float data = req.data;
+  cmd_type = checkCommandType(req.action.command);
+  string str = req.action.command;
+  float data = req.action.data;
+  
 
   if(str.compare("Go right") == 0 || str.compare("Go left") == 0 || 
      str.compare("Go up") == 0 || str.compare("Take off") == 0 ||
     str.compare("Go down") == 0 || str.compare("Rotate") == 0)
     {
-      ROS_INFO_STREAM(str);
-      
-      // shortInterpretation(str, data);
-      res.multi = malti;
+      res.interpretation = malti;
     }else{
-    ROS_INFO_STREAM(str);
-      //interpret the command through the socket
-    cmd_interpreted =  interpretCommand(req.command);
-    ROS_INFO_STREAM("Send command to sendAsTopic");
-    ROS_INFO_STREAM(cmd_interpreted);
-    //   sendAsTopic(req.selected, req.command, cmd_interpreted, cmd_type, req.direction, req.location);
+
+    cmd_interpreted =  interpretCommand(req.action.command);
+   
     ros::Rate loop_rate(10);
-    ROS_INFO_STREAM("end startChecking");
     ros::NodeHandle new_pub;
-    ROS_INFO_STREAM("start the multimodalcallback service");
+    ROS_INFO_STREAM("REPL CLIENT!!!");
     ros::ServiceClient client = new_pub.serviceClient<instruct_mission::multimodal_lisp>("multimodal_lisp");
+    ROS_INFO_STREAM("REPL CLIENT1!!!");    
     instruct_mission::multimodal_lisp srv;
-    srv.request.selected = req.selected;
+    ROS_INFO_STREAM("REPL CLIENT2!!");
+    srv.request.selected = req.action.selected;
+    ROS_INFO_STREAM("REPL CLIENT3!!");
     srv.request.command = cmd_interpreted;
+    ROS_INFO_STREAM("REPL CLIENT4!!!");
     srv.request.type = cmd_type;
-    srv.request.gesture = req.direction;
-    srv.request.location = req.location;
-    if (client.call(srv))
-      {
-	ROS_INFO_STREAM(srv.response.mlisp);
+    ROS_INFO_STREAM("REPL CLIENT5!!!");
+    srv.request.gesture.push_back(req.action.direction[0]);
+    ROS_INFO_STREAM("REPL CLIENT5.5!!!");
+    srv.request.gesture.push_back(req.action.direction[1]);
+    ROS_INFO_STREAM("REPL CLIENT6!!!"); 
+    srv.request.gesture.push_back(req.action.direction[2]);
+    std::vector<float> vect;
+    vect.push_back(req.action.location[0]);
+    vect.push_back(req.action.location[1]);
+    vect.push_back(req.action.location[2]);
+    srv.request.location = wgs84ToNed(vect[0], vect[1], vect[2], LAT, LON, ALT );
+     if (client.call(srv))
+     {
+     	ROS_INFO_STREAM("Hallo");
       }
-    else
+     else
       {
-	ROS_ERROR("Failed to call the service in lisp");
-	return 1;
+     	ROS_ERROR("Failed to call the service in lisp");
+     	return 1;
       }
-      //  ros::Subscriber sub;
-      // while(ros::ok())
-      //	{
-      //	  if (var == 1){
-      //	  ROS_INFO_STREAM("Inside the loop");
-      //	  sub = new_pub.subscribe("sendMsgToServer", 1000, multimodalCallback);
-      //	  }else
-      //	    {break;}
-      //	  ROS_INFO_STREAM("Still Inside the loop");
-      //	}
-      //}
-    //	ROS_INFO_STREAM("juhu klappt!");
-    //	ROS_INFO_STREAM(srv.response.mlisp);
-    //	mhri_msgs::multimodal ref = srv.response.mlisp;
-    //	mhri_msgs::interpretation in = ref.action[0];
-    //	geometry_msgs::PoseStamped pse = in.pose;
-    //	geometry_msgs::Pose pso = pse.pose;
-    //	geometry_msgs::Point po = pso.position;
-    //	simulateQuadrotor(po.x, po.y, po.z);
-	
-	res.multi = srv.response.mlisp;
-	ROS_INFO_STREAM("end the multimodalcallback");
+
+    mhri_msgs::multimodal temp;
+    mhri_msgs::interpretation in_temp;
+    geometry_msgs::Pose ps;
+    geometry_msgs::Pose psoo;
+    psoo = in_temp.pose;
+    std::vector<float> ve = nedToWgs84(psoo.position.x, psoo.position.y, psoo.position.z, LAT, LON, ALT);
+    ps.position.x = ve[0];
+    ps.position.y = ve[1];
+    ps.position.z = ve[2];
+    ps.orientation = psoo.orientation;
+    
+    in_temp.pose = ps;
+    temp.action.push_back(in_temp);
+    res.interpretation = temp; //srv.response.mlisp;
+    ROS_INFO_STREAM("end the multimodalcallback");
     }
       return true;
 }
 
-
-/*
- * main function
- */
 int main(int argc, char **argv)
 {
    ROS_INFO_STREAM("Wait for Parser!");

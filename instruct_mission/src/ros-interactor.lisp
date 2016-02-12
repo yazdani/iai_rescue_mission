@@ -39,7 +39,7 @@
 
 ;;; INTERPRETATION OF INSTRUCTION ;;;
 
-
+;;WURDE UMGEÄNDERT FÜR SWM->Integration
 (defun designator-into-mhri-msg (desig)
  ;;  (format t "endlich gehts voranCDE------> ~a~%" desig) 
 (let* ((combiner NIL)
@@ -75,15 +75,17 @@
                                                         :data  type))
              (setf msg (vector (roslisp:make-message "mhri_msgs/interpretation"
                                              :type str
-                                             :pose (cl-transforms-stamped::to-msg pose)))))))
-  ;;(format t "ääääääää +~a~%" msg)
+                                             :pose
+                                             (slot-value (roslisp:call-service "myned2wgs_server" 'world_mission-srv::Mywgs2ned_server :data (cl-transforms-stamped::to-msg pose)) 'WORLD_MISSION-SRV:SUM)))))))
+            ;;(cl-transforms-stamped::to-msg pose)))))))
+  ;;(format t "ääääääHAAAAAALLOOOää +~a~%" msg)
   (setf msg2 (roslisp:make-message "mhri_msgs/multimodal"
                                    :action   msg))
   ;;(format t "new tests +~a~%" msg2)
     msg2))
 
 (defun swm->get-geopose-agent (agent)
-  (let* ((array (json-prolog:prolog  `("swm_transform" ,agent ?agent)))
+  (let* ((array (json-prolog:prolog  `("swm_AnimalTransform" ,agent ?agent)))
          (str-pose (symbol-name (cdaar array)))
          (seq (cddr (split-sequence:split-sequence #\[ str-pose)))
          (a-seq (first (split-sequence:split-sequence #\] (first seq))))
@@ -99,4 +101,7 @@
                                         (read-from-string (second b-nums))
                                         (read-from-string (third b-nums))
                                         (read-from-string (fourth b-nums))))))
-pose))
+    (format t "~a~%" str-pose)
+        (cl-transforms:make-pose (cl-transforms:make-3d-vector 44.153278 12.241426 41.0) (cl-transforms:make-identity-rotation))))
+
+

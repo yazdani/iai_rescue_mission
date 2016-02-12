@@ -4,7 +4,8 @@ project(world_mission)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS roscpp geographic_msgs tf geometry_msgs
+)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -52,7 +53,11 @@ find_package(catkin REQUIRED)
 #   Service1.srv
 #   Service2.srv
 # )
-
+add_service_files(
+  FILES
+  Mywgs2ned_server.srv
+  GeniusTransform.srv
+)
 ## Generate actions in the 'action' folder
 # add_action_files(
 #   FILES
@@ -61,10 +66,31 @@ find_package(catkin REQUIRED)
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+   DEPENDENCIES
+   geometry_msgs
+   geographic_msgs
+)
+
+catkin_package(
+ CATKIN_DEPENDS geometry_msgs message_generation message_runtime roscpp std_msgs)
+
+
+
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+)
+
+
+## Declare a C++ executable
+add_executable(wgs2ned_server src/wgs2ned_server.cpp)
+target_link_libraries(wgs2ned_server ${catkin_LIBRARIES})
+add_dependencies(wgs2ned_server world_mission_gencpp)
+
+## Declare a C++ executable
+add_executable(ned2wgs_server src/ned2wgs_server.cpp)
+target_link_libraries(ned2wgs_server ${catkin_LIBRARIES})
+add_dependencies(ned2wgs_server world_mission_gencpp)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -121,16 +147,21 @@ catkin_package(
 # add_dependencies(world_mission ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(world_mission_node src/world_mission_node.cpp)
+#add_executable(wgs_transform src/wgs_trans.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(world_mission_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(wgs_transform ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(world_mission_node
+# target_link_libraries(wgs_transform
 #   ${catkin_LIBRARIES}
 # )
+## Declare a C++ executable
+add_executable(wgs2ned src/wgs2ned.cpp)
+target_link_libraries(wgs2ned ${catkin_LIBRARIES})
+add_dependencies(wgs2ned world_mission_gencpp)
+
 
 #############
 ## Install ##

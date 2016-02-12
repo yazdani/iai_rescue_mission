@@ -49,7 +49,8 @@
 	       instruct_mission-srv
 	       cl-tf
                cram-semantic-map-designators
-               instruct-mission
+	       world_mission-srv
+	       instruct-mission
                alexandria)
   ;; bullet-reasoning-utilities)
   :components
@@ -60,5 +61,6 @@
      (:file "gesture-calculation" :depends-on("package"))
      (:file "cost-functions" :depends-on ("package"))
      (:file "designators" :depends-on ("package"))
-     (:file "reasoning" :depends-on ("package" "cost-functions"))
-     (:file "start-scenario" :depends-on ("package" "costmap-knowledge" "reasoning" "gesture-calculation"))))))
+     (:file "swm_instructions" :depends-on ("package"))
+     (:file "reasoning" :depends-on ("package" "cost-functions" "swm_instructions"))
+     (:file "start-scenario" :depends-on ("package" "costmap-knowledge" "reasoning" "gesture-calculation" "swm_instructions"))))))

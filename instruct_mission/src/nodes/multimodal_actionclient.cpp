@@ -48,9 +48,9 @@ int main(int argc, char **argv)
 vec.x = 0.2;
  vec.y = 0.4;
  vec.z = 0.5;
- p.position.x = 5;
- p.position.y = 0;
- p.position.z = 0;
+ p.position.x =  41.000;
+ p.position.y = 12.1233;
+ p.position.z = 41.000;
 p.orientation.x = 0;
  p.orientation.y = 0;
  p.orientation.z = 0;
@@ -76,7 +76,7 @@ p.orientation.x = 0;
  
  srv.request.selected = "blue hawk";
  srv.request.type = "Go";
- srv.request.command = "Go right of this tree";
+ srv.request.command = "Go right of that mountains";
  srv.request.data = 2;
  srv.request.direction = dir;
  srv.request.location = loc;

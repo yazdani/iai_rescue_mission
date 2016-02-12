@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<robot name="map" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<material name="Grey2">
+<color rgba="0.9 0.9 0.9 1.0"/>
+</material>
+
+<material name="DarkGreen">
+<color rgba="0.0 0.5 0.0 1.0"/>
+</material>
+
+<material name="Grey">
+<color rgba="0.7 0.7 0.7 1.0"/>
+</material>
+
+<material name="Green">
+<color rgba="0.0 0.8 0.0 1.0"/>
+</material>
+  <material name="Red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+  <material name="Black">
+    <color rgba="0.1 0.1 0.1 1.0"/>
+  </material>
+
+<xacro:include filename="./mountain.xml"/>
+<xacro:include filename="./river.xml"/>
+<xacro:include filename="./house.xml"/>
+<xacro:include filename="./wood.xml"/>
+
+<link name="map_link">
+</link>
+
+<mountain/>
+<river/>
+<house/>
+<wood/>
+
+</robot>

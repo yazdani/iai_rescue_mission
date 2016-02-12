@@ -29,6 +29,7 @@
 (in-package :startup-mission)
 
 (defvar *tf* (make-instance 'cl-tf:transform-listener))
+(defvar *pub* (cl-tf:make-transform-broadcaster))
 
 (defun make-reasoning-cost-function (location axis pred threshold)
   (roslisp:ros-info (sherpa-spatial-relations) "calculate the costmap")

@@ -21,7 +21,7 @@ def talker():
 
         str1.selected = "blue hawk"
         str1.type = "how"
-        str1.command = "Go next to this tree"
+        str1.command = "Go close to this house"
         str1.data = 1.0
         str1.direction = [2.0, 0.0, 0.0]
         str1.location = [3.0, 0.0, 0.0]

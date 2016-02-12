@@ -12,7 +12,9 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   tf
+  geographic_msgs
   cram_designators
+  mhri_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -53,6 +55,7 @@ add_message_files(
    FILES
    multimodal_msgs.msg
    multimodal_values.msg
+   multikulti.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -61,6 +64,7 @@ add_service_files(
    multimodal_srv.srv
    multimodal_lisp.srv
    beginner.srv
+   ned_wgs.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -134,24 +138,24 @@ include_directories(
 # add_dependencies(instruct_mission ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(multimodal_actionserver src/multimodal_actionserver.cpp)
+add_executable(multimodal_actionserver src/nodes/multimodal_actionserver.cpp)
 target_link_libraries(multimodal_actionserver ${catkin_LIBRARIES})
 add_dependencies(multimodal_actionserver instruct_mission_gencpp)
 
 ## Declare a C++ executable
-add_executable(multimodal_actionclient src/multimodal_actionclient.cpp)
+add_executable(multimodal_actionclient src/nodes/multimodal_actionclient.cpp)
 target_link_libraries(multimodal_actionclient ${catkin_LIBRARIES})
 add_dependencies(multimodal_actionclient instruct_mission_gencpp)
 
 ## Declare a C++ executable
-add_executable(contacts src/contacts.cpp)
-target_link_libraries(contacts ${catkin_LIBRARIES})
-add_dependencies(contacts instruct_mission_gencpp)
+#add_executable(contacts src/contacts.cpp)
+#target_link_libraries(contacts ${catkin_LIBRARIES})
+#add_dependencies(contacts instruct_mission_gencpp)
 
 ## Declare a C++ executable
-add_executable(contacts_sub src/contacts_sub.cpp)
-target_link_libraries(contacts_sub ${catkin_LIBRARIES})
-add_dependencies(contacts_sub instruct_mission_gencpp)
+#add_executable(contacts_sub src/contacts_sub.cpp)
+#target_link_libraries(contacts_sub ${catkin_LIBRARIES})
+#add_dependencies(contacts_sub instruct_mission_gencpp)
 
 #add_executable(tester src/tester.cpp)
 #target_link_libraries(tester ${catkin_LIBRARIES})
