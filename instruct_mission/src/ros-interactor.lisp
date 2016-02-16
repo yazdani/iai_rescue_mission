@@ -84,24 +84,3 @@
   ;;(format t "new tests +~a~%" msg2)
     msg2))
 
-(defun swm->get-geopose-agent (agent)
-  (let* ((array (json-prolog:prolog  `("swm_AnimalTransform" ,agent ?agent)))
-         (str-pose (symbol-name (cdaar array)))
-         (seq (cddr (split-sequence:split-sequence #\[ str-pose)))
-         (a-seq (first (split-sequence:split-sequence #\] (first seq))))
-         (b-seq (first (split-sequence:split-sequence #\] (second seq))))
-         (a-nums (split-sequence:split-sequence #\, a-seq))
-         (b-nums (split-sequence:split-sequence #\, b-seq))
-         (pose (cl-transforms:make-pose (cl-transforms:make-3d-vector
-                                        (read-from-string (first a-nums))
-                                        (read-from-string (second a-nums))
-                                        (read-from-string (third a-nums)))
-                                       (cl-transforms:make-quaternion
-                                        (read-from-string (first b-nums))
-                                        (read-from-string (second b-nums))
-                                        (read-from-string (third b-nums))
-                                        (read-from-string (fourth b-nums))))))
-    (format t "~a~%" str-pose)
-        (cl-transforms:make-pose (cl-transforms:make-3d-vector 44.153278 12.241426 41.0) (cl-transforms:make-identity-rotation))))
-
-

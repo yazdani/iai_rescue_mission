@@ -49,11 +49,21 @@
    ;; (format t "desig2: ~a~%" (instruct-mission::designator-into-mhri-msg desig))
     (roslisp:make-response :action (instruct-mission::designator-into-mhri-msg desig))))
 
+;; (defun service-call ()
+;; (let*((index 0))
+;;   (loop while (= index 0)
+;;         do(;; (roslisp:with-ros-node ("starting_ros_node" :spin t)
+;;            (roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
+;;     (roslisp:ros-info (basics-system) "the msg.")
+;;    ))))
+
+
 (defun service-call ()
- (roslisp:with-ros-node ("starting_ros_node" :spin t)
-    (roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
+(let*((index 0))
+  (loop while (= index 0)
+        do(roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
     (roslisp:ros-info (basics-system) "the msg.")
-   ))
+   )))
 
 (defun parse-cmd-into-designator (selected type command gesture location)
   (let* ((agent (read-from-string (substitute #\- #\Space selected)))

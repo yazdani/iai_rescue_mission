@@ -39,8 +39,7 @@
 <node pkg="tf" type="static_transform_publisher" name="cesena_map_map6" args="0.889801 -0.03743 -0 0 0 0 1 /map /river01 100"/>
 
 
- <node pkg="tf" type="static_transform_publisher" name="genius_node" args="0 0 0 0 0 0 /map /genius_link 100"  />
-
+ <node pkg="tf" type="static_transform_publisher" name="genius_node" args="-8 3 1 0 0 0.5 1 /map /genius_link 100"  />
 
 </launch>
 

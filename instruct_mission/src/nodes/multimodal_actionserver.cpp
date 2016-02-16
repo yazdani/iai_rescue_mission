@@ -113,6 +113,8 @@ std::vector<float> wgs84ToNed(float latitude, float longitude, float altitude, f
   x = (lat_rad-lat_home_rad)*radius;
   y = (lon_rad-lon_home_rad)*radius*cos(lat_home_rad);
   z = altitude - altitude_home;
+  x = -x;
+  y = -y;
   std::vector<float> vec;
   vec.push_back(x);
   vec.push_back(y);
@@ -122,6 +124,8 @@ std::vector<float> wgs84ToNed(float latitude, float longitude, float altitude, f
 
 std::vector<float> nedToWgs84(float x, float y, float z, float latitude_home, float longitude_home, float altitude_home)
 {
+  x = -x;
+  y = -y;
   double euler = sqrt(1-pow(BERTA,2)/pow(ANTON,2));
   double lat_home_rad = latitude_home*M_PI/180.0f;
   double lon_home_rad = longitude_home*M_PI/180.0f;

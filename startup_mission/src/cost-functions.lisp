@@ -129,7 +129,7 @@
                       obj-pose "/map" 0.0)))
        (get-sem-object-transform->relative-map obj-pstamped)))
 
-(defun get-sem-object-pose->genius (object &optional (semantic-map (sem-map-utils::get-semantic-map)))
+(defun get-sem-object-pose->genius (object &optional (semantic-map (sem-map-utils::get-semantic-map)))0.7071967811865475d0
   (let*((obj (sem-map-utils::semantic-map-part semantic-map object))
        (obj-pose (slot-value obj 'sem-map-utils:pose))
        (obj-pstamped (cl-transforms-stamped:ensure-pose-stamped
@@ -166,7 +166,7 @@
 (defun get-gesture->relative-genius (gesture-vec) 
   (let*((pose (cl-transforms-stamped:make-pose-stamped "genius_link" 0.0
                                                         gesture-vec
-                                                        (cl-transforms:make-identity-rotation))))
+                                                        (cl-transforms:make-quaternion 0 0 -1 1))))
     (cl-transforms-stamped:pose-stamped->pose  (cl-tf:transform-pose *tf* :pose pose :target-frame "map"))))
 
 
