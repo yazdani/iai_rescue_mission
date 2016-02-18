@@ -65,6 +65,7 @@ add_service_files(
    multimodal_lisp.srv
    beginner.srv
    ned_wgs.srv
+   multimodal_parser.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -142,6 +143,14 @@ add_executable(multimodal_actionserver src/nodes/multimodal_actionserver.cpp)
 target_link_libraries(multimodal_actionserver ${catkin_LIBRARIES})
 add_dependencies(multimodal_actionserver instruct_mission_gencpp)
 
+## Declare a C++ executable
+add_executable(multimodal_parser src/nodes/multimodal_parser.cpp)
+target_link_libraries(multimodal_parser ${catkin_LIBRARIES})
+add_dependencies(multimodal_parser instruct_mission_gencpp)
+
+add_executable(multimodal_client src/nodes/multimodal_client.cpp)
+target_link_libraries(multimodal_client ${catkin_LIBRARIES})
+add_dependencies(multimodal_client instruct_mission_gencpp)
 ## Declare a C++ executable
 add_executable(multimodal_actionclient src/nodes/multimodal_actionclient.cpp)
 target_link_libraries(multimodal_actionclient ${catkin_LIBRARIES})

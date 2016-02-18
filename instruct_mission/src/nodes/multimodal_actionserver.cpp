@@ -32,6 +32,7 @@
 #include "instruct_mission/multimodal_srv.h"
 #include "instruct_mission/multimodal_values.h"
 #include "instruct_mission/multimodal_lisp.h"
+#include "instruct_mission/multimodal_parser.h"
 #include "mhri_msgs/multimodal_action.h"
 #include "mhri_msgs/multimodal.h"
 #include "mhri_srvs/multimodal_srv.h"
@@ -215,9 +216,21 @@ bool startChecking(mhri_srvs::multimodal_srv::Request &req,
     {
       res.interpretation = malti;
     }else{
-
-    cmd_interpreted =  interpretCommand(req.action.command);
    
+    ros::NodeHandle new_parser;
+    ros::ServiceClient client_parser = new_parser.serviceClient<instruct_mission::multimodal_parser>("tldl_parser");
+    instruct_mission::multimodal_parser srv_parser;
+    srv_parser.request.goal = req.action.command;
+      if (client_parser.call(srv_parser))
+     {
+     	ROS_INFO_STREAM("Hallo");
+      }
+     else
+      {
+     	ROS_ERROR("Failed to call the service in lisp");
+     	return 1;
+      }
+      ROS_INFO_STREAM(srv_parser.response.result);
     ros::Rate loop_rate(10);
     ros::NodeHandle new_pub;
     ROS_INFO_STREAM("REPL CLIENT!!!");
@@ -227,15 +240,15 @@ bool startChecking(mhri_srvs::multimodal_srv::Request &req,
     ROS_INFO_STREAM("REPL CLIENT2!!");
     srv.request.selected = req.action.selected;
     ROS_INFO_STREAM("REPL CLIENT3!!");
-    srv.request.command = cmd_interpreted;
+    srv.request.command = srv_parser.response.result;
     ROS_INFO_STREAM("REPL CLIENT4!!!");
     srv.request.type = cmd_type;
     ROS_INFO_STREAM("REPL CLIENT5!!!");
-    srv.request.gesture.push_back(req.action.direction[0]);
-    ROS_INFO_STREAM("REPL CLIENT5.5!!!");
     srv.request.gesture.push_back(req.action.direction[1]);
+    ROS_INFO_STREAM("REPL CLIENT5.5!!!");
+    srv.request.gesture.push_back(req.action.direction[0]);
     ROS_INFO_STREAM("REPL CLIENT6!!!"); 
-    srv.request.gesture.push_back(req.action.direction[2]);
+    srv.request.gesture.push_back(req.action.direction[0]);
     std::vector<float> vect;
     vect.push_back(req.action.location[0]);
     vect.push_back(req.action.location[1]);
@@ -272,37 +285,37 @@ bool startChecking(mhri_srvs::multimodal_srv::Request &req,
 
 int main(int argc, char **argv)
 {
-   ROS_INFO_STREAM("Wait for Parser!");
+  //  ROS_INFO_STREAM("Wait for Parser!");
  
-   sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  //  sockfd = socket(AF_INET, SOCK_STREAM, 0);
    
-   if (sockfd < 0) {
-      perror("ERROR opening socket");
-      exit(1);
-   }
+  //  if (sockfd < 0) {
+  //     perror("ERROR opening socket");
+  //     exit(1);
+  //  }
 
-   bzero((char *) &serv_addr, sizeof(serv_addr));
-   portno = 1234;
-   serv_addr.sin_family = AF_INET;
-   serv_addr.sin_addr.s_addr = INADDR_ANY;
-   serv_addr.sin_port = htons(portno);
+  //  bzero((char *) &serv_addr, sizeof(serv_addr));
+  //  portno = 1234;
+  //  serv_addr.sin_family = AF_INET;
+  //  serv_addr.sin_addr.s_addr = INADDR_ANY;
+  //  serv_addr.sin_port = htons(portno);
 
-   if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-      perror("ERROR on binding");
-      exit(1);
-   }
+  //  if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+  //     perror("ERROR on binding");
+  //     exit(1);
+  //  }
 
-   listen(sockfd,5);
-   clilen = sizeof(cli_addr);
+  //  listen(sockfd,5);
+  //  clilen = sizeof(cli_addr);
    
-   newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
+  //  newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
 	
-   if (newsockfd < 0) {
-      perror("ERROR on accept");
-      exit(1);
-   }
+  //  if (newsockfd < 0) {
+  //     perror("ERROR on accept");
+  //     exit(1);
+  //  }
  
-  ROS_INFO_STREAM("Parser registered!");
+  // ROS_INFO_STREAM("Parser registered!");
 
   ros::init(argc, argv, "multimodal_cmd_server");
   ros::init(argc, argv, "ListenToTheTopic");
