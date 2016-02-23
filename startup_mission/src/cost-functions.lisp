@@ -28,12 +28,109 @@
 
 (in-package :startup-mission)
 
-(defvar *tf* (make-instance 'cl-tf:transform-listener))
-(defvar *pub* (cl-tf:make-transform-broadcaster))
+(defvar *tf* NIL)
+(defvar *pub* NIL)
 
+(defun init-tf ()
+  (setf *tf* (make-instance 'cl-tf:transform-listener))
+  (setf *pub* (cl-tf:make-transform-broadcaster)))
+
+(roslisp-utilities:register-ros-init-function init-tf)
+
+(defun make-new-function-right (human-pose object-pose)
+  (format t "object-pose ~a~%" object-pose)
+  (let*((h-qz (cl-transforms:z (cl-transforms:orientation human-pose)))
+         (h-qw (cl-transforms:w (cl-transforms:orientation human-pose)))
+         (o-x (cl-transforms:x (cl-transforms:origin object-pose)))
+         (o-y (cl-transforms:y (cl-transforms:origin object-pose)))
+         (o-z (cl-transforms:z (cl-transforms:origin object-pose)))
+         (pose NIL))
+     (format t "hqz ~a und hqw ~a~%" h-qz h-qw)
+     (cond((and (plusp h-qz)
+                (plusp h-qw)
+                (> 1.1 h-qw)
+                (<= 0.5 h-qw))
+           (setf pose (cl-transforms:make-pose
+                       (cl-transforms:make-3d-vector (+ o-x 0.2) (- o-y 0.3) o-z)
+                       (cl-transforms:orientation human-pose))))
+           ((and (= 0 h-qz)
+                  (= 1 h-qw))
+             (format t "Entering~%")
+            (setf pose (cl-transforms:make-pose
+                        (cl-transforms:make-3d-vector (+ o-x 0.1) (- o-y 0.8) o-z)
+                        (cl-transforms:orientation human-pose))))
+          ((and (plusp h-qz)
+                (> 0.5 h-qw))
+           (format t "entering~%")
+           (setf pose (cl-transforms:make-pose
+                       (cl-transforms:make-3d-vector (+ o-x 0.3) (+ o-y 0.3) o-z)
+                       (cl-transforms:orientation human-pose))))
+          ((and (minusp h-qz)
+                (plusp h-qw)
+                (> 1.1 h-qw)
+                (<= 0.5 h-qw))
+           (setf pose (cl-transforms:make-pose
+                       (cl-transforms:make-3d-vector (- o-x 0.5) (- o-y 0.5) o-z)
+                       (cl-transforms:orientation human-pose))))
+          ((and (minusp h-qz)
+                (> 0.5 h-qw))
+           (setf pose (cl-transforms:make-pose
+                       (cl-transforms:make-3d-vector (- o-x 0.5) (+ o-y 0.5) o-z)
+                       (cl-transforms:orientation human-pose))))
+          (t (format t "Something went wrong in costfunction-right~%")))
+    (format t "POSE IS ~a~%" pose)
+    (set-my-marker pose 10000)
+     pose))
+
+(defun make-new-function-left (human-pose object-pose)
+  (let*((h-qz (cl-transforms:z (cl-transforms:orientation human-pose)))
+         (h-qw (cl-transforms:w (cl-transforms:orientation human-pose)))
+         (o-x (cl-transforms:x (cl-transforms:origin object-pose)))
+         (o-y (cl-transforms:y (cl-transforms:origin object-pose)))
+         (o-z (cl-transforms:z (cl-transforms:origin object-pose)))
+         (pose NIL))
+     (format t "hqz ~a und hqw ~a~%" h-qz h-qw)
+     (cond((and (plusp h-qz)
+                (plusp h-qw)
+                (> 1.1 h-qw)
+                (<= 0.5 h-qw))
+           (setf pose (cl-transforms:make-pose
+                       (cl-transforms:make-3d-vector (- o-x 0.2) (+ o-y 0.3) o-z)
+                       (cl-transforms:orientation human-pose))))
+           ((and (= 0 h-qz)
+                 (= 1 h-qw))
+           (setf pose (cl-transforms:make-pose
+                       (cl-transforms:make-3d-vector o-x (+ o-y 0.5) o-z)
+                       (cl-transforms:orientation human-pose))))
+          ((and (plusp h-qz)
+                (> 0.5 h-qw))
+           (setf pose (cl-transforms:make-pose
+                       (cl-transforms:make-3d-vector (- o-x 0.3) (- o-y 0.3) o-z)
+                       (cl-transforms:orientation human-pose))))
+          ((and (minusp h-qz)
+                (plusp h-qw)
+                (> 1.1 h-qw)
+                (<= 0.5 h-qw))
+           (setf pose (cl-transforms:make-pose
+                       (cl-transforms:make-3d-vector (+ o-x 0.5) (+ o-y 0.5) o-z)
+                       (cl-transforms:orientation human-pose))))
+          ((and (minusp h-qz)
+                (> 0.5 h-qw))
+           (setf pose (cl-transforms:make-pose
+                       (cl-transforms:make-3d-vector (+ o-x 0.5) (- o-y 0.5) o-z)
+                       (cl-transforms:orientation human-pose))))
+          (t (format t "Something went wrong in costfunction-right~%")))
+     pose))
+
+
+;; wenn z rotation == 0
+     
 (defun make-reasoning-cost-function (location axis pred threshold)
   (roslisp:ros-info (sherpa-spatial-relations) "calculate the costmap")
-  (let* ((transformation (cl-transforms:pose->transform location))
+  (let* ((new-loc (cl-transforms:make-pose
+                   (cl-transforms:origin location)
+                   (cl-transforms:make-identity-rotation)))
+         (transformation (cl-transforms:pose->transform new-loc)) ;;location
          (world->location-transformation (cl-transforms:transform-inv transformation)))
     (lambda (x y)
       (let* ((point (cl-transforms:transform-point world->location-transformation
@@ -41,8 +138,9 @@
              (coord (ecase axis
                       (:x (cl-transforms:x point))
                       (:y (cl-transforms:y point))))
-             (mode (sqrt (+  (* (cl-transforms:x point) (cl-transforms:x point))
+             (mode (sqrt (+   (* (cl-transforms:x point) (cl-transforms:x point))
                              (* (cl-transforms:y point) (cl-transforms:y point))))))
+       ;; (format t "pred: ~a~% coord: ~a~%" pred coord)
         (if (funcall pred coord 0.0d0)
             (if (> (abs (/ coord mode)) threshold)
                 (abs (/ coord mode))
@@ -57,6 +155,21 @@
     (if (< height 1)
 	(setf height 1.5)
 	(setf height height))
+    (lambda (x y)
+      (declare (ignore x y))
+      (list height))))
+
+(defun swm->make-height-human (pose height)
+   (setf height (+ 1 3))
+  (format t "inside human height~%")
+  (lambda (x y)
+    (declare (ignore x y))
+    (list height)))
+
+(defun swm->make-constant-height-function (obj-name height)
+  (let* ((sem-hash (slot-value (swm->create-semantic-map) 'sem-map-utils:parts))
+         (dim  (slot-value (gethash obj-name sem-hash) 'sem-map-utils:dimensions)))
+    (setf height  (+ (cl-transforms:z dim) 0.5))
     (lambda (x y)
       (declare (ignore x y))
       (list height))))
@@ -129,7 +242,7 @@
                       obj-pose "/map" 0.0)))
        (get-sem-object-transform->relative-map obj-pstamped)))
 
-(defun get-sem-object-pose->genius (object &optional (semantic-map (sem-map-utils::get-semantic-map)))0.7071967811865475d0
+(defun get-sem-object-pose->genius (object &optional (semantic-map (sem-map-utils::get-semantic-map)))
   (let*((obj (sem-map-utils::semantic-map-part semantic-map object))
        (obj-pose (slot-value obj 'sem-map-utils:pose))
        (obj-pstamped (cl-transforms-stamped:ensure-pose-stamped
@@ -203,24 +316,112 @@ objects))
      (setf test NIL))
     test))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;; spatial reasoning functions for right, left, behind, in-front-of and next
+
+(defun preposition-right (human-pose)
+  (let*((pred NIL)
+        (axis NIL)
+        (h-qz (cl-transforms:z (cl-transforms:orientation human-pose)))
+        (h-qw (cl-transforms:w (cl-transforms:orientation human-pose))))
+
+        (cond ((>= h-qw 0.8)
+               (setf pred '<)
+               (setf axis :Y))
+              ((and(< h-qw 0.8)
+                   (>= h-qw 0.19)
+                   (plusp h-qz))
+               (setf pred '>)
+               (setf axis :X))
+              ((and (< h-qw 0.19)
+                    (>= h-qw -0.1))
+               (setf pred '>)
+               (setf axis :Y))
+              ((or (< h-qw -0.1)
+                   (minusp h-qz))
+               (setf pred '<)
+               (setf axis :X))
+              (t (format t "Something went wrong inside preposition right~%")
+                 (setf pred '<)
+                 (setf axis :Y)))
+    (list axis pred)))
+
+(defun preposition-left (human-pose)
+  (let*((pred NIL)
+        (axis NIL)
+        (h-qz (cl-transforms:z (cl-transforms:orientation human-pose)))
+        (h-qw (cl-transforms:w (cl-transforms:orientation human-pose))))
+        (cond ((>= h-qw 0.8)
+               (setf pred '>)
+               (setf axis :Y))
+              ((and(< h-qw 0.8)
+                   (>= h-qw 0.19)
+                   (plusp h-qz))
+               (setf pred '<)
+               (setf axis :X))
+              ((and (< h-qw 0.19)
+                    (>= h-qw -0.1))
+               (setf pred '<)
+               (setf axis :Y))
+              ((or (< h-qw -0.1)
+                   (minusp h-qz))
+               (setf pred '>)
+               (setf axis :X))
+              (t (format t "Something went wrong inside preposition left~%")
+                 (setf pred '>)
+                 (setf axis :Y)))
+    (list axis pred)))
+
+(defun preposition-behind (human-pose)
+  (let*((pred NIL)
+        (axis NIL)
+        (h-qz (cl-transforms:z (cl-transforms:orientation human-pose)))
+        (h-qw (cl-transforms:w (cl-transforms:orientation human-pose))))
+        (cond ((>= h-qw 0.8)
+               (setf pred '>)
+               (setf axis :X))
+              ((and(< h-qw 0.8)
+                   (>= h-qw 0.19)
+                   (plusp h-qz))
+               (setf pred '>)
+               (setf axis :Y))
+              ((and (< h-qw 0.19)
+                    (>= h-qw -0.1))
+               (setf pred '<)
+               (setf axis :X))
+              ((or (< h-qw -0.1)
+                   (minusp h-qz))
+               (setf pred '<)
+               (setf axis :Y))
+              (t (format t "Something went wrong inside preposition behind~%")
+                 (setf pred '<)
+                 (setf axis :X)))
+    (list axis pred)))
+
+(defun preposition-front (human-pose)
+  (let*((pred NIL)
+        (axis NIL)
+        (h-qz (cl-transforms:z (cl-transforms:orientation human-pose)))
+        (h-qw (cl-transforms:w (cl-transforms:orientation human-pose))))
+        (cond ((>= h-qw 0.8)
+               (setf pred '<)
+               (setf axis :X))
+              ((and(< h-qw 0.8)
+                   (>= h-qw 0.19)
+                   (plusp h-qz))
+               (setf pred '<)
+               (setf axis :Y))
+              ((and (< h-qw 0.19)
+                    (>= h-qw -0.1))
+               (setf pred '>)
+               (setf axis :X))
+              ((or (< h-qw -0.1)
+                   (minusp h-qz))
+               (setf pred '>)
+               (setf axis :Y))
+              (t (format t "Something went wrong inside preposition front~%")
+                 (setf pred '>)
+                 (setf axis :X)))
+    (list axis pred)))
 
 (defun right-direction (human-pose obj-pose)
   (let*((pred NIL)
@@ -298,6 +499,7 @@ objects))
          (list axis pred)))
   
 (defun left-direction (human-pose obj-pose)
+            (format t "cl-transforms:z ~a" (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
   (let*((pred NIL)
         (axis NIL))
     (cond((and 
@@ -307,7 +509,8 @@ objects))
            (<=  (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose)))
                  -0.3))
           (setf pred '>)
-          (setf axis :X))
+          (format t "cl-transforms:z ~a" (cl-transforms:z (cl-transforms:quaternion->axis-angle (cl-transforms:orientation human-pose))))
+          (setf axis :X)) ;;:X
           ;;(format t "eins ~a ~a~%" pred axis))        
          ((and 
            (>= (- (cl-transforms:y (cl-transforms:origin human-pose))
@@ -361,6 +564,7 @@ objects))
             (< (cl-transforms:z (cl-transforms:quaternion->axis-angle
                                  (cl-transforms:orientation human-pose))) 0.9))
            (setf pred '>)
+          (format t "moun moun~%")
            (setf axis :X))
        ;;    (format t "sieben ~a ~a~%" pred axis))
          ((and 

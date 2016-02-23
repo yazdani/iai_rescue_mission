@@ -39,6 +39,20 @@
 
 
 
+(defun swm->get-bbox-as-aabb (name sem-hash)
+(let*((dim-x (cl-transforms:x (slot-value (gethash name sem-hash) 'sem-map-utils:dimensions)))
+      (dim-y (cl-transforms:y (slot-value (gethash name sem-hash) 'sem-map-utils:dimensions)))
+      (dim-z (cl-transforms:z (slot-value (gethash name sem-hash) 'sem-map-utils:dimensions)))
+      (pose-x (cl-transforms:x (cl-transforms:origin  (slot-value (gethash name sem-hash) 'sem-map-utils:pose))))
+       (pose-y (cl-transforms:y (cl-transforms:origin  (slot-value (gethash name sem-hash) 'sem-map-utils:pose))))
+      (min-vec (cl-transforms:make-3d-vector (- pose-x (/ dim-x 2))
+                                             (- pose-y (/ dim-y 2))
+                                             0))
+      (max-vec (cl-transforms:make-3d-vector (+ pose-x (/ dim-x 2))
+                                             (+ pose-y (/ dim-y 2))
+                                             dim-z)))
+  (cram-semantic-map-costmap::get-aabb min-vec max-vec)))
+
 ;;getting the bounding boxes of different elements within the semantic map
 (defun get-bbox-as-aabb (index)
 (let*((dim-x (cl-transforms:x (car (nthcdr index *liste-dim*))))
@@ -167,6 +181,14 @@
 (defun set-my-marker (pose index)
  ;; (format t "point is ~a~%" point)
   (location-costmap::publish-pose pose :id (+ 500 index)))
+
+(defun visualize-world()
+  (let* ((liste (instruct-mission::swm->geopose-elements))
+         (pose NIL))
+    (loop for index from 0 to (- (length liste) 1)
+          do(setf pose (cl-transforms:origin (third (nth index liste))))          
+            (location-costmap::publish-point pose :id (+ 1000 index)))))
+
 
 (defun hash-keys (hash-table)
   (loop for key being the hash-keys of hash-table collect key))

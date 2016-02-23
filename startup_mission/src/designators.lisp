@@ -28,9 +28,9 @@
 
 (in-package :startup-mission)
 
-(defun test()
- (make-designator :action `((robot ,(get-agent))
-                            (action ,(get-command))
-                            (direction ,(get-direction))
-                            (cmd-type ,(get-cmd-type)))))
+;; (defun test()
+;;  (make-designator :action `((robot ,(get-agent))
+;;                             (action ,(get-command))
+;;                             (direction ,(get-direction))
+;;                             (cmd-type ,(get-cmd-type)))))
                             

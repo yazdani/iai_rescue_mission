@@ -30,9 +30,9 @@
 
 (def-fact-group costmap-metadata ()
   (<- (costmap-size 20 20))
-  (<- (costmap-origin -20 -20))
-  (<- (costmap-resolution 0.95))
-  (<- (costmap-padding 0.5)))
+  (<- (costmap-origin -10 -10))
+  (<- (costmap-resolution 0.25))
+  (<- (costmap-padding 0.3)))
 
 ;;  (<- (costmap-size 20 20))
 ;;  (<- (costmap-origin -10 -10)) ;; out of bounds ERROR
