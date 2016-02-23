@@ -26,12 +26,18 @@ std::vector<double> wgs84ToNed(double latitude, double longitude, double altitud
   x = (lat_rad-lat_home_rad)*radius;
   y = (lon_rad-lon_home_rad)*radius*cos(lat_home_rad);
   z = altitude - altitude_home;
-   y = -y;
-  z = -z;
+  y = -y;
+  //  z = -z;
   std::vector<double> vec;
   vec.push_back(x);
   vec.push_back(y);
   vec.push_back(z);
+  std::cout << x << std::endl;
+  std::cout << y << std::endl;
+  std::cout << z << std::endl;
+  std::cout << vec[0] << std::endl;
+  std::cout << vec[1] << std::endl;
+  std::cout << vec[2] << std::endl;
   return vec;
 }
 
@@ -47,6 +53,7 @@ bool wgs2ned(world_mission::Mywgs2ned_server::Request  &req,
   po.orientation.y = req.data.orientation.y;
   po.orientation.z = req.data.orientation.z;
   po.orientation.w = req.data.orientation.w;
+  std::cout << po << std::endl;
   res.sum = po;
 
   return true;
