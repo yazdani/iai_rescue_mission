@@ -47,7 +47,7 @@
    (service-call))
 
 (roslisp:def-service-callback instruct_mission-srv:multimodal_lisp (selected type command gesture location)
-  (format t "blabla ~a~% ~a~% ~a~%" selected gesture type)
+  (format t "BLUPPBLUPP ~a~% ~a~% ~a~%" selected gesture type)
   (let*((agent (read-from-string (substitute #\- #\Space selected)))
         (type (read-from-string type))
         (icmd command)

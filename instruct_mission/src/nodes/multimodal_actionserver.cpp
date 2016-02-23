@@ -246,9 +246,9 @@ bool startChecking(mhri_srvs::multimodal_srv::Request &req,
     srv.request.selected = req.action.selected;
     srv.request.command = srv_parser.response.result;
     srv.request.type = cmd_type;
+    srv.request.gesture.push_back(req.action.direction[0]);
     srv.request.gesture.push_back(req.action.direction[1]);
-    srv.request.gesture.push_back(req.action.direction[0]);
-    srv.request.gesture.push_back(req.action.direction[0]);
+    srv.request.gesture.push_back(req.action.direction[2]);
     std::vector<float> vect;
     vect.push_back(req.action.location[0]);
     vect.push_back(req.action.location[1]);

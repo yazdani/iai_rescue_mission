@@ -40,6 +40,7 @@
          (b-seq (first (split-sequence:split-sequence #\] (second seq))))
          (a-nums (split-sequence:split-sequence #\, a-seq))
          (b-nums (split-sequence:split-sequence #\, b-seq)))
+    (format t "(typeof) ~a and ~a ~%" (type-of b-nums) a-nums)
         (cl-transforms:make-pose (cl-transforms:make-3d-vector
                                         (read-from-string (first a-nums))
                                         (read-from-string (second a-nums))
