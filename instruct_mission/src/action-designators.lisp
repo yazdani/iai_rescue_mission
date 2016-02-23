@@ -37,7 +37,7 @@
 
 (defun create-action-MOVE-designator (type agent cmd gesture)
   (format t "move action desig~%")
-  (let*((acttype (read-from-string (instruct-mission::get-action (first (split-cmd cmd)))))
+  (let*((acttype (read-from-string (instruct-mission::get-action (first (split-cmd-by-colons cmd)))))
         (loc NIL)
         (ref NIL))
     (cond((= (length (instruct-mission::get-inside-list cmd)) 0)
@@ -48,11 +48,11 @@
                                                    (,(instruct-mission::direction-symbol (instruct-mission::get-dir (first (instruct-mission::get-inside-list cmd ))))
                                                     ,(instruct-mission::get-dir-cntnt3 (first (instruct-mission::get-inside-list cmd)))))))))
     (format t "loc ~a~%" loc)
- (setf ref (reference loc))
+ ;;(setf ref (reference loc))
   (make-designator :action `((:cmd ,type)
                                          (:agent ,agent)
                                          (:type ,acttype)
-                                         (:loc ,ref)))))
+                                         (:loc ,loc)))))
 
 
 ;; an action designator with one action-sequence => "detect"
@@ -221,8 +221,8 @@
         (lon_home 12.241426)
         (alt_home 41)
         (ori (cl-transforms:origin postpst))
-        (ori-x (cl-transforms:x ori))
-        (ori-y (cl-transforms:y ori))
+        (ori-x (* (cl-transforms:x ori)  (- 1)))
+        (ori-y (* (cl-transforms:y ori) (- 1)))
         (ori-z (cl-transforms:z ori))
         (e (sqrt (- 1 (/ (* b b) (* a a)))))
         (lat_home_rad (* lat_home (/ pi 180.0)))
@@ -255,11 +255,14 @@
         (lon_home-rad (* lon_home (/ pi 180)))
         (intern1 (* (sin lat_home-rad) (sin lat_home-rad)))
         (intern2 (* (sqrt (- 1 (* euler euler))) intern1))   
-        (radius (/ a intern2))      
-        (iks (* (- lat_rad lat_home-rad) radius))
-        (yps (* (* (- lon_rad lon_home-rad) radius) (cos lat_home-rad)))
+        (radius (/ ANTON intern2))      
+        (iks (* (* (- lat_rad lat_home-rad) radius) (- 1)))
+        (yps (* (* (* (- lon_rad lon_home-rad) radius) (cos lat_home-rad)) (- 1)))
         (zed (- ori-alt alt_home)))
     (format t "~a~%"  (- lon_rad lon_home-rad))
     (format t "~a~%" radius)
     (cl-transforms:make-pose (cl-transforms:make-3d-vector iks yps zed)
                              (cl-transforms:orientation postpst))))
+
+
+;;action-designator "move in front of that 

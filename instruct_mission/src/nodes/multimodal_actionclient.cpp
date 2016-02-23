@@ -29,29 +29,27 @@
  */
 
 #include "ros/ros.h"
-#include "instruct_mission/multimodal_srv.h"
+#include "mhri_srvs/multimodal_srv.h"
+#include "mhri_msgs/multimodal_action.h"
 #include "instruct_mission/multimodal_values.h"
 #include <cstdlib>
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Vector3.h"
 #include "std_msgs/Float64.h"
-
+#include "mhri_msgs/point3d.h"
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "multimodal_cmd_client");
  
  ros::NodeHandle n;
- ros::ServiceClient client = n.serviceClient<instruct_mission::multimodal_srv>("multimodal_cmd");
- instruct_mission::multimodal_srv srv;
+ ros::ServiceClient client = n.serviceClient<mhri_srvs::multimodal_srv>("multimodal_cmd");
+ mhri_srvs::multimodal_srv srv;
+ mhri_msgs::multimodal_action action;
  geometry_msgs::Pose p;
- geometry_msgs::Vector3 vec;
-vec.x = 0.2;
- vec.y = 0.4;
- vec.z = 0.5;
  p.position.x =  41.000;
  p.position.y = 12.1233;
  p.position.z = 41.000;
-p.orientation.x = 0;
+ p.orientation.x = 0;
  p.orientation.y = 0;
  p.orientation.z = 0;
  p.orientation.w = 1;
@@ -63,34 +61,33 @@ p.orientation.x = 0;
  loc.push_back(0.3);
  loc.push_back(0.2);
  loc.push_back(0.1);
- std::vector<float> poly;
- poly.push_back(0.23);
- poly.push_back(0.22);
- poly.push_back(0.21);
+ mhri_msgs::circumference vec;
+ std::vector<mhri_msgs::point3d> poly;
  float conf = 0.5;
- std::vector<float> seg;
- seg.push_back(0.23);
- seg.push_back(0.22);
- seg.push_back(0.21);
-
+ std::vector<mhri_msgs::point3d> seg;
  
- srv.request.selected = "blue hawk";
- srv.request.type = "Go";
- srv.request.command = "Go right of that mountains";
- srv.request.data = 2;
- srv.request.direction = dir;
- srv.request.location = loc;
- srv.request.confidence = conf;
- srv.request.polygonal_area = poly;
- srv.request.segment = seg;
- srv.request.circ_area = vec;
- srv.request.radius = 0.2;
- srv.request.source = "gesture";
- srv.request.sample = p;
+ 
+ action.selected = "blue hawk";
+ action.type = "Go";
+ action.command = "Go right of this mountain";
+ action.data = 2;
+ action.direction[0] = dir[0.8];// = dir;
+ action.direction[1] = dir[0];// = dir;
+ action.direction[2] = dir[0];// = dir;
+ action.location[0] = loc[0];
+ action.location[1] = loc[1];
+ action.location[2] = loc[2];
+ action.confidence = conf;
+ action.polygonal_area = poly;
+ action.segment = seg;
+ action.circ_area = vec;
+ action.source = "gesture";
+ //action.sample = p;
 
+ srv.request.action = action;
 if (client.call(srv))
   {
-    ROS_INFO_STREAM(srv.response.multi);
+    ROS_INFO_STREAM(srv.response.interpretation);
   }
  else
    {

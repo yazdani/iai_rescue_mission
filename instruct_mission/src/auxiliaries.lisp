@@ -28,24 +28,50 @@
 
 (in-package :instruct-mission)
 
-(defun count-actions (agent type cmd gesture)
+;; Count how many actions do you have
+;; the maximum is 2 actions
+(defun count-actions-by-colons (agent type cmd gesture)
   (let* ((desig NIL))
-    (cond ((= 1 (length (split-cmd cmd)))
-           (setf desig (method-with-one-seq type agent cmd gesture)))
-          ((= 2 (length (split-cmd cmd)))
+    (cond ((= 1 (length (split-cmd-by-colons cmd)))
+           (setf desig (method-with-one-action type agent cmd gesture)))
+          ((= 2 (length (split-cmd-by-colons cmd)))
            (setf desig (method-with-two-seqs type agent cmd gesture)))
           (t (format t "Something is wrong~%")))
     desig))
-    
-    
+
+
+(defun methods-with-one-action (type agent cmd gesture)
+  (let*((inside (split-sequence:split-sequence #\= cmd))
+        (desig NIL))
+    (cond ((= (length inside) 1)
+          (setf desig (method-with-one-seq type agent cmd gesture)))
+          ((= (length inside) 2)
+           (setf desig (intern-func-one-elem type agent cmd gesture)))
+       ;;    ((= (length inside) 3)
+       ;;     (setf desig (intern-func-two-elems type agent cmd gesture)))
+           (t (format t "didn't work~%")))
+    desig))
+
+;; 
+(defun intern-func-one-elem (type agent cmd gesture)
+(let*((str NIL)
+      (desig NIL))
+  (cond ((string-equal "move(behind,fin(river))<=inside(next,pointed_at(tree))"
+                       cmd)
+         (setf str "move(in-front-of,pointed_at(tree))")
+         (setf desig (instruct-mission::create-action-move-designator type agent str gesture)))
+         (t (format t "great didn't work~%")))
+    desig))
+           
+            
 ;;split instructions by semicolon in order to describe
 ;;sequences of actions
-(defun split-cmd (cmd)
+(defun split-cmd-by-colons (cmd)
   (split-sequence:split-sequence #\; cmd))
 
 ;;
 (defun get-action (cmd-part)
-  (car (split-sequence:split-sequence #\( cmd-part)))
+  (first (split-sequence:split-sequence #\( cmd-part)))
 
 (defun get-dir (cmd-part)
 (cadr (split-sequence:split-sequence #\( (car (split-sequence:split-sequence #\,  cmd-part)))))

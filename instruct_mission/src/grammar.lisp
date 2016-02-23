@@ -33,7 +33,7 @@
   
 (defun method-with-one-seq (type agent cmd gesture)
   (let*((desig NIL)
-        (alist (list (instruct-mission::get-action (first (split-cmd cmd))))))
+        (alist (list (instruct-mission::get-action (first (split-cmd-by-colons cmd))))))
     (cond ((string-equal "move" (first alist))
            (setf desig (create-action-move-designator type agent cmd gesture)))
           ((string-equal "detect" (first alist))
@@ -55,7 +55,7 @@
            (setf desig (create-action-MOVE-MOVE-designator type agent cmd gesture)))
           ((and (string-equal "move" (first alist))
                 (string-equal "take" (second alist)))
-           (setf desig (create-action-MOVE-TAKE-designator type agent cmd gesture)))
+           (setf desig (create-action-MOVE-TAKE-designator type agent cmd gesture)))       
           (t (format t "test-actions is not given~%")))
     desig))
 

@@ -84,7 +84,9 @@ def startConnection():
     s.listen(1)
     server = ""
     c, address = s.accept()
+    
     rospy.Subscriber("test_msgs", multimodal_msgs, callback)
+   
     rospy.spin()
     s.shutdown(socket.SHUT_RDWR)
     s.close()

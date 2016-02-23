@@ -40,6 +40,14 @@
 ;;; INTERPRETATION OF INSTRUCTION ;;;
 
 ;;WURDE UMGEÄNDERT FÜR SWM->Integration
+
+(defun create-mhri-msgs (desig-list)
+  (let* ((boolean (cl-transforms-stamped::make-msg "std_msgs/Bool" :data  (first desig-list)))
+         (error-msg (cl-transforms-stamped::make-msg "std_msgs/String" :data  (second desig-list)))
+         (action-msg (cl-transforms-stamped::make-msg "std_msgs/String" :data  (third desig-list)))
+         (pose-msg (cl-transforms-stamped::to-msg (fourth desig-list))))
+  ))
+
 (defun designator-into-mhri-msg (desig)
  ;;  (format t "endlich gehts voranCDE------> ~a~%" desig) 
 (let* ((combiner NIL)

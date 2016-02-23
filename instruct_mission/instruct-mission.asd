@@ -40,4 +40,5 @@
      (:file "auxiliaries" :depends-on ("package" "ros-interactor"))
      (:file "grammar" :depends-on ("package" "auxiliaries"))
      (:file "action-designators" :depends-on ("package" "grammar"))
+     (:file "swm_designators" :depends-on ("package" "grammar"))
      ))))

@@ -2,7 +2,10 @@
 #include "instruct_mission/multimodal_parser.h"
 #include <stdlib.h>
 #include <iostream>
-
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include "err.h"
 #include "ros/ros.h"
 #include "instruct_mission/multimodal_srv.h"
 #include "instruct_mission/multimodal_values.h"
@@ -88,17 +91,21 @@ int main(int argc, char **argv)
 
  ROS_INFO_STREAM("Wait for Parser!");
  
- std :: string cmd = "gnome-terminal -x sh -c 'cd /home/yazdani/work/diarc_ws/smallade_w_lang; ./ant run-registry -Df=config/sherpa_config/sherpa.config'&"; 
+std :: string cmd = "gnome-terminal -x sh -c 'cd /home/yazdani/work/diarc_ws/smallade_w_lang; ./ant run-registry -Df=config/sherpa_config/sherpa.config'&"; 
 
  system (cmd.c_str ());
  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-   
    if (sockfd < 0) {
       perror("ERROR opening socket");
       exit(1);
    }
    ROS_INFO_STREAM("HELLO");
 
+    int reuse = 1;
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(reuse)) < 0)
+      perror("setsockopt(SO_REUSEADDR) failed");
+
+  
    bzero((char *) &serv_addr, sizeof(serv_addr));
    portno = 1234;
    serv_addr.sin_family = AF_INET;
@@ -125,9 +132,14 @@ int main(int argc, char **argv)
    ROS_INFO_STREAM("Parser registered!");
 
 
-  ros::ServiceServer service = n.advertiseService("tldl_parser", parser);
-  ROS_INFO_STREAM("Ready to parse the sentence?");
-  ros::spin();
+       ros::ServiceServer service = n.advertiseService("tldl_parser", parser);
+       ROS_INFO_STREAM("Ready to parse the sentence?");
+
+       ROS_INFO_STREAM("Ende1");
+
+     ros::spin();
+
+  close(sockfd);
 
   return 0;
 }

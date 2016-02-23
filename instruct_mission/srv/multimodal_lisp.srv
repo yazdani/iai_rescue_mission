@@ -4,6 +4,4 @@ string command
 float32[] gesture
 float32[] location
 ---
-mhri_msgs/interpretation[] action
-
-
+mhri_msgs/multimodal interpretation
