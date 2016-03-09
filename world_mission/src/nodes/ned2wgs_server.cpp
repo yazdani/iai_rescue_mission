@@ -16,7 +16,7 @@ const double ALT_HOME = 41.0;
 
 std::vector<double> nedToWgs84(double x, double y, double z, double LAT_HOME, double LON_HOME, double ALT_HOME)
 {
-  //y = -y;
+  y = -y;
   //z = -z;
   double euler = sqrt(1-pow(BERTA,2)/pow(ANTON,2));
   //double lat_rad = latitude*M_PI/180.0f;

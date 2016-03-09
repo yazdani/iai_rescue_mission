@@ -25,7 +25,7 @@ std::vector<double> wgs84ToNed(double latitude, double longitude, double altitud
   double x,y,z;
   x = (lat_rad-lat_home_rad)*radius;
   y = (lon_rad-lon_home_rad)*radius*cos(lat_home_rad);
-  z = altitude - altitude_home;
+  z = altitude_home - altitude;
    y = -y;
   z = -z;
   std::vector<double> vec;

@@ -61,9 +61,10 @@
                                                         :data  (third one)))
        ;;  (format t "ONE ACTION2 ~%")
          (cond((equal (fourth one) NIL)
-               (setf internal (cl-transforms-stamped::to-msg(cl-transforms-stamped:pose-stamped->pose (cl-transforms-stamped:make-identity-pose)))))
-              (t (setf internal (cl-transforms-stamped::to-msg (cl-transforms-stamped:pose-stamped->pose (fourth one))))))
-         (setf posemsg (slot-value (roslisp:call-service "myned2wgs_server" 'world_mission-srv::Mywgs2ned_server :data internal) 'WORLD_MISSION-SRV:SUM))
+               (setf posemsg (cl-transforms-stamped::to-msg(cl-transforms-stamped:pose-stamped->pose (cl-transforms-stamped:make-identity-pose)))))
+              (t (setf internal (cl-transforms-stamped::to-msg (cl-transforms-stamped:pose-stamped->pose (fourth one))))
+                 (setf posemsg (slot-value (roslisp:call-service "myned2wgs_server" 'world_mission-srv::Mywgs2ned_server :data internal) 'WORLD_MISSION-SRV:SUM))))
+         ;;(setf posemsg (slot-value (roslisp:call-service "myned2wgs_server" 'world_mission-srv::Mywgs2ned_server :data internal) 'WORLD_MISSION-SRV:SUM))
          (setf interpmsg (roslisp:make-message "mhri_msgs/interpretation"
                                                :value boolmsg
                                                :error errormsg
@@ -90,9 +91,9 @@
            ;;  (format t "TESTER ~a~%" one)
            ;;  (format t "TESTER ~a~%" two)
            (cond((equal (fourth one) NIL)
-                 (setf internal (cl-transforms-stamped::to-msg (cl-transforms:make-identity-pose))))
-                (t (setf internal (cl-transforms-stamped::to-msg (cl-transforms-stamped:pose-stamped->pose (fourth one))))))
-           (setf posemsg (slot-value (roslisp:call-service "myned2wgs_server" 'world_mission-srv::Mywgs2ned_server :data internal) 'WORLD_MISSION-SRV:SUM))
+                 (setf posemsg (cl-transforms-stamped::to-msg (cl-transforms:make-identity-pose))))
+                (t (setf internal (cl-transforms-stamped::to-msg (cl-transforms-stamped:pose-stamped->pose (fourth one))))
+           (setf posemsg (slot-value (roslisp:call-service "myned2wgs_server" 'world_mission-srv::Mywgs2ned_server :data internal) 'WORLD_MISSION-SRV:SUM))))
            (setf interpmsg (roslisp:make-message "mhri_msgs/interpretation"
                                                  :value boolmsg
                                                  :error errormsg
@@ -104,8 +105,12 @@
                                                             :data (second two)))
            (setf stringmsgb (cl-transforms-stamped::make-msg "std_msgs/String"
                                                              :data  (third two)))
-           (setf internal2  (cl-transforms-stamped::to-msg (cl-transforms-stamped:pose-stamped->pose (fourth two))))
-           (setf posemsgb (slot-value (roslisp:call-service "myned2wgs_server" 'world_mission-srv::Mywgs2ned_server :data internal2) 'WORLD_MISSION-SRV:SUM))
+           (cond((equal (fourth one) NIL)
+                   (setf posemsgb (cl-transforms-stamped::to-msg (cl-transforms:make-identity-pose))))
+          
+            (t (setf internal2 (cl-transforms-stamped::to-msg (cl-transforms-stamped:pose-stamped->pose (fourth one))))
+           (setf posemsgb (slot-value (roslisp:call-service "myned2wgs_server" 'world_mission-srv::Mywgs2ned_server :data internal2) 'WORLD_MISSION-SRV:SUM))))
+          
            (setf interpmsgb (roslisp:make-message "mhri_msgs/interpretation"
                                                   :value boolmsgb
                                                   :error errormsgb
@@ -535,8 +540,7 @@ desig))
 ;;take a picture at the position of the agent
 ;;take(picture)
 (defun action-take ()
-  (let*((pose (cl-transforms:make-identity-pose)))
-  (list "true" "" "take-picture" pose)))
+  (list "true" "" "take-picture" NIL))
 
 
 ;;scan((test))

@@ -91,7 +91,7 @@ int main(int argc, char **argv)
 
  ROS_INFO_STREAM("Wait for Parser!");
  
-std :: string cmd = "gnome-terminal -x sh -c 'cd /home/yazdani/work/diarc_ws/smallade_w_lang; ./ant run-registry -Df=config/sherpa_config/sherpa.config'&"; 
+std :: string cmd = "gnome-terminal -x sh -c 'cd /home/yazdani/work/diarc_ws/diarc_parser/smallade_w_lang; ./ant run-registry -Df=config/sherpa_config/sherpa.config'&"; 
 
  system (cmd.c_str ());
  sockfd = socket(AF_INET, SOCK_STREAM, 0);

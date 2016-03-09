@@ -71,9 +71,9 @@ int main(int argc, char **argv)
  action.type = "Go";
  action.command = "Go right of this mountain";
  action.data = 2;
- action.direction[0] = dir[0.8];// = dir;
- action.direction[1] = dir[0];// = dir;
- action.direction[2] = dir[0];// = dir;
+ action.direction[0] = dir[0];// = dir;
+ action.direction[1] = dir[1];// = dir;
+ action.direction[2] = dir[2];// = dir;
  action.location[0] = loc[0];
  action.location[1] = loc[1];
  action.location[2] = loc[2];
