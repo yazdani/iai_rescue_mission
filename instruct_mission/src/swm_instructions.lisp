@@ -56,16 +56,16 @@
    (splitgeometry->pose call)))
 
 (defun swm->elem-name->position (name)
-  (format t "swm->elem-name->position~%")
+ ;; (format t "swm->elem-name->position~%")
  (let*((pose NIL)
        (liste (swm->geopose-elements)))
-   (format t "~a name is~%" name)
-   (format t "~a liste is~%" liste)
+ ;;  (format t "~a name is~%" name)
+ ;;  (format t "~a liste is~%" liste)
                    (loop for i from 0 to (- (length liste) 1)
                          do(cond ((and (string-equal name (car (nth i liste)))
                                        (equal pose NIL))
                                   (setf pose (third (nth i liste))))
-                                 (t (format t "Didn't found position~%"))))
+                                 (t ())))
                    pose))
 
 (defun swm->elem-name->type (name)
@@ -79,19 +79,19 @@
 
 (defun swm->geopose-elements ()
   (setf *swm-liste* NIL)
-  (format t "inside geoposes collection~%")
-  (let* ((array (json-prolog:prolog `("swm_EntitiesData" ?A)))
+ ;; (format t "inside geoposes collection~%")
+  (let* ((array  (json-prolog:prolog `("swm_EntitiesData" ?A)))
           (comp (symbol-name (cdaar array)))
-          (seq  (split-sequence:split-sequence #\( comp))
+          (seq  (cdr (split-sequence:split-sequence #\( comp)))
           (a-seq (cddr seq)))
-    (format t "inside geoposes collection2~%")
  (loop for i from 0 to  (length a-seq)
        do (cond ((not (equal (length a-seq) 0))
                  (setf *swm-liste* (append *swm-liste* (list (internal-function (car a-seq)))))
                  (setf a-seq (cdr a-seq)))))
     *swm-liste*))
 
-(defun internal-function(tmp)
+(defun internal-function (tmp)
+ ;; (format t "internal function ~a~%" tmp)
   (let*((seq (split-sequence:split-sequence #\, (car (split-sequence:split-sequence #\) tmp))))
         (seq-name (car seq))
         (seq-type (second seq))
@@ -153,6 +153,12 @@
      (cl-transforms:make-3d-vector ori-x ori-y ori-z)
      (cl-transforms:make-quaternion qua-x qua-y qua-z qua-w))))
 
+(defun hash-table-keys (hash-table)
+                   "Return a list of keys in HASH-TABLE."
+                   (let ((keys '()))
+                     (maphash (lambda (k _v) (push k keys)) hash-table)
+                     keys))
+
 (defun swm->publish-elements-tf ()
   (let*((elems (swm->geopose-elements))
         (pub (cl-tf:make-transform-broadcaster)))
@@ -161,5 +167,174 @@
                   (ori (cl-transforms:origin (nth 1 (nth i elems))))
                   (qua (cl-transforms:orientation (nth 1 (nth i elems)))))
              (cl-tf:send-transforms pub (cl-transforms-stamped:make-transform-stamped "map"  frame-id (roslisp:ros-time) ori qua))))))
-        
-  
+
+(defun swm->create-semantic-map ()
+ ;;(format t "swm->create-semantic-map~%")
+  (let* ((obj (make-instance 'sem-map-utils::semantic-map
+                 :parts
+                 (hash-function))))
+  ;;  (format t "~a HASH MAP ~%" obj)
+    obj))
+
+(defun hash-function()
+    (let*((sem-liste (instruct-mission::swm->geopose-elements))
+        (intern-liste (internal-semantic-map-geom sem-liste))
+        (hasht (make-hash-table :test #'equal)))
+        (mapc (lambda (key-and-geom)
+                         (let ((key (first key-and-geom))
+                               (geom (second key-and-geom)))
+                           (setf (gethash key hasht) geom)))
+                       intern-liste)
+    hasht))
+
+(defun internal-semantic-map-geom (*swm-liste*)
+  (let*((elem NIL))
+    (loop for i from 0 to (- (length *swm-liste*) 1)
+          do(setf elem (append (list (list (first (nth i *swm-liste*)) (make-instance
+                                                                        sem-map-utils::'semantic-map-geom
+                                                                        :type (second (nth i *swm-liste*))
+                                                                        :name (first (nth i *swm-liste*))
+                                                                        :owl-name "owl-name"
+                                                                        :pose (third (nth i *swm-liste*))
+                                                                        :dimensions (internal-bboxs (fourth (nth i *swm-liste*)) (fifth (nth i *swm-liste*)))
+                                                                        :aliases NIL))) elem)))
+    elem))
+
+(defun internal-bboxs (trans1 trans2)
+  (let*((cl1-x (cl-transforms:x  (cl-transforms:origin trans1)))
+        (cl1-y (cl-transforms:y  (cl-transforms:origin trans1)))
+        (cl1-z (cl-transforms:z  (cl-transforms:origin trans1)))
+        (cl2-x (cl-transforms:x  (cl-transforms:origin trans2)))
+        (cl2-y (cl-transforms:y  (cl-transforms:origin trans2)))               
+        (cl2-z (cl-transforms:z  (cl-transforms:origin trans2)))
+        (vec (cl-transforms:make-3d-vector (if (minusp cl2-x)
+                                               (if (minusp (+ cl1-x (* (- 1) cl2-x)))
+                                                   (* (- 1) (+ cl1-x (* (- 1) cl2-x)))
+                                                   (+ cl1-x (* (- 1) cl2-x)))
+                                               (if (minusp (+ cl1-x  cl2-x))
+                                                   (+ (* (- 1) cl1-x)  cl2-x)
+                                                   (cond ((>= cl2-x cl1-x)
+                                                          (- cl2-x cl1-x))
+                                                         (t (- cl1-x cl2-x)))))
+                                           (if (minusp cl2-y)
+                                               (if (minusp (+ cl1-y (* (- 1) cl2-y)))
+                                                   (* (- 1) (+ cl1-y (* (- 1) cl2-y)))
+                                                   (+ cl1-y (* (- 1) cl2-y)))
+                                               (if (minusp (+ cl1-y  cl2-y))
+                                                   (+ (* (- 1) cl1-y)  cl2-y)
+                                                   (cond ((>= cl2-y cl1-y)
+                                                          (- cl2-y cl1-y))
+                                                         (t (- cl1-y cl2-y)))))
+                                           (if (minusp cl2-z)
+                                               (if (minusp (+ cl1-z (* (- 1) cl2-z)))
+                                                   (* (- 1) (+ cl1-z (* (- 1) cl2-z)))
+                                                   (+ cl1-z (* (- 1) cl2-z)))
+                                                (if (minusp (+ cl1-z  cl2-z))
+                                                    (+ (* (- 1) cl1-z)  cl2-z)
+                                                   (cond ((>= cl2-z cl1-z)
+                                                          (- cl2-z cl1-z))
+                                                         (t (- cl1-z cl2-z))))))))
+    vec))
+
+(defun swm->objects-next-human (distance pose)
+  (let* (;;(swm-liste (swm->geopose-elements))
+         (new-liste (visualize-plane (cl-transforms:origin pose) distance))
+         (sem-map  (swm->create-semantic-map))
+         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
+         (sem-keys (hash-table-keys sem-hash))
+         (elem NIL)
+         (incrementer 1)
+         (value NIL))
+    (dotimes (index (list-length new-liste))
+      do (let*((new-point (nth index new-liste))
+               (smarter (+ (* 10 incrementer) index)))
+               (loop for jndex from 0 to (- (length sem-keys) 1)
+                     do(let* ((elem1 (first (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
+                              (elem2 (second (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
+                              (smarter (+ smarter jndex)))
+                         (setf value
+                               (semantic-map-costmap::inside-aabb elem1 elem2 new-point))
+                         (cond ((equal value T)
+                                (swm->publish-point new-point :id smarter :r 1.0 :g 1.0 :b 0.0 :a 0.9)
+                                (setf elem (append (list (nth jndex sem-keys)) elem))
+                                (return))
+                               (t()))))
+                               ;  (swm->publish-point new-point :id (+ smarter jndex) :r 1.0 :g 0.0 :b 0.0 :a 0.9))))
+           (setf incrementer (+ incrementer 1))))
+             (remove-duplicates elem)))
+
+
+   (defun square(n) (* n n))
+
+
+(defun visualize-plane (point zaehler)
+ ;; (format t "visualize-plane~%")
+  (let* ((temp NIL)
+         (new-pointA NIL)
+         (new-pointB NIL)
+         (new-pointC NIL)
+         (new-pointD NIL))
+(loop for jndex from 0 to  zaehler
+      do (loop for index from 0 to zaehler
+            do (setf new-pointA (cl-transforms:make-3d-vector
+                              (+ (cl-transforms:x point) (* jndex 0.4))
+                              (+ (cl-transforms:y point)  (* index 0.4))
+                              (cl-transforms:z point)))
+             (setf new-pointB (cl-transforms:make-3d-vector
+                              (+ (cl-transforms:x point) (* jndex 0.4))
+                              (+ (cl-transforms:y point) (* index (- 0.4)))
+                              (cl-transforms:z point)))
+             (setf new-pointC (cl-transforms:make-3d-vector
+                              (+ (cl-transforms:x point) (* jndex (- 0.4)))
+                              (+ (cl-transforms:y point)  (* index 0.4))
+                              (cl-transforms:z point)))
+             (setf new-pointD (cl-transforms:make-3d-vector
+                              (+ (cl-transforms:x point) (* jndex (- 0.4)))
+                              (+ (cl-transforms:y point) (* index (- 0.4)))
+                              (cl-transforms:z point)))
+             (setf temp (append (list new-pointA new-pointB new-pointC new-pointD) temp))))
+  ;;   (loop for intel from 0 to (- (length temp) 1)
+   ;;     do (swm->publish-point (nth intel temp) :id (+ intel 100) :r 1 :g 0 :b 0 :a 0.9))
+temp))
+
+(defun swm->publish-point (point &key id r g b a)
+  (setf *marker-publisher*
+        (roslisp:advertise "~location_marker" "visualization_msgs/Marker"))
+  (let ((current-index 0))
+    (when *marker-publisher*
+      (roslisp:publish *marker-publisher*
+               (roslisp:make-message "visualization_msgs/Marker"
+                             (cl-transforms-stamped::stamp  header) (roslisp:ros-time)
+                             (frame_id header) "/map"
+                             ns "kipla_locations"
+                             id (or id (incf current-index))
+                             type (roslisp:symbol-code
+                                   'visualization_msgs-msg:<marker> :sphere)
+                             action (roslisp:symbol-code
+                                     'visualization_msgs-msg:<marker> :add)
+                             (x position pose) (cl-transforms:x point)
+                             (y position pose) (cl-transforms:y point)
+                             (z position pose) (cl-transforms:z point)
+                             (w orientation pose) 1.0
+                             (x scale) 0.15
+                             (y scale) 0.15
+                             (z scale) 0.15
+                             (r color) r ; (random 1.0)
+                             (g color) g ; (random 1.0)
+                             (b color) b ; (random 1.0)
+                             (a color) a)))))
+
+
+(defun swm->get-bbox-as-aabb (name sem-hash)
+(let*((dim-x (cl-transforms:x (slot-value (gethash name sem-hash) 'sem-map-utils:dimensions)))
+      (dim-y (cl-transforms:y (slot-value (gethash name sem-hash) 'sem-map-utils:dimensions)))
+      (dim-z (cl-transforms:z (slot-value (gethash name sem-hash) 'sem-map-utils:dimensions)))
+      (pose-x (cl-transforms:x (cl-transforms:origin  (slot-value (gethash name sem-hash) 'sem-map-utils:pose))))
+       (pose-y (cl-transforms:y (cl-transforms:origin  (slot-value (gethash name sem-hash) 'sem-map-utils:pose))))
+      (min-vec (cl-transforms:make-3d-vector (- pose-x (/ dim-x 2))
+                                             (- pose-y (/ dim-y 2))
+                                             0))
+      (max-vec (cl-transforms:make-3d-vector (+ pose-x (/ dim-x 2))
+                                             (+ pose-y (/ dim-y 2))
+                                             dim-z)))
+  (cram-semantic-map-costmap::get-aabb min-vec max-vec)))

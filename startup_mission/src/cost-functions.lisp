@@ -167,7 +167,7 @@
     (list height)))
 
 (defun swm->make-constant-height-function (obj-name height)
-  (let* ((sem-hash (slot-value (swm->create-semantic-map) 'sem-map-utils:parts))
+  (let* ((sem-hash (slot-value (instruct-mission::swm->create-semantic-map) 'sem-map-utils:parts))
          (dim  (slot-value (gethash obj-name sem-hash) 'sem-map-utils:dimensions)))
     (setf height  (+ (cl-transforms:z dim) 0.5))
     (lambda (x y)

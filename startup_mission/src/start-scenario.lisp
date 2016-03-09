@@ -47,7 +47,6 @@
    (service-call))
 
 (roslisp:def-service-callback instruct_mission-srv:multimodal_lisp (selected type command gesture location)
-  (format t "blabla ~a~% ~a~% ~a~%" selected gesture type)
   (let*((agent (read-from-string (substitute #\- #\Space selected)))
         (type (read-from-string type))
         (icmd command)
@@ -61,12 +60,13 @@
          (gesture-elem  (swm->give-obj-pointed-at ge-vector))
          (desig-list  (instruct-mission::create-the-msg agent type icmd gesture-elem))    
         (tmp (instruct-mission::create-mhri-msg desig-list)))
-    (format t "WUUUUUUUUUUUUUUUUUUUUUUAS~%")
-    (format t "und tmp is ~a~%%" tmp)
     (cond ((= (length tmp) 1)
            (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp)))))
           ((= (length tmp) 2)
-         (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp) (second tmp))))))
+         (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp) (second tmp)))))
+
+          ((= (length tmp) 3)
+         (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp) (second tmp) (third tmp))))))
     (roslisp:make-response :interpretation msg)))
 
     ;; (format t "desig: ~a~%" desig)

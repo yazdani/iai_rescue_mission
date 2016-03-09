@@ -248,7 +248,7 @@
 
     
   (<- (swm->semantic-map-objects ?objects)
-    (lisp-fun swm->create-semantic-map ?semantic-map)
+    (lisp-fun instruct-mission::swm->create-semantic-map ?semantic-map)
     (lisp-fun sem-map-utils:semantic-map-parts ?semantic-map
               :recursive nil ?objects)))
   

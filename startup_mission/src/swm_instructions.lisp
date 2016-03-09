@@ -29,7 +29,7 @@
 (in-package :startup-mission)
 
 (defun swm->intern-tf-creater ()
-  (format t "swm->intern-tf-creater~%")
+;;  (format t "swm->intern-tf-creater~%")
   (let*((gen-pose (instruct-mission::swm->get-cartesian-pose-agent "genius"));;(get-genius-pose->map-frame "genius_link")) ;;(instruct-mission::swm->get-cartesian-pose-agent "genius"))
         (pub (cl-tf:make-transform-broadcaster)))
     (format t "gen-pose is ~a~%" gen-pose)
@@ -37,12 +37,15 @@
 
 
 (defun swm->get-gesture->relative-genius (gesture-vec) 
-(format t "GESTURE VEC ~a~%" gesture-vec)
+;;(format t "GESTURE VEC ~a~%" gesture-vec)
 (let*((pose (cl-transforms-stamped:make-pose-stamped "genius_link" 0.0
                                                             gesture-vec
                                                              (cl-transforms:make-identity-rotation))))
-  (format t "GENIUS-POOOOSEEE ~a~%" pose)
+ ;; (format t "GENIUS-POOOOSEEE ~a~%" pose)
 (cl-transforms-stamped:pose-stamped->pose  (cl-tf:transform-pose *tf* :pose pose :target-frame "map"))))
+
+
+
 
 (defun swm->list-values (num point)
   (let*(( zet 0.5)
@@ -135,7 +138,7 @@
                (> yps 0))
           (loop for index from 0 to (- (length num) 1)
                      do (setf liste-tr (append liste-tr (list (swm->get-gesture->relative-genius (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (*  (- 0.2) index))  (+ (cl-transforms:y point) (*  0.5 index))  (+ (cl-transforms:z point) zet))))))))
-         (t (format t "wuat?~%")))
+         (t ()))
     liste-tr))
 
 (defun swm->get-names (*swm-liste*)
@@ -146,17 +149,17 @@
          
 (defun swm->give-obj-pointed-at (point)
   (swm->intern-tf-creater)
-  (format t " (swm->intern-tf-creater) ~a~%"  (swm->intern-tf-creater))
+ ;; (format t " (swm->intern-tf-creater) ~a~%"  (swm->intern-tf-creater))
  (location-costmap::remove-markers-up-to-index 50)
-  (format t "swm->give-obj-pointed-at~%")
-  (let*((elem NIL)
+ ;; (format t "swm->give-obj-pointed-at~%")
+ (let*((elem NIL)
         (num (make-list 40))
         (eps 0)
         (var 0)
         (*swm-liste* (instruct-mission::swm->geopose-elements))
         (swm-names (swm->get-names *swm-liste*))
         (value NIL)
-        (sem-map (swm->create-semantic-map))
+       (sem-map (instruct-mission::swm->create-semantic-map))
         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
         (liste-tr (swm->list-values num point)))
    ;; (format t "swm->give-obj-pointed-at")
@@ -169,8 +172,8 @@
             ;;(format t "eps : ~a~%" eps)
             (dotimes(jo (list-length *swm-liste*))
               ;;(format t "JOOOO ~a~%" jo)
-              (let* ((elem1 (first (swm->get-bbox-as-aabb (nth jo swm-names) sem-hash)))
-                     (elem2 (second (swm->get-bbox-as-aabb (nth jo swm-names) sem-hash))))
+              (let* ((elem1 (first (instruct-mission::swm->get-bbox-as-aabb (nth jo swm-names) sem-hash)))
+                     (elem2 (second (instruct-mission::swm->get-bbox-as-aabb (nth jo swm-names) sem-hash))))
                      
 
                         ;;(cl-transforms:origin (fourth (nth jo *swm-liste*))))
@@ -223,74 +226,9 @@ objects))
      (setf test NIL))
     test))
   
-(defun swm->create-semantic-map ()
- ;; (format t "give me back~%")
-  (let* ((obj (make-instance 'sem-map-utils::semantic-map
-                 :parts
-                 (hash-function))))
-  ;;  (format t "~a HASH MAP ~%" obj)
-    obj))
 
-(defun hash-function()
-    (let*((sem-liste (instruct-mission::swm->geopose-elements))
-        (intern-liste (internal-semantic-map-geom sem-liste))
-        (hasht (make-hash-table :test #'equal)))
-        (mapc (lambda (key-and-geom)
-                         (let ((key (first key-and-geom))
-                               (geom (second key-and-geom)))
-                           (setf (gethash key hasht) geom)))
-                       intern-liste)
-    hasht))
 
-(defun internal-semantic-map-geom (*swm-liste*)
-  (let*((elem NIL))
-    (loop for i from 0 to (- (length *swm-liste*) 1)
-          do(setf elem (append (list (list (first (nth i *swm-liste*)) (make-instance
-                                                                        sem-map-utils::'semantic-map-geom
-                                                                        :type (second (nth i *swm-liste*))
-                                                                        :name (first (nth i *swm-liste*))
-                                                                        :owl-name "owl-name"
-                                                                        :pose (third (nth i *swm-liste*))
-                                                                        :dimensions (internal-bboxs (fourth (nth i *swm-liste*)) (fifth (nth i *swm-liste*)))
-                                                                        :aliases NIL))) elem)))
-    elem))
-                              
 
-(defun internal-bboxs (trans1 trans2)
-  (let*((cl1-x (cl-transforms:x  (cl-transforms:origin trans1)))
-        (cl1-y (cl-transforms:y  (cl-transforms:origin trans1)))
-        (cl1-z (cl-transforms:z  (cl-transforms:origin trans1)))
-        (cl2-x (cl-transforms:x  (cl-transforms:origin trans2)))
-        (cl2-y (cl-transforms:y  (cl-transforms:origin trans2)))               
-        (cl2-z (cl-transforms:z  (cl-transforms:origin trans2)))
-        (vec (cl-transforms:make-3d-vector (if (minusp cl2-x)
-                                               (if (minusp (+ cl1-x (* (- 1) cl2-x)))
-                                                   (* (- 1) (+ cl1-x (* (- 1) cl2-x)))
-                                                   (+ cl1-x (* (- 1) cl2-x)))
-                                               (if (minusp (+ cl1-x  cl2-x))
-                                                   (+ (* (- 1) cl1-x)  cl2-x)
-                                                   (cond ((>= cl2-x cl1-x)
-                                                          (- cl2-x cl1-x))
-                                                         (t (- cl1-x cl2-x)))))
-                                           (if (minusp cl2-y)
-                                               (if (minusp (+ cl1-y (* (- 1) cl2-y)))
-                                                   (* (- 1) (+ cl1-y (* (- 1) cl2-y)))
-                                                   (+ cl1-y (* (- 1) cl2-y)))
-                                               (if (minusp (+ cl1-y  cl2-y))
-                                                   (+ (* (- 1) cl1-y)  cl2-y)
-                                                   (cond ((>= cl2-y cl1-y)
-                                                          (- cl2-y cl1-y))
-                                                         (t (- cl1-y cl2-y)))))
-                                           (if (minusp cl2-z)
-                                               (if (minusp (+ cl1-z (* (- 1) cl2-z)))
-                                                   (* (- 1) (+ cl1-z (* (- 1) cl2-z)))
-                                                   (+ cl1-z (* (- 1) cl2-z)))
-                                                (if (minusp (+ cl1-z  cl2-z))
-                                                    (+ (* (- 1) cl1-z)  cl2-z)
-                                                   (cond ((>= cl2-z cl1-z)
-                                                          (- cl2-z cl1-z))
-                                                         (t (- cl1-z cl2-z))))))))
-    vec))
 
 ;; (defun swm->get-gesture->relative-genius (human-pose gesture-vec)
 ;;   (format t "object-pose ~a~%" gesture-vec)
