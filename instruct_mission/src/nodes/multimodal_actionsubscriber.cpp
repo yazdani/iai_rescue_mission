@@ -209,14 +209,14 @@ string interpretCommand(string cmd)
 void startChecking(const mhri_msgs::multimodal_action::ConstPtr& msg)
 {
   ROS_INFO_STREAM("Inside: startChecking");
-  ros::Rate looprate(0.5);
+  ros::Rate looprate(10);
 
-  while(pointer > 0)
-    {
-      pointer--;
-      ros::spinOnce();
-      looprate.sleep();
-    }
+  // while(pointer > 0)
+  //  {
+  //    pointer--;
+  //    ros::spinOnce();
+  //    looprate.sleep();
+  //  }
 
   var = 1;
   cmd_type = checkCommandType(msg->command);
@@ -279,21 +279,21 @@ void startChecking(const mhri_msgs::multimodal_action::ConstPtr& msg)
 	}
       ROS_INFO_STREAM("End of using lisp");
       mhri_msgs::multimodal multi;
-      ros::Rate loop_ratE(0.8);
+      ros::Rate loop_ratE(5);
       ROS_INFO_STREAM("MOIIIN");
       std::cout << multi <<std::endl;
     
       //    pub = n_pub.advertise<std_msgs::String>("multimodal_publisher",1000);
       int index = 5;
       //mhri_msgs::interpretation>("multimodal_publisher",1000);
-      while(index > 0)
-	{
+      //  while(index > 0)
+      //	{
 	  std::cout << srv.response.interpretation <<std::endl;
 	  pub.publish(srv.response.interpretation);
-	  index--;
-	  ros::spinOnce();
-	  loop_ratE.sleep();
-	}
+	  //	  index--;
+	  //  ros::spinOnce();
+	  //  loop_ratE.sleep();
+	  //	}
        
 	  ROS_INFO_STREAM("end the multimodalcallback");
     }
@@ -307,9 +307,9 @@ int main(int argc, char **argv)
   ros::NodeHandle n_sub;
   ros::NodeHandle n_pub;
   // ros::NodeHandle n_pub;
-  ros::Subscriber sub = n_sub.subscribe("multimodal_cmd",1000, startChecking);
+  ros::Subscriber sub = n_sub.subscribe("CREATE/multimodal_cmd",1000, startChecking);
   ROS_INFO_STREAM("Wait for Instruction!");
-  pub = n_pub.advertise<mhri_msgs::multimodal>("multimodal_publisher",1000);
+  pub = n_pub.advertise<mhri_msgs::multimodal>("UNIHB/interpretation",1000);
   ros::spin();
    
   return 0;
