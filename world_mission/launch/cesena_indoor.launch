@@ -14,7 +14,7 @@
 
  <node pkg="tf" type="static_transform_publisher" name="world_map" args="0 0 0 0 0 0 1 /world /map 100"  />
 
- <node pkg="instruct_mission" type="multimodal_actionserver" name="multimodal_actionserver" respawn="false" output="screen" />
+ <node pkg="instruct_mission" type="multimodal_actionsubscriber" name="multimodal_actionsubscriber" respawn="false" output="screen" />
 
     <!--node pkg="tf" type="static_transform_publisher" name="swri_transform" args="15 14 13 0 0 0 /map /lab 100"  /-->
    

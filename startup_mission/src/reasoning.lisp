@@ -119,12 +119,14 @@
   
     ;;############### BEHIND OF ####################;;
   (<- (prepositions ?desig ?pose ?costmap)
+    (format "ACROSS and BEHIND")
     (or (desig-prop ?desig (:behind-of ?object1-name))
+        (desig-prop ?desig (:across ?object1-name))
         (desig-prop ?desig (:behind ?object1-name)))
 ;;    (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
     (lisp-fun instruct-mission::swm->elem-name->position ?object1-name ?object1-pose)
     ;;(lisp-fun make-new-function-left ?pose ?object1-pose ?new-pose)
-    (lisp-fun preposition-behind ?pose ?list-values)
+    (lisp-fun preposition-front ?pose ?list-values)
     (prolog::equal (?fvalue ?svalue) ?list-values)
     (swm->semantic-map-objects ?all-objects)
     (lisp-fun swm->semantic-map->geom-objects ?all-objects 3 ?object1-pose ?objects)
@@ -135,7 +137,6 @@
                            ?costmap)
     (costmap ?costmap)
    (instance-of reasoning-generator ?reasoning-generator-id)
-    (costmap ?costmap)
     (costmap-add-function
      ?reasoning-generator-id
      (make-reasoning-cost-function ?object1-pose ?fvalue ?svalue 0.3)
@@ -155,7 +156,7 @@
          (desig-prop ?desig (:front ?object1-name)))
       ;;      (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
       (lisp-fun instruct-mission::swm->elem-name->position ?object1-name ?object1-pose)
-      (lisp-fun preposition-front ?pose ?list-values)
+      (lisp-fun preposition-behind ?pose ?list-values)
       (prolog::equal (?fvalue ?svalue) ?list-values)
       (swm->semantic-map-objects ?all-objects)
       (lisp-fun swm->semantic-map->geom-objects ?all-objects 3 ?object1-pose ?objects)
@@ -166,7 +167,6 @@
                             ?costmap)
       (costmap ?costmap)
       (instance-of reasoning-generator ?reasoning-generator-id)
-      (costmap ?costmap)
       (costmap-add-function
        ?reasoning-generator-id
        (make-reasoning-cost-function ?object1-pose ?fvalue ?svalue 0.3)
@@ -196,17 +196,17 @@
     ;;############### COME-BACK-TO-ME ####################;;
 (<- (prepositions ?desig ?pose ?costmap)
   (format "INSIDE HERE ~%")
-     (desig-prop ?desig (:toMe ?object1-pose))
-   
-   ;;(lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
-   (instance-of gaussian-generator ?gaussian-generator-id)
-   (costmap-add-function ?gaussian-generator-id
-                         (make-location-cost-function ?pose 1.5)
-                         ?costmap)
-     (format "INSIDE HERE2 ~%")
-   (costmap-add-height-generator
-     (swm->make-height-human ?pose ?resulting-z)
-     ?costmap))
+  (desig-prop ?desig (:toMe ?object1-pose))
+  
+  ;;(lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
+  (instance-of gaussian-generator ?gaussian-generator-id)
+  (costmap-add-function ?gaussian-generator-id
+                        (make-location-cost-function ?pose 1.5)
+                        ?costmap)
+  (format "INSIDE HERE2 ~%")
+  (costmap-add-height-generator
+   (swm->make-height-human ?pose ?resulting-z)
+   ?costmap))
 
 
    ;;############### Test ####################;;
@@ -243,9 +243,6 @@
     (costmap-add-height-generator
      (swm->make-constant-height-function ?object1-name ?resulting-z)
      ?costmap))
-
-
-
     
   (<- (swm->semantic-map-objects ?objects)
     (lisp-fun instruct-mission::swm->create-semantic-map ?semantic-map)

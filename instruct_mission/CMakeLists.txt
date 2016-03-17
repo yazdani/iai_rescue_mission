@@ -156,6 +156,14 @@ add_executable(multimodal_actionclient src/nodes/multimodal_actionclient.cpp)
 target_link_libraries(multimodal_actionclient ${catkin_LIBRARIES})
 add_dependencies(multimodal_actionclient instruct_mission_gencpp)
 
+add_executable(multimodal_actionpublisher src/nodes/multimodal_actionpublisher.cpp)
+target_link_libraries(multimodal_actionpublisher ${catkin_LIBRARIES})
+add_dependencies(multimodal_actionpublisher instruct_mission_gencpp)
+
+add_executable(multimodal_actionsubscriber src/nodes/multimodal_actionsubscriber.cpp)
+target_link_libraries(multimodal_actionsubscriber ${catkin_LIBRARIES})
+add_dependencies(multimodal_actionsubscriber instruct_mission_gencpp)
+
 ## Declare a C++ executable
 #add_executable(contacts src/contacts.cpp)
 #target_link_libraries(contacts ${catkin_LIBRARIES})

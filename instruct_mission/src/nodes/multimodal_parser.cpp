@@ -37,48 +37,73 @@
 #include <gazebo_msgs/GetPhysicsProperties.h>
 #include <geographic_msgs/GeoPose.h>
 #include <sstream>
-
+#include <sys/types.h>
+#include <unistd.h>
 
 int sockfd, newsockfd, portno, clilen;
-char buffer[512];
+
 struct sockaddr_in serv_addr, cli_addr;
-int  no;
+
 
 using namespace std;
 
 string interpretCommand(string cmd)
 {
+  int  no = 0;
+  char buffer[512] = {0};
   ROS_INFO_STREAM("interpretCommand");  
- /* If connection is established then start communicating */
+  ROS_INFO_STREAM(cmd);
+  ROS_INFO_STREAM(sizeof(buffer));
+  ROS_INFO_STREAM("newsockfd");
+  ROS_INFO_STREAM(newsockfd);
+  ROS_INFO_STREAM("What is buffer");
+  ROS_INFO_STREAM(buffer);
+  /* If connection is established then start communicating */
   bzero(buffer,512);
   string cmd2 = cmd+'\n';
+  ROS_INFO_STREAM("command2");
+  ROS_INFO_STREAM(sizeof(cmd2));
+  ROS_INFO_STREAM(cmd2);
   cmd2.copy(buffer, 512);
-  
+  ROS_INFO_STREAM("WAS");
+  ROS_INFO_STREAM(buffer);
+
   no = write(newsockfd,buffer,sizeof(buffer));
-  
+  ROS_INFO_STREAM(no);
+
    if (no < 0) {
      perror("ERROR writing to socket");
      exit(1);
    }
+   no = 0;
+   ROS_INFO_STREAM(no);
    no = read( newsockfd,buffer,512 );
-   
+   ROS_INFO_STREAM(no);
+   ROS_INFO_STREAM("INBETWEEN");
+   ROS_INFO_STREAM(newsockfd);
    if (no < 0) {
      perror("ERROR reading from socket");
      exit(1);
    }
    ROS_INFO_STREAM("End interpretCommand");  
-   ROS_INFO_STREAM(buffer);  
-   return buffer;
+   ROS_INFO_STREAM(buffer); 
+   
+   string ret = "Parsing not possible";
+   if(ret.compare(buffer) != 0)
+     return buffer;
+	 
+   return "";
 }
 
 bool parser(instruct_mission::multimodal_parser::Request  &req,
          instruct_mission::multimodal_parser::Response &res)
 {
-
-  string cmd_interpreted;
+  ROS_INFO_STREAM("parser");
+  string cmd_interpreted = "";
   ROS_INFO_STREAM(req.goal);
   cmd_interpreted =  interpretCommand(req.goal);
-
+  ROS_INFO_STREAM("cmd_interpreted");
+  ROS_INFO_STREAM(cmd_interpreted);
   res.result = cmd_interpreted;
   return true;
 }
@@ -90,10 +115,17 @@ int main(int argc, char **argv)
   ros::NodeHandle n;
 
  ROS_INFO_STREAM("Wait for Parser!");
- 
-std :: string cmd = "gnome-terminal -x sh -c 'cd /home/yazdani/work/diarc_ws/diarc_parser/smallade_w_lang; ./ant run-registry -Df=config/sherpa_config/sherpa.config'&"; 
+ close(sockfd);
+ system("killall gnome-terminal");
 
- system (cmd.c_str ());
+ //std::string cmd ="gnome-terminal --command ls";
+
+//--working-directory=/home/yazdani/work/diarc_ws/smallade_w_lang -e './ant run-registry -Df=config/sherpa_config/sherpa.config&'";
+//  gnome-terminal -x sh -c ";
+// 'cd /home/yazdani/work/diarc_ws/diarc_parser/smallade_w_lang; ./ant run-registry -Df=config/sherpa_config/sherpa.config'&"; 
+
+ system("gnome-terminal --working-directory=/home/yazdani/work/diarc_ws/diarc_parser/smallade_w_lang  --command \"./ant run-registry -Df=config/sherpa_config/sherpa.config\" &");//cmd.c_str());
+
  sockfd = socket(AF_INET, SOCK_STREAM, 0);
    if (sockfd < 0) {
       perror("ERROR opening socket");
@@ -102,10 +134,12 @@ std :: string cmd = "gnome-terminal -x sh -c 'cd /home/yazdani/work/diarc_ws/dia
    ROS_INFO_STREAM("HELLO");
 
     int reuse = 1;
-    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(reuse)) < 0)
+    if (setsockopt(sockfd, SOL_SOCKET, (SO_REUSEPORT | SO_REUSEADDR), (const char*)&reuse, sizeof(reuse)) < 0)
       perror("setsockopt(SO_REUSEADDR) failed");
 
-  
+   std::cout << "new _ getppid(): " << getppid() << std::endl;
+   std::cout << "new _ getpid(): " << getpid() << std::endl;
+      
    bzero((char *) &serv_addr, sizeof(serv_addr));
    portno = 1234;
    serv_addr.sin_family = AF_INET;
@@ -119,27 +153,32 @@ std :: string cmd = "gnome-terminal -x sh -c 'cd /home/yazdani/work/diarc_ws/dia
    }
    ROS_INFO_STREAM("HELLO4");
    listen(sockfd,5);
+   ROS_INFO_STREAM("HELLO41");
    clilen = sizeof(cli_addr);
-   
+   ROS_INFO_STREAM("HELLO42");
+   std::cout << sockfd << std::endl;
+    std::cout << newsockfd << std::endl;
+    //   if(sockfd > 0)
+    //  sockfd = 0;
    newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
-	   ROS_INFO_STREAM("HELLO5");
+   std::cout << "end " <<sockfd << std::endl;
+   ROS_INFO_STREAM("HELLO5");
    if (newsockfd < 0) {
       perror("ERROR on accept");
       exit(1);
    }
     ROS_INFO_STREAM("HELLO6");
+    //  system("killall gnome-terminal");//cmd.c_str());
     ros::Duration(0.5).sleep(); 
-   ROS_INFO_STREAM("Parser registered!");
+    ROS_INFO_STREAM("Parser registered!");
 
-
-       ros::ServiceServer service = n.advertiseService("tldl_parser", parser);
-       ROS_INFO_STREAM("Ready to parse the sentence?");
-
-       ROS_INFO_STREAM("Ende1");
-
-     ros::spin();
-
-  close(sockfd);
+   
+    ros::ServiceServer service = n.advertiseService("tldl_parser", parser);
+    ROS_INFO_STREAM("Ready to parse the sentence?");
+     std::cout << newsockfd << std::endl;
+    ROS_INFO_STREAM("Ende1");
+    ros::spin();
+    
 
   return 0;
 }

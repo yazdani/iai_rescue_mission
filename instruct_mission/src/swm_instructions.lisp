@@ -91,7 +91,6 @@
                  (setf a-seq (cdr a-seq)))))
     *swm-liste*))
 
-<<<<<<< HEAD
 (defun internal-function (tmp)
  ;; (format t "internal function ~a~%" tmp)
   (let*((seq (split-sequence:split-sequence #\, (car (split-sequence:split-sequence #\) tmp))))
