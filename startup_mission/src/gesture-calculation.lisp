@@ -172,11 +172,18 @@
 
 (defun visualize-world()
   (let* ((liste (instruct-mission::swm->geopose-elements))
-         (pose NIL))
+         (pose NIL)(pose1 NIL)(pose2 NIL))
     (loop for index from 0 to (- (length liste) 1)
-          do(setf pose (cl-transforms:origin (third (nth index liste))))          
-            (location-costmap::publish-point pose :id (+ 1000 index)))))
-
+          do(setf pose (cl-transforms:origin (third (nth index liste))))
+            (setf pose1 (cl-transforms:make-3d-vector (cl-transforms:x pose)
+                                                      (cl-transforms:y pose)
+                                                      (+ 0.3 (cl-transforms:z pose))))
+            (setf pose2 (cl-transforms:make-3d-vector (cl-transforms:x pose)
+                                                      (cl-transforms:y pose )
+                                                      (+ 0.6 (cl-transforms:z pose))))                                              
+            (location-costmap::publish-point pose :id (+ 1000 index))
+            (location-costmap::publish-point pose1 :id (+ 1100 index))
+            (location-costmap::publish-point pose2 :id (+ 1110 index)))))
 
 (defun hash-keys (hash-table)
   (loop for key being the hash-keys of hash-table collect key))

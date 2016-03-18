@@ -266,6 +266,8 @@ void startChecking(const mhri_msgs::multimodal_action::ConstPtr& msg)
       ROS_INFO_STREAM("Lisp");
       // calling lisp and waiting for the result
       ros::NodeHandle new_pub;
+      std_msgs::Bool tbool;
+      tbool.data = false;
       ros::ServiceClient client = new_pub.serviceClient<instruct_mission::multimodal_lisp>("multimodal_lisp");  
       ROS_INFO_STREAM("Lisptodo");
       if (client.call(srv))
@@ -282,14 +284,25 @@ void startChecking(const mhri_msgs::multimodal_action::ConstPtr& msg)
       ros::Rate loop_ratE(5);
       ROS_INFO_STREAM("MOIIIN");
       std::cout << multi <<std::endl;
-    
+      multi = srv.response.interpretation;
+      std_msgs::String drum;
+      
+      tbool.data = false;
+      for(int i = 0; i < multi.action.size(); i++)
+	{
+	  drum = multi.action[i].error;
+	  ROS_INFO_STREAM(multi.action[i].error);
+	  if(drum.data.compare("") != 0)
+	    multi.action[i].value = tbool;
+	}
+      mhri_msgs::interpretation interp;
+      instruct_mission::multimodal_lisp intero;
+      ROS_INFO_STREAM(srv.response.interpretation);
       //    pub = n_pub.advertise<std_msgs::String>("multimodal_publisher",1000);
       int index = 5;
-      //mhri_msgs::interpretation>("multimodal_publisher",1000);
-      //  while(index > 0)
-      //	{
-	  std::cout << srv.response.interpretation <<std::endl;
-	  pub.publish(srv.response.interpretation);
+   
+      ROS_INFO_STREAM(multi);
+      pub.publish(multi);
 	  //	  index--;
 	  //  ros::spinOnce();
 	  //  loop_ratE.sleep();

@@ -42,7 +42,7 @@ int main(int argc, char **argv)
  ros::init(argc, argv, "multimodal_cmd_publisher");
  
  ros::NodeHandle n;
- ros::Publisher m_pub = n.advertise<mhri_msgs::multimodal_action>("multimodal_cmd",1000);
+ ros::Publisher m_pub = n.advertise<mhri_msgs::multimodal_action>("CREATE/multimodal_cmd",1000);
  ros::Rate loop_rate(0.1);
  int count = 0;
  mhri_msgs::multimodal_action action;
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
  std::vector<mhri_msgs::point3d> seg;
  action.selected = "wasp_red";
  action.type = "Go";
- action.command = "Go across the river behind of the mountain and scan right of the mountain";
+ action.command = "Go across the river left of the tree and take a picture";
  action.data = 2;
  action.direction[0] = dir[0];// = dir;
  action.direction[1] = dir[1];// = dir;

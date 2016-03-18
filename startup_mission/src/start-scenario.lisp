@@ -60,9 +60,10 @@
          ;;                                            (svref location 2)))
          (gesture-elem  (swm->give-obj-pointed-at ge-vector))
        (desig-list  (instruct-mission::create-the-msg agent type icmd gesture-elem))  
-  ;; (format t " what is desig-list ~a~%" desig-list)
+ 
      (tmp (instruct-mission::create-mhri-msg desig-list)))
    (format t "desiglist ~a~% and tmp ~a~%" desig-list tmp)
+     (format t " what is desig-list ~a~%" desig-list)
     (cond ((= (length tmp) 1)
            (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp)))))
           ((= (length tmp) 2)
