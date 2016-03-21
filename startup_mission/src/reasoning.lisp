@@ -153,7 +153,8 @@
   ;;############### IN FRONT OF ####################;;
     (<- (prepositions ?desig ?pose ?costmap)
      (or (desig-prop ?desig (:in-front-of ?object1-name))
-         (desig-prop ?desig (:front ?object1-name)))
+         (desig-prop ?desig (:front ?object1-name))
+         (desig-prop ?desig (:straight ?object1-name)))
       ;;      (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
       (lisp-fun instruct-mission::swm->elem-name->position ?object1-name ?object1-pose)
       (lisp-fun preposition-behind ?pose ?list-values)

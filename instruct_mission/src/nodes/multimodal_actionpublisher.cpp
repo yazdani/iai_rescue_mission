@@ -68,7 +68,7 @@ int main(int argc, char **argv)
  std::vector<mhri_msgs::point3d> seg;
  action.selected = "wasp_red";
  action.type = "Go";
- action.command = "Go right of this mountain";
+ action.command = "Go over the river and take a picture of that tree";
  action.data = 2;
  action.direction[0] = dir[0];// = dir;
  action.direction[1] = dir[1];// = dir;
@@ -82,10 +82,12 @@ int main(int argc, char **argv)
  action.circ_area = vec;
  action.source = "gesture";
 
-
+ while(ros::ok())
+   {
      m_pub.publish(action);
      ros::spinOnce();
- 
+     loop_rate.sleep();
+   }
  return 0;
 
 }
