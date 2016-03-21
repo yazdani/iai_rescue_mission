@@ -160,7 +160,7 @@
       (list height))))
 
 (defun swm->make-height-human (pose height)
-   (setf height (+ 1 3))
+   (setf height (+ 1 4))
   (format t "inside human height~%")
   (lambda (x y)
     (declare (ignore x y))
@@ -169,7 +169,7 @@
 (defun swm->make-constant-height-function (obj-name height)
   (let* ((sem-hash (slot-value (instruct-mission::swm->create-semantic-map) 'sem-map-utils:parts))
          (dim  (slot-value (gethash obj-name sem-hash) 'sem-map-utils:dimensions)))
-    (setf height  (+ (cl-transforms:z dim) 0.5))
+    (setf height  (+ (cl-transforms:z dim) 8));;0.5))
     (lambda (x y)
       (declare (ignore x y))
       (list height))))
