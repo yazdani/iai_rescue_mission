@@ -56,8 +56,8 @@ int main(int argc, char **argv)
  p.orientation.w = 1;
  std::vector<float> dir;
  dir.push_back(0.8);
- dir.push_back(0.8);
- dir.push_back(0);
+ dir.push_back(-0.8);
+ dir.push_back(0.0);
  std::vector<float> loc;
  loc.push_back(0.3);
  loc.push_back(0.2);
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
  std::vector<mhri_msgs::point3d> seg;
  action.selected = "wasp_red";
  action.type = "Go";
- action.command = "Go over the river and take a picture of that tree";
+ action.command = "Take a picture of that house";
  action.data = 2;
  action.direction[0] = dir[0];// = dir;
  action.direction[1] = dir[1];// = dir;
