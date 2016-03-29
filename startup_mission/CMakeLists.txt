@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
   cram_semantic_map_costmap
   cram_spatial_relations_costmap
   instruct_mission
+  roslisp
 )
 
 ## System dependencies are found with CMake's conventions
@@ -198,3 +199,5 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+add_lisp_executable(starter 
+startup-mission startup-mission::start-mission)

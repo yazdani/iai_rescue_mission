@@ -39,8 +39,12 @@
 
 (defun service-call ()
   (roslisp-utilities:startup-ros :name "service_node")
+;;  (roslisp:with-ros-node ("getting service node" :spin t)
+  (format t "baddd~%")
   (roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
-  (roslisp:ros-info (basics-system) "the msg."))
+  (format t "baddd2~%")
+  (roslisp:ros-info (basics-system) "the msg.")
+  (roslisp:spin-until nil 1000));;)
 
  (defun start-mission ()
    (format t "start-mission ~%")
@@ -48,6 +52,8 @@
 
 (roslisp:def-service-callback instruct_mission-srv:multimodal_lisp (selected type command gesture location)
   (format t "in sevice callback command ~a~%" command)
+  (format t "in sevice callback gesture ~a~%" gesture)
+  (format t "in sevice callback location ~a~%" location)
   (let*((agent (substitute #\_ #\Space selected))
         (type (read-from-string type))
         (icmd command)

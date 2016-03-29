@@ -16,36 +16,8 @@
 
  <node pkg="instruct_mission" type="multimodal_actionsubscriber" name="multimodal_actionsubscriber" respawn="false" output="screen" />
 
-    <!--node pkg="tf" type="static_transform_publisher" name="swri_transform" args="15 14 13 0 0 0 /map /lab 100"  /-->
+ <!--node pkg="world_mission" type="unihb_reasoning.sh" name="unihb_reasoning" /-->
    
-    <!-- <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" > -->
-    <!--     <param name="local_xy_frame" value="/map"/> -->
-    <!--     <param name="local_xy_origin" value="Sherpa"/> -->
-    <!--     <rosparam param="local_xy_origins"> -->
-    <!--         [{ name: Sherpa, -->
-    <!--          latitude: 44.153278, -->
-    <!--          longitude: 12.241426, -->
-    <!--          altitude: 41.0, -->
-    <!--          heading: 0.0}] -->
-    <!--     </rosparam> -->
-    <!-- </node> -->
-<!--
-  <param name="mountain_description"
-	 command="$(find xacro)/xacro.py '$(find world_mission)/urdf-xml/cesena_map/cesena_map.urdf.xml'"/>
-
-
-<node pkg="tf" type="static_transform_publisher" name="cesena_map_map2" args="0 0 0 0 0 0 1 /map /map_link 100"/>
-
-<node pkg="tf" type="static_transform_publisher" name="cesena_map_map3" args="-4.21429 -2.9365 -0 0 0  0 1 /map /mount01 100"/>
-
-<node pkg="tf" type="static_transform_publisher" name="cesena_map_map4" args="-1.6622483 2.0876 -0 0 0 0 1 /map /house01 100"/>
-
-<node pkg="tf" type="static_transform_publisher" name="cesena_map_map5" args="3.8671915 -2.93658 -0 0 0 0 1 /map /wood01 100"/>
-
-<node pkg="tf" type="static_transform_publisher" name="cesena_map_map6" args="0.889801 -0.03743 -0 0 0 0 1 /map /river01 100"/>
--->
-
- <!--node pkg="tf" type="static_transform_publisher" name="genius_node" args="0 0 0 0 0 0 1 /map /genius_link 100"  /-->
 
 </launch>
 
