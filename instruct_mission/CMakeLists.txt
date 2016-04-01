@@ -164,6 +164,10 @@ add_executable(multimodal_actionsubscriber src/nodes/multimodal_actionsubscriber
 target_link_libraries(multimodal_actionsubscriber ${catkin_LIBRARIES})
 add_dependencies(multimodal_actionsubscriber instruct_mission_gencpp)
 
+add_executable(checker src/nodes/checker.cpp)
+target_link_libraries(checker ${catkin_LIBRARIES})
+add_dependencies(checker instruct_mission_gencpp)
+
 ## Declare a C++ executable
 #add_executable(contacts src/contacts.cpp)
 #target_link_libraries(contacts ${catkin_LIBRARIES})
