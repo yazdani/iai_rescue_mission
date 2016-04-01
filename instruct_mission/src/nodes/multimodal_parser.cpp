@@ -115,8 +115,8 @@ int main(int argc, char **argv)
   ros::NodeHandle n;
 
  ROS_INFO_STREAM("Wait for Parser!");
- // close(sockfd);
- system("killall gnome-terminal");
+  close(sockfd);
+ // system("killall gnome-terminal");
 
  //std::string cmd ="gnome-terminal --command ls";
 
