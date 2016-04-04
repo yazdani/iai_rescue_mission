@@ -38,7 +38,7 @@
 
 
 (defun service-call ()
-  (roslisp-utilities:startup-ros :name "service_node")
+  (roslisp-utilities:startup-ros :master-uri (roslisp:make-uri "localhost" 11312)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (format t "baddd~%")
   (roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
@@ -64,6 +64,7 @@
          ;; (gps-vector (cl-transforms::make-3d-vector (svref location 0)
          ;;                                            (svref location 1)
          ;;                                            (svref location 2)))
+	(visualize-world)
          (gesture-elem  (swm->give-obj-pointed-at ge-vector))
        (desig-list  (instruct-mission::create-the-msg agent type icmd gesture-elem))  
  

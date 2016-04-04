@@ -322,7 +322,7 @@ int main(int argc, char **argv)
   // ros::NodeHandle n_pub;
   ros::Subscriber sub = n_sub.subscribe("CREATE/multimodal_cmd",1000, startChecking);
   ROS_INFO_STREAM("Wait for Instruction!");
-  pub = n_pub.advertise<mhri_msgs::multimodal>("UNIHB/interpretation",1000);
+  pub = n_pub.advertise<mhri_msgs::multimodal>("UNIHB/interpretation/proxy",1000);
   ros::spin();
    
   return 0;
