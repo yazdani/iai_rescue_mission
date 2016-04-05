@@ -41,7 +41,7 @@
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>swri_transform_util</build_depend>
+  <!--build_depend>swri_transform_util</build_depend-->
   <build_depend>geometry_msgs</build_depend>
  <build_depend>message_generation</build_depend>
   <build_depend>message_runtime</build_depend>
@@ -55,7 +55,7 @@
   <run_depend>message_runtime</run_depend>
   <run_depend>roscpp</run_depend>
  
-  <run_depend>swri_transform_util</run_depend>
+  <!--run_depend>swri_transform_util</run_depend-->
  
   <!-- The export tag contains other, unspecified, tags -->
   <export>

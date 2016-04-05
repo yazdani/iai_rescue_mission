@@ -12,9 +12,9 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   tf
-  geographic_msgs
+#  geographic_msgs
   cram_designators
-  mhri_msgs
+ # mhri_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -138,35 +138,35 @@ include_directories(
 ## either from message generation or dynamic reconfigure
 # add_dependencies(instruct_mission ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-## Declare a C++ executable
-add_executable(multimodal_actionserver src/nodes/multimodal_actionserver.cpp)
-target_link_libraries(multimodal_actionserver ${catkin_LIBRARIES})
-add_dependencies(multimodal_actionserver instruct_mission_gencpp)
+# ## Declare a C++ executable
+# add_executable(multimodal_actionserver src/nodes/multimodal_actionserver.cpp)
+# target_link_libraries(multimodal_actionserver ${catkin_LIBRARIES})
+# add_dependencies(multimodal_actionserver instruct_mission_gencpp)
 
-## Declare a C++ executable
-add_executable(multimodal_parser src/nodes/multimodal_parser.cpp)
-target_link_libraries(multimodal_parser ${catkin_LIBRARIES})
-add_dependencies(multimodal_parser instruct_mission_gencpp)
+# ## Declare a C++ executable
+# add_executable(multimodal_parser src/nodes/multimodal_parser.cpp)
+# target_link_libraries(multimodal_parser ${catkin_LIBRARIES})
+# add_dependencies(multimodal_parser instruct_mission_gencpp)
 
-add_executable(multimodal_client src/nodes/multimodal_client.cpp)
-target_link_libraries(multimodal_client ${catkin_LIBRARIES})
-add_dependencies(multimodal_client instruct_mission_gencpp)
-## Declare a C++ executable
-add_executable(multimodal_actionclient src/nodes/multimodal_actionclient.cpp)
-target_link_libraries(multimodal_actionclient ${catkin_LIBRARIES})
-add_dependencies(multimodal_actionclient instruct_mission_gencpp)
+# add_executable(multimodal_client src/nodes/multimodal_client.cpp)
+# target_link_libraries(multimodal_client ${catkin_LIBRARIES})
+# add_dependencies(multimodal_client instruct_mission_gencpp)
+# ## Declare a C++ executable
+# add_executable(multimodal_actionclient src/nodes/multimodal_actionclient.cpp)
+# target_link_libraries(multimodal_actionclient ${catkin_LIBRARIES})
+# add_dependencies(multimodal_actionclient instruct_mission_gencpp)
 
-add_executable(multimodal_actionpublisher src/nodes/multimodal_actionpublisher.cpp)
-target_link_libraries(multimodal_actionpublisher ${catkin_LIBRARIES})
-add_dependencies(multimodal_actionpublisher instruct_mission_gencpp)
+# add_executable(multimodal_actionpublisher src/nodes/multimodal_actionpublisher.cpp)
+# target_link_libraries(multimodal_actionpublisher ${catkin_LIBRARIES})
+# add_dependencies(multimodal_actionpublisher instruct_mission_gencpp)
 
-add_executable(multimodal_actionsubscriber src/nodes/multimodal_actionsubscriber.cpp)
-target_link_libraries(multimodal_actionsubscriber ${catkin_LIBRARIES})
-add_dependencies(multimodal_actionsubscriber instruct_mission_gencpp)
+# add_executable(multimodal_actionsubscriber src/nodes/multimodal_actionsubscriber.cpp)
+# target_link_libraries(multimodal_actionsubscriber ${catkin_LIBRARIES})
+# add_dependencies(multimodal_actionsubscriber instruct_mission_gencpp)
 
-add_executable(checker src/nodes/checker.cpp)
-target_link_libraries(checker ${catkin_LIBRARIES})
-add_dependencies(checker instruct_mission_gencpp)
+# add_executable(checker src/nodes/checker.cpp)
+# target_link_libraries(checker ${catkin_LIBRARIES})
+# add_dependencies(checker instruct_mission_gencpp)
 
 ## Declare a C++ executable
 #add_executable(contacts src/contacts.cpp)

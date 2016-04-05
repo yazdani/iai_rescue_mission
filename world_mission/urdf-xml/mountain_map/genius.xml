@@ -8,7 +8,7 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="genius">
 
 <joint name="genius_joint" type="fixed">
-<origin xyz="16 0.0 0.0" rpy="0 0 3.14"/>
+<origin xyz="20 0.0 0.0" rpy="0 0 17"/>
 <parent link="map_link"/>
 <child link="genius_link"/>
 </joint>

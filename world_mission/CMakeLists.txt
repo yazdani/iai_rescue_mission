@@ -148,20 +148,20 @@ catkin_package(
 #   ${catkin_LIBRARIES}
 # )
 ## Declare a C++ executable
-## Declare a C++ executable
-add_executable(wgs2ned_server src/nodes/wgs2ned_server.cpp)
-target_link_libraries(wgs2ned_server ${catkin_LIBRARIES})
-add_dependencies(wgs2ned_server world_mission_gencpp)
+# ## Declare a C++ executable
+# add_executable(wgs2ned_server src/nodes/wgs2ned_server.cpp)
+# target_link_libraries(wgs2ned_server ${catkin_LIBRARIES})
+# add_dependencies(wgs2ned_server world_mission_gencpp)
 
-## Declare a C++ executable
-add_executable(ned2wgs_server src/nodes/ned2wgs_server.cpp)
-target_link_libraries(ned2wgs_server ${catkin_LIBRARIES})
-add_dependencies(ned2wgs_server world_mission_gencpp)
+# ## Declare a C++ executable
+# add_executable(ned2wgs_server src/nodes/ned2wgs_server.cpp)
+# target_link_libraries(ned2wgs_server ${catkin_LIBRARIES})
+# add_dependencies(ned2wgs_server world_mission_gencpp)
 
-## Declare a C++ executable
-add_executable(hl_client_test src/nodes/hl_client_test.cpp)
-target_link_libraries(hl_client_test ${catkin_LIBRARIES})
-add_dependencies(hl_client_test world_mission_gencpp)
+# ## Declare a C++ executable
+# add_executable(hl_client_test src/nodes/hl_client_test.cpp)
+# target_link_libraries(hl_client_test ${catkin_LIBRARIES})
+# add_dependencies(hl_client_test world_mission_gencpp)
 
 #############
 ## Install ##
