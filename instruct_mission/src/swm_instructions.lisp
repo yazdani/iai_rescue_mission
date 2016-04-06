@@ -59,7 +59,7 @@
 (defun swm->elem-name->position (name)
  ;; (format t "swm->elem-name->position~%")
  (let*((pose NIL)
-       (liste (swm->geopose-elements)))
+       (liste *swm-liste*));;(swm->geopose-elements)))
  ;;  (format t "~a name is~%" name)
  ;;  (format t "~a liste is~%" liste)
                    (loop for i from 0 to (- (length liste) 1)

@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<robot name="quadrotor" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Included URDF Files -->
+  <!-- Main quadrotor link -->
+  <!-- Instantiate quadrotor_base_macro once (has no parameters atm) -->
+<material name="Blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+  <link name="base_HUMAN">
+    <inertial>
+      <mass value="1.477"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.01152" ixy="0.0" ixz="0.0" iyy="0.01152" iyz="0.0" izz="0.0218"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://agent_mission/models/operator_point.dae"/>
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+	<mesh filename="package://agent_mission/models/operator_point.dae"/>
+      </geometry>
+      <material name="Blue"/>
+    </collision>
+  </link>
+</robot>

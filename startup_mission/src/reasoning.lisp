@@ -43,8 +43,8 @@
 (def-fact-group cognitive-reasoning-costmap (desig-costmap)
   (<- (desig-costmap ?desig ?costmap)
     (costmap ?costmap)
-   ;; (lisp-fun get-genius-pose->map-frame "genius_link" ?pose)
-    (lisp-fun instruct-mission::swm->get-cartesian-pose-agent "genius" ?pose)
+    (lisp-fun get-genius-pose->map-frame "human" ?pose)
+   ;; (lisp-fun instruct-mission::swm->get-cartesian-pose-agent "genius" ?pose)
     (prepositions ?desig ?pose ?costmap))
 
 
@@ -56,18 +56,27 @@
 
 
   ;;############### RIGHT OF ####################;;
-  (<- (prepositions ?desig ?pose ?costmap)   
+  (<- (prepositions ?desig ?pose ?costmap)
+    (format "RIGHT REASONING~%")
     (or (desig-prop ?desig (:right-of ?object1-name))
         (desig-prop ?desig (:right ?object1-name)))
-    (lisp-fun instruct-mission::swm->elem-name->position ?object1-name ?object1-pose)
+   ;; (lisp-fun instruct-mission::swm->elem-name->position ?object1-name ?object1-pose)
    ;; (lisp-fun make-new-function-right ?pose ?object1-pose ?new-pose)
-    ;;   (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
+      (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
     (lisp-fun preposition-right ?pose ?list-values)
+       (format "RIGHT REASONsdfING~%")
     (prolog::equal (?fvalue ?svalue) ?list-values)
     (costmap ?costmap)
+    (format "RIGHsdfsT REASONING~%")
     (swm->semantic-map-objects ?all-objects)
-    (lisp-fun swm->semantic-map->geom-objects ?all-objects 7 ?object1-pose ?objects)
-    (costmap-padding ?padding)
+   ;; (lisp-fun swm->semantic-map->geom-objects ?all-objects 7 ?object1-pose ?objects)
+   ;; (costmap-padding ?padding)
+    ;;(semantic-map-costmap::semantic-map-objects ?all-objects)
+    (format "~a~%" ?all-objects)
+       (format "RIGHsdfsT RewfwfEASONING~%")
+   (lisp-fun semantic-map->geom-objects ?all-objects 7 ?object1-pose ?objects)
+   (costmap-padding ?padding)
+   (format"objects ~a~%" ?objects)
     (costmap-add-function semantic-map-free-space
                           (semantic-map-costmap::make-semantic-map-costmap
                            ?objects :invert t :padding ?padding)
@@ -78,12 +87,15 @@
     (make-reasoning-cost-function ?object1-pose ?fvalue ?svalue 0.3)
     ?costmap)
     (costmap ?costmap)
+     (format "RIGHT REASONING12~%")
+
     (instance-of gaussian-generator ?gaussian-generator-id)
     (costmap-add-function ?gaussian-generator-id
                     (make-location-cost-function ?object1-pose 2.0)
                     ?costmap)
+     (format "RIGHT REASONING123~%")
     (costmap-add-height-generator
-     (swm->make-constant-height-function ?object1-name ?resulting-z)
+     (make-constant-height-function ?object1-name ?resulting-z)
      ?costmap))
 
   
@@ -123,14 +135,16 @@
     (or (desig-prop ?desig (:behind-of ?object1-name))
         (desig-prop ?desig (:across ?object1-name))
         (desig-prop ?desig (:behind ?object1-name)))
-;;    (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
-    (lisp-fun instruct-mission::swm->elem-name->position ?object1-name ?object1-pose)
+    (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
+  ;;    (lisp-fun instruct-mission::swm->elem-name->position ?object1-name ?object1-pose)
     ;;(lisp-fun make-new-function-left ?pose ?object1-pose ?new-pose)
     (lisp-fun preposition-front ?pose ?list-values)
     (prolog::equal (?fvalue ?svalue) ?list-values)
-    (swm->semantic-map-objects ?all-objects)
-    (lisp-fun swm->semantic-map->geom-objects ?all-objects 3 ?object1-pose ?objects)
-    (costmap-padding ?padding)
+  ;;  (swm->semantic-map-objects ?all-objects)
+   ;; (lisp-fun swm->semantic-map->geom-objects ?all-objects 3 ?object1-pose ?objects)
+    (semantic-map-costmap::semantic-map-objects ?all-objects)
+   (lisp-fun semantic-map->geom-objects ?all-objects 7 ?pose ?objects)
+     (costmap-padding ?padding)
     (costmap-add-function semantic-map-free-space
                            (semantic-map-costmap::make-semantic-map-costmap
                             ?objects :invert t :padding ?padding)
@@ -244,11 +258,11 @@
                           ?costmap)
     (costmap-add-height-generator
      (swm->make-constant-height-function ?object1-name ?resulting-z)
-     ?costmap))
+     ?costmap)) 
     
   (<- (swm->semantic-map-objects ?objects)
-    (lisp-fun instruct-mission::swm->create-semantic-map ?semantic-map)
-    (lisp-fun sem-map-utils:semantic-map-parts ?semantic-map
+    (lisp-fun get-semantic-card ?sem)
+    (lisp-fun sem-map-utils:semantic-map-parts ?sem
               :recursive nil ?objects)))
   
 ;;   ;;right next TODO

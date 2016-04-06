@@ -157,6 +157,16 @@
                                 (cl-transforms:origin point)) param))
                            (cl-transforms:make-identity-rotation)))
 
+(defun set-left-right-pose (point param)
+  (cl-transforms:make-pose (cl-transforms:make-3d-vector
+                            (cl-transforms:x
+                             (cl-transforms:origin point))
+                            (+ (cl-transforms:y
+                             (cl-transforms:origin point)) param)
+                            (cl-transforms:z
+                                (cl-transforms:origin point)))
+                           (cl-transforms:make-identity-rotation)))
+
 (defun swm->give-obj-pointed-at (point)
   (format t "swm->give-obj-pointed-at ~a~%" point)
   (swm->intern-tf-creater)

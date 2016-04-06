@@ -175,8 +175,7 @@
       (list height))))
 
 (defun make-constant-height-function (obj-name height)
-  (sem-map-utils::get-semantic-map)
-  (let* ((sem-hash (slot-value semantic-map-utils::*cached-semantic-map* 'sem-map-utils:parts))
+  (let* ((sem-hash (slot-value (get-semantic-card) 'sem-map-utils:parts))
          (dim  (slot-value (gethash obj-name sem-hash) 'sem-map-utils:dimensions)))
     (setf height  (+ (cl-transforms:z dim) 1))
     (lambda (x y)
@@ -235,12 +234,20 @@
     (make-gauss-cost-function loc `((,(float (* std-dev std-dev) 0.0d0) 0.0d0)
                                     (0.0d0 ,(float (* std-dev std-dev)))))))
 
-(defun get-sem-object-pose->map (object &optional (semantic-map (sem-map-utils::get-semantic-map)))
-  (let*((obj (sem-map-utils::semantic-map-part semantic-map object))
-       (obj-pose (slot-value obj 'sem-map-utils:pose))
-       (obj-pstamped (cl-transforms-stamped:ensure-pose-stamped
-                      obj-pose "/map" 0.0)))
-       (get-sem-object-transform->relative-map obj-pstamped)))
+;; (defun get-sem-object-pose->map (object &optional (semantic-map (sem-map-utils::get-semantic-map)))
+;;   (let*((obj (sem-map-utils::semantic-map-part semantic-map object))
+;;        (obj-pose (slot-value obj 'sem-map-utils:pose))
+;;        (obj-pstamped (cl-transforms-stamped:ensure-pose-stamped
+;;                       obj-pose "/map" 0.0)))
+;;        (get-sem-object-transform->relative-map obj-pstamped)))
+
+(defun get-sem-object-pose->map (object)
+  (let*((obj (sem-map-utils::semantic-map-part *sem-map* object))
+       (obj-pose (slot-value obj 'sem-map-utils:pose)))
+    obj-pose))
+      ;; (obj-pstamped (cl-transforms-stamped:ensure-pose-stamped
+                    ;;  obj-pose "/map" 0.0)))
+      ;; (get-sem-object-transform->relative-map obj-pstamped)))
 
 (defun get-sem-object-pose->genius (object &optional (semantic-map (sem-map-utils::get-semantic-map)))
   (let*((obj (sem-map-utils::semantic-map-part semantic-map object))
@@ -730,3 +737,6 @@ objects))
           (setf pred '>)
           (setf axis :X)))
          (list axis pred)))
+
+(defun get-semantic-card ()
+  *sem-map*)

@@ -520,8 +520,11 @@
         </rdfs:subClassOf>   
   </owl:Class>
   
+<owl:Class rdf:about="&knowrob;Pylon">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
+</owl:Class>
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#pylon">
-	<rdfs:subClassOf rdf:resource="&knowrob;Pylon"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;Pylon"/>  
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -547,7 +550,11 @@
             </owl:Restriction>
         </rdfs:subClassOf>   
   </owl:Class>  
-  
+
+  	<owl:Class rdf:about="&knowrob;PylonBroken">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	</owl:Class>
+
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#pylon_broken">
 	<rdfs:subClassOf rdf:resource="&knowrob;PylonBroken"/> 
         <rdfs:subClassOf>
@@ -586,9 +593,12 @@
         </rdfs:subClassOf>   
   </owl:Class>
   -->
+  <owl:Class rdf:about="&knowrob;Victim">
+    <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+  </owl:Class>
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#avalanche_victim">
 	<rdfs:subClassOf rdf:resource="&knowrob;Victim"/>
-	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<!--rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/-->
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -617,7 +627,6 @@
   
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#lost_victim">
 	<rdfs:subClassOf rdf:resource="&knowrob;Victim"/> 
-		<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>

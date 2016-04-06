@@ -37,10 +37,6 @@
 (defparameter *distance* 25)
 (defparameter *s* 0)
 
-
-
-
-
 ;;getting the bounding boxes of different elements within the semantic map
 (defun get-bbox-as-aabb (index)
 (let*((dim-x (cl-transforms:x (car (nthcdr index *liste-dim*))))
@@ -134,8 +130,139 @@
     (setf ret (get-the-direction vec))
     (car ret)))
 
+(defun get-the-the-direction (point)
+   (location-costmap::remove-markers-up-to-index 50)
+(format t "function(get the the direction)~%")
+ (let*((elem NIL)
+       (Selem NIL)
+       (num (make-list 60))
+       (eps 0)
+       (var 0)
+       (sem-hash (slot-value *sem-map* 'sem-map-utils:parts))
+       (liste-tr (the-listing-values num point)))
+ (loop for jindex from 0 to (- (length liste-tr) 1)
+        do(let*((new-point (nth jindex liste-tr))
+                (new-point+z1 (set-height-pose new-point 1))
+                (new-point+z2 (set-height-pose new-point 2))
+                (new-point+z3 (set-height-pose new-point 3))
+                (new-point+z4 (set-height-pose new-point 4))
+                (new-point-z1 (set-height-pose new-point -1))
+                (new-point-z2 (set-height-pose new-point -2))
+                (new-point-z3 (set-height-pose new-point -3))
+                (new-point-z4 (set-height-pose new-point -4))
+                (new-point+y1 (set-left-right-pose new-point 1))
+                (new-point+y2 (set-left-right-pose new-point 2))
+                (new-point+y3 (set-left-right-pose new-point 3))
+                (new-point+y4 (set-left-right-pose new-point 4))
+                (new-point-y4 (set-left-right-pose new-point -4))
+                (new-point-y1 (set-left-right-pose new-point -1))
+                (new-point-y2 (set-left-right-pose new-point -2))
+                (new-point-y3 (set-left-right-pose new-point -3)))
+            (setf eps (+ eps 1))
+            (if (equal Selem NIL)
+                (set-my-marker new-point eps)
+                (setf var 1))
+	    (format t "eps : ~a~%" eps)
+	    (dotimes(jo (list-length *swm-liste*))
+	      ;;(format t "JOOOO ~a~%" jo)
+ (let* ((elem1 (first (instruct-mission::swm->get-bbox-as-aabb (first (nth jo *swm-liste*)) sem-hash)))
+	(elem2 (second (instruct-mission::swm->get-bbox-as-aabb (first (nth jo *swm-liste*)) sem-hash))))  ;;(cl-transforms:origin (fourth (nth jo *swm-liste*))))
+                    ;;  (elem2 (cl-transforms:origin (fifth (nth jo *swm-liste*)))))
+   (setf value
+                      (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)))
+   (setf value+z1
+                      (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z1)))
+   (setf value+z2
+                           (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z2)))
+                (setf value+z3
+                           (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z3)))
+   (setf value+z4
+                      (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z4)))
+   (setf value-z1
+                           (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z1)))
+   (setf value-z2
+                      (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z2)))
+   (setf value-z3
+                           (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z3)))
+   (setf value-z4
+                      (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z4)))
+    (setf value+y1
+                           (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y1)))
+   (setf value+y2
+                      (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y2)))
+   (setf value+y3
+                           (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y3)))
+   (setf value+y4
+                      (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y4)))
+   (setf value-y1
+                           (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y1)))
+   (setf value-y2
+                      (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y2)))
+   (setf value-y3
+                           (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y3)))
+   (setf value-y4
+                      (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y4)))
+   
+                 (cond ((and (or (equal value T)
+                                 (equal value+z1 T)
+                                 (equal value+z2 T)
+                                 (equal value+z3 T)
+                                 (equal value+z4 T)
+                                 (equal value-z1 T)
+                                 (equal value-z2 T)
+                                 (equal value-z3 T)
+                                 (equal value-z4 T)
+                                 (equal value+y1 T)
+                                 (equal value+y2 T)
+                                 (equal value+y3 T)
+                                 (equal value+y4 T)
+                                 (equal value-y1 T)
+                                 (equal value-y2 T)
+                                 (equal value-y3 T)
+                                 (equal value-y4 T))
+                             (not (equal (first (nth jo *swm-liste*))
+                                         (find (first (nth jo *swm-liste*))
+                                               elem :test #'equal))))
+                        (setf *collision-point* new-point)
+                        (set-my-marker new-point 1000)
+                        (format t "MAAAAAAAAAAAAAAAARKER ---------------- ~%")
+                       ;; (set-my-marker new-point+z1 10000)
+                       ;; (set-my-marker new-point+z2 11000)
+                       ;; (set-my-marker new-point+z3 11100)
+                       ;; (set-my-marker new-point-z1 20000)
+                       ;; (set-my-marker new-point-z2 22000)
+                       ;; (set-my-marker new-point-z3 22200)
+                        (setf elem (append (list (first (nth jo *swm-liste*))) elem)))
+                       (t (setf var 1)))))))
+   (format t "elem is ~a~%" elem)
+   (setf test NIL)
+   (if (equal 0 (length elem))
+       (setf Selem NIL)
+       (loop for in from 0 to (length elem)
+             do;;(format t "in this list ~%")
+                (cond((and (equal (checker-the-element "pylon_broken" (nth in elem)) T)
+                          (equal test NIL))
+                     (setf test T)
+                     (setf Selem (nth in elem)))
+                 ;;    (format t "yaaaaaaaaaaaaaaaaaaaaaaay"))
+                    (t (format NIL "go on~%")))))
+   Selem))
+   
 
+(defun checker-the-element (name elem-name)
+  ;;(format t "hahaha~%")
+(let*((checker NIL)
+      (checker-type NIL))
+  (loop for index from 0 to (length *swm-liste*)
+        do(if(string-equal (second (nth index *swm-liste*)) elem-name)
+             (setf checker-type (second (nth index *swm-liste*)))
+             (format NIL "go ahead ~a~%"(second (nth index *swm-liste*) )))
+          (if (string-equal checker-type name)
+              (setf checker T)
+              (setf checker NIL)))
+  checker))
 
+       
 ;; visualization in rviz and computation of the gesture 
 (defun get-the-direction (point)
   (format t "pointi ~a~%" point)
@@ -208,3 +335,105 @@
   
 (defun square (x)
   (* x x))
+
+
+(defun the-listing-values (num point)
+  (let*(( zet 0.5)
+        (iks (cl-transforms:x point))
+        (yps (cl-transforms:y point))
+      ;;  (zet (cl-transforms:z point))
+        (liste-tr NIL))
+    (cond((and (> iks 0) ;;ok
+               (= yps 0))
+          (loop for index from 0 to (- (length num) 1)
+                do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (* 0.5 index))  (cl-transforms:y point)  (+ (cl-transforms:z point) zet))))))))
+         ((and (> iks 0) ;;ok
+               (< yps 0)
+               (>= yps (- 0.6)))
+          (loop for index from 0 to (- (length num) 1)
+                do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (* 0.8 index))  (+ (cl-transforms:y point)(* (- 0.3) index))  (+ (cl-transforms:z point) zet))))))))
+          ((and (> iks 0) ;;ok
+               (< yps 0)
+               (< yps (- 0.6)))
+          (loop for index from 0 to (- (length num) 1)
+                do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (* 0.5 index))  (+ (cl-transforms:y point)(* (- 0.8) index))  (+ (cl-transforms:z point) zet))))))))
+         ((and (< iks 0) ;;ok
+              (= yps 0))
+          (loop for index from 0 to (- (length num) 1)
+                    do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (* (- 0.5 index)))  (cl-transforms:y point)  (+ (cl-transforms:z point) zet))))))))
+         ((and (= iks 0) ;;ok
+               (> yps 0))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (cl-transforms:x point) (+ (cl-transforms:y point) (* 0.5 index))  (+ (cl-transforms:z point) zet))))))))
+         ((and (= iks 0) ;;ok
+               (< yps 0))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (cl-transforms:x point) (+ (cl-transforms:y point) (* (- 0.5) index))  (+ (cl-transforms:z point) zet))))))))      
+         ((and (> iks 0) ;;ok
+               (<= iks 0.5)
+               (> yps 0)
+               (<= yps 0.5))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (*  0.2 index))  (+ (cl-transforms:y point) (* 0.15 index))  (+ (cl-transforms:z point) zet))))))))
+         ((and (> iks 0) ;;ok
+               (> iks 0.5)
+               (> yps 0)
+               (> yps 0.5))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (*  0.3 index))  (+ (cl-transforms:y point) (*  0.5 index))  (+ (cl-transforms:z point) zet))))))))
+         ((and (> iks 0) ;;ok
+               (<= iks 0.5)
+               (> yps 0)
+               (> yps 0.5))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (*  0.15 index))  (+ (cl-transforms:y point) (*  0.4 index))  (+ (cl-transforms:z point) zet))))))))
+         ((and (> iks 0) ;;ok
+               (> iks 0.5)
+               (> yps 0)
+               (<= yps 0.5))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (*  0.6 index))  (+ (cl-transforms:y point) (*  0.2 index))  (+ (cl-transforms:z point) zet))))))))
+;;ookkk
+         ((and (< iks 0) ;;ok
+               (>= iks (- 0.5))
+               (< yps 0)
+               (>= yps (- 0.5)))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (*  (- 0.2) index))  (+ (cl-transforms:y point) (* (- 0.15) index))  (+ (cl-transforms:z point) zet))))))))
+         ((and (< iks 0) ;;ok
+               (< iks (- 0.5))
+               (< yps 0)
+               (< yps (- 0.5)))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (* (- 0.3) index))  (+ (cl-transforms:y point) (*  (- 0.5) index))  (+ (cl-transforms:z point) zet))))))))
+         ((and (< iks 0) ;;ok
+               (>= iks (- 0.5))
+               (< yps 0)
+               (< yps (- 0.5)))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (*  (- 0.15) index))  (+ (cl-transforms:y point) (*  (- 0.4) index))  (+ (cl-transforms:z point) zet))))))))
+         ((and (< iks 0) ;;ok
+               (< iks (- 0.5))
+               (< yps 0)
+               (>= yps (- 0.5)))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (*  (- 0.6) index))  (+ (cl-transforms:y point) (*  (- 0.2) index))  (+ (cl-transforms:z point) zet))))))))
+         ((and (< iks 0) ;;ok
+               (< iks (- 0.5))
+               (> yps 0))
+          (loop for index from 0 to (- (length num) 1)
+                do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (*  (- 0.6) index))  (+ (cl-transforms:y point) (*  0.2 index))  (+ (cl-transforms:z point) zet))))))))
+         ((and (< iks 0)
+               (>= iks (- 0.5));;ok
+               (> yps 0))
+          (loop for index from 0 to (- (length num) 1)
+                     do (setf liste-tr (append liste-tr (list (get-the-gesture->relative-the-human (cl-transforms:make-3d-vector (+ (cl-transforms:x point) (*  (- 0.2) index))  (+ (cl-transforms:y point) (*  0.5 index))  (+ (cl-transforms:z point) zet))))))))
+         (t ()))
+    liste-tr))
+
+(defun get-the-gesture->relative-the-human (gesture-vec) 
+(format t "HUMAN GESTURE VEC ~a~%" gesture-vec)
+(let*((pose (cl-transforms-stamped:make-pose-stamped "human" 0.0
+                                                            gesture-vec
+                                                             (cl-transforms:make-identity-rotation))))
+  (cl-transforms-stamped:pose-stamped->pose  (cl-tf:transform-pose *tf* :pose pose :target-frame "map"))))

@@ -34,11 +34,15 @@
 (defparameter *liste-dim* NIL)
 (defparameter *distance* 25)
 (defparameter *swm-liste* NIL)
+(defparameter *sem-map* NIL)
 (defparameter *gesture*  (cl-transforms:make-pose (cl-transforms:make-3d-vector 2 3 4) (cl-transforms:make-quaternion 0 0 0 1)))
 
 
 (defun start-world ()
-  (roslisp-utilities:startup-ros) 
+  (roslisp-utilities:startup-ros)
+  (format *standard-output* "go into semantic map function~%")
+  (let*((sem-map (create-the-semantic-map)))
+    (format t "~a~%" sem-map))
 )
 
 

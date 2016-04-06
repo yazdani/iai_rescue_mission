@@ -60,7 +60,7 @@
      (:file "costmap-knowledge" :depends-on("package"))
      (:file "gesture-calculation" :depends-on("package"))
      (:file "cost-functions" :depends-on ("package"))
-     (:file "unihb-cram" :depend-on ("package"))
+     (:file "unihb-cram" :depends-on ("package"))
      (:file "designators" :depends-on ("package"))
      (:file "swm_instructions" :depends-on ("package"))
      (:file "reasoning" :depends-on ("package" "cost-functions" "swm_instructions"))

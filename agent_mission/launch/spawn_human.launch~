@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+   <!-- send the robot XML to param server -->
+   <param name="human_description" 
+	  command="$(find xacro)/xacro.py '$(find world_mission)/urdf-xml/human/human.urdf.xml'" />
+   <node pkg="tf" 
+	type="static_transform_publisher" 
+	name="world_to_human_frame_publisher" 
+	args="50 -5 -0.5 0 0 0.6 1 /map /human 200">
+  </node>
+ <node pkg="tf" 
+	type="static_transform_publisher" 
+	name="human_to_human_link_publisher" 
+	args="0 0 0 0 0 0 /human /human_link 200">
+  </node>
+
+ <node pkg="tf" 
+	type="static_transform_publisher" 
+	name="human_to_human1_link_publisher" 
+	args="0 0 0 0 0 0 /human_link /human1_link 200">
+  </node>
+
+</launch>

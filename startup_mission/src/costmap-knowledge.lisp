@@ -29,10 +29,10 @@
 (in-package :startup-mission)
 
 (def-fact-group costmap-metadata ()
-  (<- (costmap-size 20 20))
-  (<- (costmap-origin -10 -10))
-  (<- (costmap-resolution 0.25))
-  (<- (costmap-padding 0.3)))
+  (<- (costmap-size 65 65))
+  (<- (costmap-origin 55 55))
+  (<- (costmap-resolution 1))
+  (<- (costmap-padding 0.5)))
 
 ;;  (<- (costmap-size 20 20))
 ;;  (<- (costmap-origin -10 -10)) ;; out of bounds ERROR
