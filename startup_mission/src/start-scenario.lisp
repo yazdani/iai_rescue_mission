@@ -41,12 +41,11 @@
   (roslisp-utilities:startup-ros) 
 )
 
-(defun get-semanticmap-prolog ()
-  (let* ((map-name "http://knowrob.org/kb/ias_semantic_map.owl#GaltelliSimMap"))
-    (json-prolog:prolog
-     `(and ("findall" ?_C (and ("map_root_objects" ,map-name ?_B) ("member" ?_C ?_B)) ?objs)
-           ("findall" ?_S (and ("member" ?_SE ?objs) ("map_object_type" ?_SE ?_S)) ?types)))))
-    
+
+                
+      ;; (loop for i from 0 to (length names)
+      ;;       do (format t "gello~%")
+      ;;          (format t "~a~%" (nth i names)))))
 
 ;; (defun service-call ()
 ;;   (roslisp-utilities:startup-ros :master-uri (roslisp:make-uri "localhost" 11312)  :name "service_node")
