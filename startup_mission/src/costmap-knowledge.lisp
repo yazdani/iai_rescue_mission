@@ -29,9 +29,9 @@
 (in-package :startup-mission)
 
 (def-fact-group costmap-metadata ()
-  (<- (costmap-size 65 65))
-  (<- (costmap-origin 55 55))
-  (<- (costmap-resolution 1))
+  (<- (costmap-size 67 20))
+  (<- (costmap-origin 15 15))
+  (<- (costmap-resolution 0.955))
   (<- (costmap-padding 0.5)))
 
 ;;  (<- (costmap-size 20 20))

@@ -242,6 +242,7 @@
 ;;        (get-sem-object-transform->relative-map obj-pstamped)))
 
 (defun get-sem-object-pose->map (object)
+  (format t "'sem-map' ~a~%" *sem-map*)
   (let*((obj (sem-map-utils::semantic-map-part *sem-map* object))
        (obj-pose (slot-value obj 'sem-map-utils:pose)))
     obj-pose))

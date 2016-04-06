@@ -41,9 +41,10 @@
 (defun start-world ()
   (roslisp-utilities:startup-ros)
   (format *standard-output* "go into semantic map function~%")
-  (let*((sem-map (create-the-semantic-map)))
-    (format t "~a~%" sem-map))
-)
+  (create-the-semantic-map)
+  (let*((elem (get-the-the-direction (cl-transforms:make-3d-vector 1 0 1)))
+        (desig (make-designator :location `((:across ,elem)))))
+    (reference desig)))
 
 
                 

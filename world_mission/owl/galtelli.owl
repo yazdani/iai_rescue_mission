@@ -523,6 +523,11 @@
 <owl:Class rdf:about="&knowrob;Pylon">
 	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
 </owl:Class>
+
+<owl:Class rdf:about="&knowrob;Pylon">
+	<rdfs:subClassOf rdf:resource="&knowrob;Pylon_broken"/> 
+</owl:Class>
+
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#pylon">
 	<rdfs:subClassOf rdf:resource="&knowrob;Pylon"/>  
         <rdfs:subClassOf>
