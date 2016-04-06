@@ -54,18 +54,63 @@
     <owl:Class rdf:about="http://www.knowrob.org/kb/iai-rescue.owl#HighVictimPropabilityRegion"/>
   <!-- galtelli specific environment class defs -->
 
-  <owl:Class rdf:about="&knowrob;Victim"> 
-	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
-  </owl:Class>
       
 <owl:Class rdf:about="&knowrob;Skis"> 
-	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
+  <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
+   <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+      <owl:hasValue rdf:datatype="&xsd;string">package://iai_outdoor_models/models/ski.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;heightOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.3</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;depthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.3</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;widthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+
   </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Cube.002"> 
-	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
-  </owl:Class>
-   
+  <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
+   <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+      <owl:hasValue rdf:datatype="&xsd;string">package://iai_outdoor_models/models/shoe.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;heightOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.2</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;depthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.2</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;widthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.2</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+ </owl:Class>
  
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ConiferForest">
 	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
@@ -542,7 +587,8 @@
   </owl:Class>
   -->
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#avalanche_victim">
-	<rdfs:subClassOf rdf:resource="&knowrob;Victim"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;Victim"/>
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -571,14 +617,31 @@
   
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#lost_victim">
 	<rdfs:subClassOf rdf:resource="&knowrob;Victim"/> 
-	<!--
+		<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-                <owl:hasValue rdf:datatype="&xsd;string">package://lost_victim/victim.dae</owl:hasValue>
+                <owl:hasValue rdf:datatype="&xsd;string">package://avalanche_victim/victim.dae</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>   
-	-->
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;heightOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;depthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.4</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;widthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.3</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
   </owl:Class>
   
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#skis">
