@@ -58,7 +58,7 @@
                                                 ("atom_number" ?D ?Depth)
                                                 ("owl_has" ,var "http://knowrob.org/kb/knowrob.owl#widthOfObject" ("literal" ("type" "_" ?W)))
                                                 ("atom_number" ?W ?Width)
-                                                 ("owl_has" ,var "http://knowrob.org/kb/knowrob.owl#widthOfObject" ("literal" ("type" "_" ?H)))
+                                                 ("owl_has" ,var "http://knowrob.org/kb/knowrob.owl#heightOfObject" ("literal" ("type" "_" ?H)))
                                                 ("atom_number" ?H ?Height)):package 'startup-mission :package 'startup-mission)))
                 (setf type (internal-string (cdr (assoc  '?type (car indi-type)))))
                 (setf name (internal-string (cdr (assoc '?name (car indi-type)))))
