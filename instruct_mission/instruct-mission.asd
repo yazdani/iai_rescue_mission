@@ -29,7 +29,7 @@
 (defsystem instruct-mission
   :author "yazdani"
   :license "BSD"
-  :depends-on (cram-designators mhri_msgs-msg)
+  :depends-on (cram-designators);; mhri_msgs-msg)
   ;; bullet-reasoning-utilities)
   :components
   ((:module "src"

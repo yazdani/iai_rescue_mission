@@ -61,11 +61,11 @@ add_message_files(
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-   multimodal_srv.srv
-   multimodal_lisp.srv
-   beginner.srv
-   ned_wgs.srv
-   multimodal_parser.srv
+ #  multimodal_srv.srv
+ #  multimodal_lisp.srv
+ #  beginner.srv
+ #  ned_wgs.srv
+ #  multimodal_parser.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -82,9 +82,9 @@ add_service_files(
 # )
 generate_messages(
   DEPENDENCIES
-  geometry_msgs  
-  std_msgs
-  mhri_msgs
+#  geometry_msgs  
+#  std_msgs
+#  mhri_msgs
 )
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
