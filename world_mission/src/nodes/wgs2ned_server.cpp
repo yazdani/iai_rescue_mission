@@ -10,9 +10,9 @@ const double B = 6356752.3124;    //minor semiaxis
 
 const double ANTON = 6378137;    
 const double BERTA = 6356752.3124;
-const double LAT_HOME = 44.153278;
-const double LON_HOME = 12.241426;
-const double ALT_HOME = 41.0;
+const double LAT_HOME = 45.8431680924;//44.153278;
+const double LON_HOME = 7.730888708211306;//12.241426;
+const double ALT_HOME = 1580.0;
 
 std::vector<double> wgs84ToNed(double latitude, double longitude, double altitude, double latitude_home, double longitude_home, double altitude_home)
 {
