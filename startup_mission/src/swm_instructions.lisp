@@ -27,12 +27,15 @@
 ;;; POSSIBILITY OF SUCH DAMAGE.
 
 (in-package :startup-mission)
-
+(defvar *pub*)
+ ;;(roslisp:ros-time)
 (defun swm->intern-tf-creater ()
   (format t "swm->intern-tf-creater~%")
   (let*((gen-pose (instruct-mission::swm->get-cartesian-pose-agent "genius"));;(get-genius-pose->map-frame "genius_link")) ;;(instruct-mission::swm->get-cartesian-pose-agent "genius"))
-        (pub (cl-tf:make-transform-broadcaster)))
+    (pub (cl-tf:make-transform-broadcaster)))
     (format t "gen-pose is ~a~%" gen-pose)
+    (format t "*pub is * ~a~%" pub)
+    (format t "'gen...~a~%" (cl-transforms-stamped:make-transform-stamped "map" "genius_link" (roslisp:ros-time) (cl-transforms:origin gen-pose) (cl-transforms:orientation gen-pose)))
     (cl-tf:send-static-transforms pub 1.0 "meineGeste" (cl-transforms-stamped:make-transform-stamped "map" "genius_link" (roslisp:ros-time)  (cl-transforms:origin gen-pose) (cl-transforms:orientation gen-pose)))))
 
 
@@ -41,11 +44,11 @@
 (let*((pose (cl-transforms-stamped:make-pose-stamped "genius_link" 0.0
                                                             gesture-vec
                                                              (cl-transforms:make-identity-rotation))))
- ;; (format t "GENIUS-POOOOSEEE ~a~%" pose)
+  (format t "GENIUS-POOOOSEEE ~a~%" pose)
 (cl-transforms-stamped:pose-stamped->pose  (cl-tf:transform-pose *tf* :pose pose :target-frame "map"))))
 
 (defun swm->list-values (num point)
-  (let*(( zet 1.0)
+  (let*((zet 1.0)
         (iks (cl-transforms:x point))
         (yps (cl-transforms:y point))
       ;;  (zet (cl-transforms:z point))
@@ -167,8 +170,9 @@
 
 (defun swm->give-obj-pointed-at (point)
   (format t "swm->give-obj-pointed-at ~a~%" point)
-  (setf var (swm->intern-tf-creater))
-  (format t " (swm->intern-tf-creater) ~a~%" var)
+  (format t "*pub * ~a~%" *pub*)
+  (setf *pub* (swm->intern-tf-creater))
+  (format t " (swm->intern-tf-creater) ~a~%" *pub*)
   (location-costmap::remove-markers-up-to-index 50)
   (format t "swm->give-obj-pointed-at~%")
  (let*((elem NIL)
@@ -181,7 +185,8 @@
        (sem-map (instruct-mission::swm->create-semantic-map))
        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
        (liste-tr (swm->list-values num point)))
-   (format t "swm->give-obj-pointed-at")
+   (format t "liste-tr ~a~%" liste-tr)
+   (format t " what is num  ~a~%" num)
   (loop for jindex from 0 to (- (length liste-tr) 1)
         do(let*((new-point (nth jindex liste-tr))
                 (new-point+z2 (set-height-pose new-point 1.5))
@@ -646,8 +651,10 @@
                         (set-my-marker new-point 1000)
                         (setf elem (append (list (nth jo swm-names)) elem)))
                        (t (setf var 1)))))))
-   (format t "elem is ~a~%" elem)
+ ;;  (format t "elem is ~a~%" elem)
+ ;;  (format t "pub ~a~%" *pub*)
    (swm->intern-tf-remover)
+ ;;  (format t "pub ~a~%" *pub*)
              (last elem))) 
 
 
@@ -688,8 +695,10 @@ objects))
   
 
 (defun swm->intern-tf-remover ()
-(format t "swm->intern-tf-remover~%")
-(cl-tf::unadvertise "/tf"))
+   (format t "swm->intern-tf-remover~%")
+  (format t "*pub123* ~a~%" *pub*)
+  (sb-thread:destroy-thread *pub*)
+  (format t "*pub456* ~a~%" *pub*))
 
 ;; (defun swm->get-gesture->relative-genius (human-pose gesture-vec)
 ;;   (format t "object-pose ~a~%" gesture-vec)

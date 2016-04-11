@@ -29,6 +29,7 @@
 (in-package :startup-mission)
 
 (defvar *obj-pose*)
+(defvar *pub*)
 (defparameter *liste-name* NIL)
 (defparameter *liste-pose* NIL)
 (defparameter *liste-dim* NIL)
@@ -38,7 +39,7 @@
 
 
 (defun service-call ()
-  (roslisp-utilities:startup-ros :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
+  (roslisp-utilities:startup-ros :name "service_node");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (format t "baddd~%")
   (roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
@@ -48,6 +49,7 @@
 
  (defun start-mission ()
    (format t "start-mission ~%")
+;;   (setf *pub* (cl-tf:make-transform-broadcaster))
    (service-call))
 
 (roslisp:def-service-callback instruct_mission-srv:multimodal_lisp (selected type command gesture location)
