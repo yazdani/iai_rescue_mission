@@ -655,7 +655,7 @@
  ;;  (format t "pub ~a~%" *pub*)
    (swm->intern-tf-remover)
  ;;  (format t "pub ~a~%" *pub*)
-             (last elem))) 
+            (car (last elem)))) 
 
 
   
