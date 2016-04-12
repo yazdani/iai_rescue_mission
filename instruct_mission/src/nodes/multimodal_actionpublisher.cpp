@@ -56,7 +56,7 @@ int main(int argc, char **argv)
  p.orientation.w = 1;
  std::vector<float> dir;
  dir.push_back(1.0);
- dir.push_back(1.0);
+ dir.push_back(-1.0);
  dir.push_back(0.0);
  std::vector<float> loc;
  loc.push_back(0.3);
@@ -70,9 +70,9 @@ int main(int argc, char **argv)
  action.type = "Go";
  action.command = "Go over the river next to that wood and take a picture";
  action.data = 2;
- action.direction[0] = dir[1];// = dir;
- action.direction[1] = dir[-1];// = dir;
- action.direction[2] = dir[0];// = dir;
+ action.direction[0] = dir[0];// = dir;
+ action.direction[1] = dir[1];// = dir;
+ action.direction[2] = dir[2];// = dir;
  action.location[0] = loc[0];
  action.location[1] = loc[1];
  action.location[2] = loc[2];
