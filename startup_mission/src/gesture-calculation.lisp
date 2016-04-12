@@ -167,7 +167,7 @@
             elem))
 
 (defun set-my-marker (pose index)
- (format t "set marker with point is ~a~%" pose)
+;; (format t "set marker with point is ~a~%" pose)
   (location-costmap::publish-pose pose :id (+ 500 index)))                           
 
 (defun visualize-world()
@@ -181,7 +181,7 @@
             (setf pose2 (cl-transforms:make-3d-vector (cl-transforms:x pose)
                                                       (cl-transforms:y pose )
                                                       (+ 1.0 (cl-transforms:z pose))))
-            (format t "pose ~a~%" pose)            (format t "pose2 ~a~%" pose2)            (format t "pose1 ~a~%" pose1)
+          (format t "pose ~a~%" pose)            (format t "pose2 ~a~%" pose2)            (format t "pose1 ~a~%" pose1)
             (location-costmap::publish-point pose :id (+ 5000 index))
             (location-costmap::publish-point pose1 :id (+ 5100 index))
             (location-costmap::publish-point pose2 :id (+ 5110 index)))))

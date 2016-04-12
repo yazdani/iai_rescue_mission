@@ -40,7 +40,7 @@
          (b-seq (first (split-sequence:split-sequence #\] (second seq))))
          (a-nums (split-sequence:split-sequence #\, a-seq))
          (b-nums (split-sequence:split-sequence #\, b-seq)))
-    (format t "(typeof) ~a and ~a ~%" b-nums a-nums)
+    ;;(format t "(typeof) ~a and ~a ~%" b-nums a-nums)
         (cl-transforms:make-pose (cl-transforms:make-3d-vector
                                         (read-from-string (first a-nums))
                                         (read-from-string (second a-nums))
@@ -85,7 +85,7 @@
           (comp (symbol-name (cdaar array)))
           (seq  (cdr (split-sequence:split-sequence #\( comp)))
           (a-seq (cddr seq)))
-    (format t "array ~a~%" array)
+   ;; (format t "array ~a~%" array)
  (loop for i from 0 to  (length a-seq)
        do (cond ((not (equal (length a-seq) 0))
                  (setf *swm-liste* (append *swm-liste* (list (internal-function (car a-seq)))))
@@ -134,7 +134,7 @@
                                          (read-from-string bbq2)
                                          (read-from-string bbq3)
                                          (read-from-string bbq4)))))
-    (format t "CENTER center ~a~%" center)
+    ;;(format t "CENTER center ~a~%" center)
     (list seq-name seq-type 
           (splitgeometry->pose (roslisp:call-service "mywgs2ned_server" 'world_mission-srv::Mywgs2ned_server :data (cl-transforms-stamped::to-msg  center)))
           (splitgeometry->pose(roslisp:call-service "mywgs2ned_server" 'world_mission-srv::Mywgs2ned_server :data (cl-transforms-stamped::to-msg  bbox1)))

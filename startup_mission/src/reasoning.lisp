@@ -43,7 +43,7 @@
 (def-fact-group cognitive-reasoning-costmap (desig-costmap)
   (<- (desig-costmap ?desig ?costmap)
     (costmap ?costmap)
-   ;; (lisp-fun get-genius-pose->map-frame "genius_link" ?pose)
+  ;; (lisp-fun get-genius-pose->map-frame "genius_link" ?pose)
     (lisp-fun instruct-mission::swm->get-cartesian-pose-agent "genius" ?pose)
     (prepositions ?desig ?pose ?costmap))
 
@@ -60,6 +60,7 @@
     (or (desig-prop ?desig (:right-of ?object1-name))
         (desig-prop ?desig (:right ?object1-name)))
     (lisp-fun instruct-mission::swm->elem-name->position ?object1-name ?object1-pose)
+     (format "Right")
    ;; (lisp-fun make-new-function-right ?pose ?object1-pose ?new-pose)
     ;;   (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
     (lisp-fun preposition-left ?pose ?list-values)
@@ -67,6 +68,7 @@
     (costmap ?costmap)
     (swm->semantic-map-objects ?all-objects)
     (lisp-fun swm->semantic-map->geom-objects ?all-objects 7 ?object1-pose ?objects)
+    (format "hier")
     (costmap-padding ?padding)
     (costmap-add-function semantic-map-free-space
                           (semantic-map-costmap::make-semantic-map-costmap
@@ -78,10 +80,12 @@
     (make-reasoning-cost-function ?object1-pose ?fvalue ?svalue 0.3)
     ?costmap)
     (costmap ?costmap)
+    (format "hier2")
     (instance-of gaussian-generator ?gaussian-generator-id)
     (costmap-add-function ?gaussian-generator-id
                     (make-location-cost-function ?object1-pose 2.0)
                     ?costmap)
+    (format "hier3")
     (costmap-add-height-generator
      (swm->make-constant-height-function ?object1-name ?resulting-z)
      ?costmap))
@@ -97,7 +101,7 @@
    (lisp-fun preposition-right ?pose ?list-values)
    (prolog::equal (?fvalue ?svalue) ?list-values)
    (swm->semantic-map-objects ?all-objects)
-   (lisp-fun swm->semantic-map->geom-objects ?all-objects 7 ?object1-pose ?objects)
+   (lisp-fun swm->semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)
    (costmap-padding ?padding)
    (costmap-add-function semantic-map-free-space
                         (semantic-map-costmap::make-semantic-map-costmap
@@ -122,6 +126,7 @@
     (format "ACROSS and BEHIND")
     (or (desig-prop ?desig (:behind-of ?object1-name))
         (desig-prop ?desig (:across ?object1-name))
+        (desig-prop ?desig (:over ?object1-name))
         (desig-prop ?desig (:behind ?object1-name)))
 ;;    (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
     (lisp-fun instruct-mission::swm->elem-name->position ?object1-name ?object1-pose)

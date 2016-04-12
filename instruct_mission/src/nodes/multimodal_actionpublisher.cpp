@@ -68,10 +68,10 @@ int main(int argc, char **argv)
  std::vector<mhri_msgs::point3d> seg;
  action.selected = "wasp_red";
  action.type = "Go";
- action.command = "Go right the river and go left of that wood";
+ action.command = "Go over the river next to that wood and take a picture";
  action.data = 2;
  action.direction[0] = dir[1];// = dir;
- action.direction[1] = dir[0];// = dir;
+ action.direction[1] = dir[-1];// = dir;
  action.direction[2] = dir[0];// = dir;
  action.location[0] = loc[0];
  action.location[1] = loc[1];

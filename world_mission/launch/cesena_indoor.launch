@@ -13,10 +13,23 @@
    
 
  <node pkg="tf" type="static_transform_publisher" name="world_map" args="0 0 0 0 0 0 1 /world /map 100"  />
+<!--
+   <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" >
+     <param name="local_xy_frame" value="/map"/>
+     <param name="local_xy_origin" value="Sherpa"/>
+     <rosparam param="local_xy_origins">
+       [{ name: Sherpa,
+       latitude: 45.844409891,
+       longitude: 7.730704791,
+       altitude: 1580,
+       heading: 0.0}]
+     </rosparam>
+   </node>
+-->
 
  <node pkg="instruct_mission" type="multimodal_actionsubscriber" name="multimodal_actionsubscriber" respawn="false" output="screen" />
 
- <node pkg="startup_mission" type="starter" name="starter" respawn="false" output="screen" />
+ <!--node pkg="startup_mission" type="starter" name="starter" respawn="false" output="screen" /-->
 
  <node pkg="instruct_mission" type="checker" name="checker" respawn="false" output="screen" />
 

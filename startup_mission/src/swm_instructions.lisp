@@ -30,12 +30,12 @@
 (defvar *pub*)
  ;;(roslisp:ros-time)
 (defun swm->intern-tf-creater ()
-  (format t "swm->intern-tf-creater~%")
+;;  (format t "swm->intern-tf-creater~%")
   (let*((gen-pose (instruct-mission::swm->get-cartesian-pose-agent "genius"));;(get-genius-pose->map-frame "genius_link")) ;;(instruct-mission::swm->get-cartesian-pose-agent "genius"))
     (pub (cl-tf:make-transform-broadcaster)))
-    (format t "gen-pose is ~a~%" gen-pose)
-    (format t "*pub is * ~a~%" pub)
-    (format t "'gen...~a~%" (cl-transforms-stamped:make-transform-stamped "map" "genius_link" (roslisp:ros-time) (cl-transforms:origin gen-pose) (cl-transforms:orientation gen-pose)))
+ ;;   (format t "gen-pose is ~a~%" gen-pose)
+ ;;   (format t "*pub is * ~a~%" pub)
+ ;;   (format t "'gen...~a~%" (cl-transforms-stamped:make-transform-stamped "map" "genius_link" (roslisp:ros-time) (cl-transforms:origin gen-pose) (cl-transforms:orientation gen-pose)))
     (cl-tf:send-static-transforms pub 1.0 "meineGeste" (cl-transforms-stamped:make-transform-stamped "map" "genius_link" (roslisp:ros-time)  (cl-transforms:origin gen-pose) (cl-transforms:orientation gen-pose)))))
 
 
@@ -44,7 +44,7 @@
 (let*((pose (cl-transforms-stamped:make-pose-stamped "genius_link" 0.0
                                                             gesture-vec
                                                              (cl-transforms:make-identity-rotation))))
-  (format t "GENIUS-POOOOSEEE ~a~%" pose)
+;  (format t "GENIUS-POOOOSEEE ~a~%" pose)
 (cl-transforms-stamped:pose-stamped->pose  (cl-tf:transform-pose *tf* :pose pose :target-frame "map"))))
 
 (defun swm->list-values (num point)
@@ -169,14 +169,14 @@
 
 
 (defun swm->give-obj-pointed-at (point)
-  (format t "swm->give-obj-pointed-at ~a~%" point)
-  (format t "*pub * ~a~%" *pub*)
+;  (format t "swm->give-obj-pointed-at ~a~%" point)
+;  (format t "*pub * ~a~%" *pub*)
   (setf *pub* (swm->intern-tf-creater))
-  (format t " (swm->intern-tf-creater) ~a~%" *pub*)
+;  (format t " (swm->intern-tf-creater) ~a~%" *pub*)
   (location-costmap::remove-markers-up-to-index 50)
-  (format t "swm->give-obj-pointed-at~%")
+;  (format t "swm->give-obj-pointed-at~%")
  (let*((elem NIL)
-       (num (make-list 100))
+       (num (make-list 400))
        (eps 0)
        (var 0)
        (*swm-liste* (instruct-mission::swm->geopose-elements))
@@ -185,8 +185,8 @@
        (sem-map (instruct-mission::swm->create-semantic-map))
        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
        (liste-tr (swm->list-values num point)))
-   (format t "liste-tr ~a~%" liste-tr)
-   (format t " what is num  ~a~%" num)
+;   (format t "liste-tr ~a~%" liste-tr)
+;   (format t " what is num  ~a~%" num)
   (loop for jindex from 0 to (- (length liste-tr) 1)
         do(let*((new-point (nth jindex liste-tr))
                 (new-point+z2 (set-height-pose new-point 1.5))
@@ -264,35 +264,18 @@
                 (new-point+y10 (set-width-pose new-point 7.5))
                 (new-point+y12 (set-width-pose new-point 9.0))
                 (new-point+y14 (set-width-pose new-point 10.5))
-                ;; (new-point+y16 (set-width-pose new-point 16))
-                ;; (new-point+y18 (set-width-pose new-point 18))
-                ;; (new-point+y20 (set-width-pose new-point 20))
-                ;; (new-point+y22 (set-width-pose new-point 22))
-                ;; (new-point+y24 (set-width-pose new-point 24))
-                ;; (new-point+y26 (set-width-pose new-point 26))
-                ;; (new-point+y28 (set-width-pose new-point 28))
-                ;; (new-point+y30 (set-width-pose new-point 30))
                 (new-point-y2 (set-width-pose new-point -1.5))
                 (new-point-y4 (set-width-pose new-point -3.0))
                 (new-point-y6 (set-width-pose new-point -4.5))
                 (new-point-y8 (set-width-pose new-point -6.0))
                 (new-point-y10 (set-width-pose new-point -7.5))
                 (new-point-y12 (set-width-pose new-point -9.0))
-                (new-point-y14 (set-width-pose new-point -10.5))
-                ;; (new-point-y16 (set-width-pose new-point -16))
-                ;; (new-point-y18 (set-width-pose new-point -18))
-                ;; (new-point-y20 (set-width-pose new-point -20))
-                ;; (new-point-y22 (set-width-pose new-point -22))
-                ;; (new-point-y24 (set-width-pose new-point -24))
-                ;; (new-point-y26 (set-width-pose new-point -26))
-                ;; (new-point-y28 (set-width-pose new-point -28))
-                ;; (new-point-y30 (set-width-pose new-point -30))
-                )
+                (new-point-y14 (set-width-pose new-point -10.5)))
             (setf eps (+ eps 1))
             (if (equal elem NIL)
                 (set-my-marker new-point eps)
                 (setf var 1))
-           (format t "eps : ~a~%" eps)
+ ;          (format t "eps : ~a~%" eps)
             (dotimes(jo (list-length *swm-liste*))
            
               (let* ((elem1 (first (instruct-mission::swm->get-bbox-as-aabb (nth jo swm-names) sem-hash)))
@@ -367,38 +350,6 @@
                            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z66)))
                 (setf value+z68
                            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z68)))
-                ;; (setf value+z70
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z70)))
-                ;; (setf value+z72
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z72)))
-                ;; (setf value+z74
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z74)))
-                ;; (setf value+z76
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z76)))
-                ;; (setf value+z78
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z78)))
-                ;; (setf value+z80
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z80)))
-                ;; (setf value+z82
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z82)))
-                ;; (setf value+z84
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z84)))
-                ;; (setf value+z86
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z86)))
-                ;; (setf value+z88
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z88)))
-                ;; (setf value+z90
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z90)))
-                ;; (setf value+z92
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z92)))
-                ;; (setf value+z94
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z94)))
-                ;; (setf value+z96
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z96)))
-                ;; (setf value+z98
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z98)))
-                ;; (setf value+z100
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+z100)))
                 (setf value-z2
                       (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z2)))
                 (setf value-z4
@@ -467,39 +418,7 @@
                            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z66)))
                 (setf value-z68
                            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z68)))
-                ;; (setf value-z70
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z70)))
-                ;; (setf value-z72
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z72)))
-                ;; (setf value-z74
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z74)))
-                ;; (setf value-z76
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z76)))
-                ;; (setf value-z78
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z78)))
-                ;; (setf value-z80
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z80)))
-                ;; (setf value-z82
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z82)))
-                ;; (setf value-z84
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z84)))
-                ;; (setf value-z86
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z86)))
-                ;; (setf value-z88
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z88)))
-                ;; (setf value-z90
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z90)))
-                ;; (setf value-z92
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z92)))
-                ;; (setf value-z94
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z94)))
-                ;; (setf value-z96
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z96)))
-                ;; (setf value-z98
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z98)))
-                ;; (setf value-z100
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-z100)))
-                (setf value+y2
+                 (setf value+y2
                       (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y2)))
                 (setf value+y4
                            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y4)))
@@ -513,23 +432,7 @@
                            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y12)))
                 (setf value+y14
                            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y14)))
-                ;; (setf value+y16
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y16)))
-                ;; (setf value+y18
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y18)))
-                ;; (setf value+y20
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y20)))
-                ;; (setf value+y22
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y22)))
-                ;; (setf value+y24
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y24)))
-                ;; (setf value+y26
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y26)))
-                ;; (setf value+y28
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y28)))
-                ;; (setf value+y30
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point+y30)))
-                 (setf value-y2
+                (setf value-y2
                       (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y2)))
                 (setf value-y4
                            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y4)))
@@ -542,24 +445,7 @@
                 (setf value-y12
                            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y12)))
                 (setf value-y14
-                           (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y14)))
-                ;; (setf value-y16
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y16)))
-                ;; (setf value-y18
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y18)))
-                ;; (setf value-y20
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y20)))
-                ;; (setf value-y22
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y22)))
-                ;; (setf value-y24
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y24)))
-                ;; (setf value-y26
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y26)))
-                ;; (setf value-y28
-                ;;            (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y28)))
-                ;; (setf value-y30
-                ;;       (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y30)))
-                
+                           (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point-y14)))                
                  (cond ((and (or (equal value T)
                                  (equal value+z2 T)
                                  (equal value+z4 T)
@@ -650,12 +536,10 @@
                         (setf *collision-point* new-point)
                         (set-my-marker new-point 1000)
                         (setf elem (append (list (nth jo swm-names)) elem)))
-                       (t (setf var 1)))))))
- ;;  (format t "elem is ~a~%" elem)
- ;;  (format t "pub ~a~%" *pub*)
+                       (t (set-my-marker new-point (+ 50000 jo))))))))
    (swm->intern-tf-remover)
  ;;  (format t "pub ~a~%" *pub*)
-            (car (last elem)))) 
+            (reverse elem))) 
 
 
   
@@ -695,10 +579,10 @@ objects))
   
 
 (defun swm->intern-tf-remover ()
-   (format t "swm->intern-tf-remover~%")
-  (format t "*pub123* ~a~%" *pub*)
-  (sb-thread:destroy-thread *pub*)
-  (format t "*pub456* ~a~%" *pub*))
+  ;; (format t "swm->intern-tf-remover~%")
+  ;;(format t "*pub123* ~a~%" *pub*)
+  (sb-thread:destroy-thread *pub*))
+ ;; (format t "*pub456* ~a~%" *pub*))
 
 ;; (defun swm->get-gesture->relative-genius (human-pose gesture-vec)
 ;;   (format t "object-pose ~a~%" gesture-vec)
