@@ -30,6 +30,7 @@
 
 (defvar *swm-bbx* NIL)
 (defvar *swm-pose* NIL)
+(defvar *geo-list*)
 (defparameter *swm-liste* NIL)
 
 (defun swm->get-geopose-agent (agent)
@@ -59,7 +60,8 @@
 (defun swm->elem-name->position (name)
  ;; (format t "swm->elem-name->position~%")
  (let*((pose NIL)
-       (liste (swm->geopose-elements)))
+       (liste *geo-list*))
+   ;; (swm->geopose-elements)))
  ;;  (format t "~a name is~%" name)
  ;;  (format t "~a liste is~%" liste)
                    (loop for i from 0 to (- (length liste) 1)
@@ -71,11 +73,11 @@
 
 (defun swm->elem-name->type (name)
  (let*((pose NIL)
-       (liste (swm->geopose-elements)))
+       (liste *geo-list*)); (swm->geopose-elements)))
                    (loop for i from 0 to (length liste)
                          do(cond ((string-equal name (car (nth i liste)))
                                 (setf pose (second (nth i liste))))
-                               (t (format t "Didn't found type~%"))))
+                               (t (setf var 1))))
                    pose))
 
 (defun swm->geopose-elements ()
@@ -163,7 +165,7 @@
                      keys))
 
 (defun swm->publish-elements-tf ()
-  (let*((elems (swm->geopose-elements))
+  (let*((elems *geo-list*);(swm->geopose-elements))
         (pub (cl-tf:make-transform-broadcaster)))
     (loop for i from 0 to (- 1 (length elems))
           do(let*((frame-id (nth 0 (nth i elems)))
@@ -180,7 +182,7 @@
     obj))
 
 (defun hash-function()
-    (let*((sem-liste (instruct-mission::swm->geopose-elements))
+  (let*((sem-liste *geo-list*);(instruct-mission::swm->geopose-elements))
         (intern-liste (internal-semantic-map-geom sem-liste))
         (hasht (make-hash-table :test #'equal)))
         (mapc (lambda (key-and-geom)
@@ -258,12 +260,13 @@
                          (setf value
                                (semantic-map-costmap::inside-aabb elem1 elem2 new-point))
                          (cond ((equal value T)
-                                (swm->publish-point new-point :id smarter :r 1.0 :g 1.0 :b 0.0 :a 0.9)
+                               (swm->publish-point new-point :id smarter :r 1.0 :g 1.0 :b 0.0 :a 0.9)
                                 (setf elem (append (list (nth jndex sem-keys)) elem))
                                 (return))
-                               (t()))))
-                               ;  (swm->publish-point new-point :id (+ smarter jndex) :r 1.0 :g 0.0 :b 0.0 :a 0.9))))
-           (setf incrementer (+ incrementer 1))))
+                               (t())))
+                      ;; (format t "end loop om swm_instructions~%")
+		       (swm->publish-point new-point :id (+ smarter jndex) :r 1.0 :g 0.0 :b 0.0 :a 0.9)
+		       (setf incrementer (+ incrementer 2)))))
              (remove-duplicates elem)))
 
 

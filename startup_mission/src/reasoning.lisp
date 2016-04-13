@@ -131,7 +131,7 @@
 ;;    (lisp-fun get-sem-object-pose->map ?object1-name ?object1-pose)
     (lisp-fun instruct-mission::swm->elem-name->position ?object1-name ?object1-pose)
     ;;(lisp-fun make-new-function-left ?pose ?object1-pose ?new-pose)
-    (lisp-fun preposition-behind ?pose ?list-values)
+    (lisp-fun preposition-front ?pose ?list-values)
     (prolog::equal (?fvalue ?svalue) ?list-values)
     (swm->semantic-map-objects ?all-objects)
     (lisp-fun swm->semantic-map->geom-objects ?all-objects 10 ?object1-pose ?objects)

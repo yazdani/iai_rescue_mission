@@ -30,6 +30,7 @@
 
 (defvar *obj-pose*)
 (defvar *pub*)
+
 (defparameter *liste-name* NIL)
 (defparameter *liste-pose* NIL)
 (defparameter *liste-dim* NIL)
@@ -41,9 +42,7 @@
 (defun service-call ()
   (roslisp-utilities:startup-ros :name "service_node");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
-  (format t "baddd~%")
   (roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
-  (format t "baddd2~%")
   (roslisp:ros-info (basics-system) "the msg.")
   (roslisp:spin-until nil 1000));;)
 
@@ -53,9 +52,7 @@
    (service-call))
 
 (roslisp:def-service-callback instruct_mission-srv:multimodal_lisp (selected type command gesture location)
-  (format t "in sevice callback command ~a~%" command)
-  (format t "in sevice callback gesture ~a~%" gesture)
-  (format t "in sevice callback location ~a~%" location)
+  (format t "def-service-callback~%")
   (visualize-world)
   (let*((agent (substitute #\_ #\Space selected))
         (type (read-from-string type))

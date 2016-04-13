@@ -28,10 +28,10 @@ std::vector<double> nedToWgs84(double x, double y, double z, double LAT_HOME, do
   lat = x/radius*180.0f/M_PI+LAT_HOME;
   lon = y/radius*180.0f/M_PI/cos(lat_home_rad) + LON_HOME;
   alt = ALT_HOME+z ;
-  std::cout <<"HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOO "<< std::endl;
-  std::cout << lat << std::endl;
-  std::cout << lon << std::endl;
-  std::cout << alt << std::endl;
+  //std::cout <<"HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOO "<< std::endl;
+  //std::cout << lat << std::endl;
+  // std::cout << lon << std::endl;
+  // std::cout << alt << std::endl;
   std::vector<double> vec;
   vec.push_back(lat);
   vec.push_back(lon);

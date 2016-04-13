@@ -41,6 +41,7 @@
 
 
 
+
 ;;getting the bounding boxes of different elements within the semantic map
 (defun get-bbox-as-aabb (index)
 (let*((dim-x (cl-transforms:x (car (nthcdr index *liste-dim*))))
@@ -181,7 +182,8 @@
             (setf pose2 (cl-transforms:make-3d-vector (cl-transforms:x pose)
                                                       (cl-transforms:y pose )
                                                       (+ 1.0 (cl-transforms:z pose))))
-          (format t "pose ~a~%" pose)            (format t "pose2 ~a~%" pose2)            (format t "pose1 ~a~%" pose1)
+        ;  (format t "pose ~a~%" pose)            (format t "pose2 ~a~%" pose2)            (format t "pose1 ~a~%" pose1)
+          (setf instruct-mission::*geo-list* liste)
             (location-costmap::publish-point pose :id (+ 5000 index))
             (location-costmap::publish-point pose1 :id (+ 5100 index))
             (location-costmap::publish-point pose2 :id (+ 5110 index)))))
