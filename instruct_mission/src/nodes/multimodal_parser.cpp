@@ -124,7 +124,7 @@ int main(int argc, char **argv)
 //  gnome-terminal -x sh -c ";
 // 'cd /home/yazdani/work/diarc_ws/diarc_parser/smallade_w_lang; ./ant run-registry -Df=config/sherpa_config/sherpa.config'&"; 
 
- system("gnome-terminal --working-directory=/home/yazdani/work/diarc_ws/diarc_parser/smallade_w_lang  --command \"./ant run-registry -Df=config/sherpa_config/sherpa.config\" &");//cmd.c_str());
+ system("gnome-terminal --working-directory=/home/sherpa/work/ros/indigo/unihb_ws/src/diarc_parser/smallade_w_lang  --command \"./ant run-registry -Df=config/sherpa_config/sherpa.config\" &");//cmd.c_str());
 
  sockfd = socket(AF_INET, SOCK_STREAM, 0);
    if (sockfd < 0) {

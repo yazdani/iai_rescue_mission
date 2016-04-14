@@ -57,6 +57,11 @@
         (call (roslisp:call-service "mywgs2ned_server" 'world_mission-srv::Mywgs2ned_server :data (cl-transforms-stamped::to-msg pose))))
    (splitgeometry->pose call)))
 
+(defun swm->get-cartesian-pose-agents (agent)
+  (let* ((pose (swm->get-geopose-agent agent)) ;;(cl-transforms:make-pose (cl-transforms:make-3d-vector 44.1533088684 12.2414226532 42.7000007629) (cl-transforms:make-quaternion 0 0 0 1))) ;;(swm->get-geopose-agent agent))
+        (call (roslisp:call-service "mywgs2ned_server" 'world_mission-srv::Mywgs2ned_server :data (cl-transforms-stamped::to-msg pose))))
+   (splitgeometry->poses call)))
+
 (defun swm->elem-name->position (name)
  ;; (format t "swm->elem-name->position~%")
  (let*((pose NIL)
@@ -156,6 +161,21 @@
          (qua-w (slot-value orientation 'GEOMETRY_MSGS-MSG:W)))
     (cl-transforms:make-pose
      (cl-transforms:make-3d-vector ori-x ori-y ori-z)
+     (cl-transforms:make-quaternion 0 0 0 1))));qua-x qua-y qua-z qua-w))))
+
+(defun splitGeometry->poses (test)
+  (let* ((sum (slot-value test 'WORLD_MISSION-SRV:SUM))
+         (position (slot-value sum 'GEOMETRY_MSGS-MSG:POSITION))
+         (ori-x (slot-value position 'GEOMETRY_MSGS-MSG:X))
+         (ori-y (slot-value position 'GEOMETRY_MSGS-MSG:Y))
+         (ori-z (slot-value position 'GEOMETRY_MSGS-MSG:Z))
+         (orientation (slot-value sum 'GEOMETRY_MSGS-MSG:ORIENTATION))
+         (qua-x (slot-value orientation 'GEOMETRY_MSGS-MSG:X))
+         (qua-y (slot-value orientation 'GEOMETRY_MSGS-MSG:Y))
+         (qua-z (slot-value orientation 'GEOMETRY_MSGS-MSG:Z))
+         (qua-w (slot-value orientation 'GEOMETRY_MSGS-MSG:W)))
+    (cl-transforms:make-pose
+     (cl-transforms:make-3d-vector ori-x ori-y ori-z)
      (cl-transforms:make-quaternion qua-x qua-y qua-z qua-w))))
 
 (defun hash-table-keys (hash-table)
@@ -241,9 +261,9 @@
                                                          (t (- cl1-z cl2-z))))))))
     vec))
 
-(defun swm->objects-next-human (distance pose)
-  (let* (;;(swm-liste (swm->geopose-elements))
-         (new-liste (visualize-plane (cl-transforms:origin pose) distance))
+(defun swm->objects-next-human (distance zaehler2 pose)
+(format t "func(): swm->objects-next-human~%" distance)
+  (let* ((new-liste (visualize-plane (cl-transforms:origin pose) distance zaehler2))
          (sem-map  (swm->create-semantic-map))
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
          (sem-keys (hash-table-keys sem-hash))
@@ -260,12 +280,12 @@
                          (setf value
                                (semantic-map-costmap::inside-aabb elem1 elem2 new-point))
                          (cond ((equal value T)
-                               (swm->publish-point new-point :id smarter :r 1.0 :g 1.0 :b 0.0 :a 0.9)
+                              ;; (swm->publish-point new-point :id smarter :r 1.0 :g 1.0 :b 0.0 :a 0.9)
                                 (setf elem (append (list (nth jndex sem-keys)) elem))
                                 (return))
                                (t())))
                       ;; (format t "end loop om swm_instructions~%")
-		       (swm->publish-point new-point :id (+ smarter jndex) :r 1.0 :g 0.0 :b 0.0 :a 0.9)
+		       ;;(swm->publish-point new-point :id (+ smarter jndex) :r 1.0 :g 0.0 :b 0.0 :a 0.9)
 		       (setf incrementer (+ incrementer 2)))))
              (remove-duplicates elem)))
 
@@ -273,15 +293,15 @@
    (defun square(n) (* n n))
 
 
-(defun visualize-plane (point zaehler)
- ;; (format t "visualize-plane~%")
+(defun visualize-plane (point zaehler zaehler2)
+ ;;(format t "func(): visualize-plane ~a~%" zaehler)
   (let* ((temp NIL)
          (new-pointA NIL)
          (new-pointB NIL)
          (new-pointC NIL)
          (new-pointD NIL))
-(loop for jndex from 0 to  zaehler
-      do (loop for index from 0 to zaehler
+(loop for jndex from zaehler to  zaehler2
+      do (loop for index from zaehler to zaehler2
             do (setf new-pointA (cl-transforms:make-3d-vector
                               (+ (cl-transforms:x point) (* jndex 0.4))
                               (+ (cl-transforms:y point)  (* index 0.4))

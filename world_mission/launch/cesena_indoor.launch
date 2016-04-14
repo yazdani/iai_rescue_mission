@@ -29,7 +29,8 @@
 
  <node pkg="instruct_mission" type="multimodal_actionsubscriber" name="multimodal_actionsubscriber" respawn="false" output="screen" />
 
- <!--node pkg="startup_mission" type="starter" name="starter" respawn="false" output="screen" /-->
+ <node pkg="startup_mission" type="starter" name="starter" respawn="false"
+ output="screen" />
 
  <node pkg="instruct_mission" type="checker" name="checker" respawn="false" output="screen" />
 

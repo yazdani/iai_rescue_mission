@@ -169,7 +169,7 @@
 (defun swm->make-constant-height-function (obj-name height)
   (let* ((sem-hash (slot-value (instruct-mission::swm->create-semantic-map) 'sem-map-utils:parts))
          (dim  (slot-value (gethash obj-name sem-hash) 'sem-map-utils:dimensions)))
-    (setf height  (+ (cl-transforms:z dim) 8));;0.5))
+    (setf height  (+ (cl-transforms:z dim) 10));;0.5))
     (lambda (x y)
       (declare (ignore x y))
       (list height))))
@@ -316,7 +316,7 @@ objects))
      (setf test NIL))
     test))
 
-;; spatial reasoning functions for right, left, behind, in-front-of and next
+;; spatial reasoning functions for right, left, behindin-front-of and next
 
 (defun preposition-right (human-pose)
   (let*((pred NIL)
@@ -577,6 +577,49 @@ objects))
      ;;      (format t "Acht ~a ~a~%" pred axis)))
          (list axis pred)))
   
+(defun behind-direction-pose ()
+  (list '> :Y))
+
+(defun front-direction-pose ()
+  (list '< :Y))
+
+(defun left-direction-pose ()
+  (list '> :X))
+
+(defun right-direction-pose ()
+  (list '< :X))
+
+(defun right-new-direction-pose (obj-pose)
+  (let*((pose (cl-transforms:make-pose 
+	       (cl-transforms:make-3d-vector (+ (cl-transforms:x (cl-transforms:origin obj-pose)) 6)
+					     (cl-transforms:y (cl-transforms:origin obj-pose))
+					     (cl-transforms:z (cl-transforms:origin obj-pose)))
+	       (cl-transforms:make-quaternion 0 0 0 1))))
+    pose))
+
+(defun left-new-direction-pose (obj-pose)
+  (let*((pose (cl-transforms:make-pose 
+	       (cl-transforms:make-3d-vector (- (cl-transforms:x (cl-transforms:origin obj-pose)) 6)
+					     (cl-transforms:y (cl-transforms:origin obj-pose))
+					     (cl-transforms:z (cl-transforms:origin obj-pose)))
+	       (cl-transforms:make-quaternion 0 0 0 1))))
+    pose))
+
+(defun front-new-direction-pose (obj-pose)
+  (let*((pose (cl-transforms:make-pose 
+	       (cl-transforms:make-3d-vector (cl-transforms:x (cl-transforms:origin obj-pose))
+					     (- (cl-transforms:y (cl-transforms:origin obj-pose)) 15)
+					     (cl-transforms:z (cl-transforms:origin obj-pose)))
+	       (cl-transforms:make-quaternion 0 0 0 1))))
+    pose))   
+
+(defun behind-new-direction-pose (obj-pose)
+  (let*((pose (cl-transforms:make-pose 
+	       (cl-transforms:make-3d-vector (cl-transforms:x (cl-transforms:origin obj-pose))
+					     (+ (cl-transforms:y (cl-transforms:origin obj-pose)) 15)
+					     (cl-transforms:z (cl-transforms:origin obj-pose)))
+	       (cl-transforms:make-quaternion 0 0 0 1))))
+    pose)) 
 
 (defun behind-direction (human-pose obj-pose)
   (let*((pred NIL)
