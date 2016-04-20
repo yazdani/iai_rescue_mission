@@ -261,10 +261,9 @@
                                                          (t (- cl1-z cl2-z))))))))
     vec))
 
-(defun swm->objects-next-human (distance zaehler2 pose)
-(format t "func(): swm->objects-next-human~%" distance)
-  (let* ((new-liste (visualize-plane (cl-transforms:origin pose) distance zaehler2))
-         (sem-map  (swm->create-semantic-map))
+(defun swm->objects-next-human (distance pose sem-map)
+;;(format t "func(): swm->objects-next-human~%")
+  (let* ((new-liste (visualize-plane pose distance))
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
          (sem-keys (hash-table-keys sem-hash))
          (elem NIL)
@@ -274,16 +273,17 @@
       do (let*((new-point (nth index new-liste))
                (smarter (+ (* 10 incrementer) index)))
                (loop for jndex from 0 to (- (length sem-keys) 1)
-                     do(let* ((elem1 (first (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
+                     do (let* ((elem1 (first (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
                               (elem2 (second (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
                               (smarter (+ smarter jndex)))
                          (setf value
-                               (semantic-map-costmap::inside-aabb elem1 elem2 new-point))
+                               (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)))
                          (cond ((equal value T)
-                              ;; (swm->publish-point new-point :id smarter :r 1.0 :g 1.0 :b 0.0 :a 0.9)
-                                (setf elem (append (list (nth jndex sem-keys)) elem))
+                                        ; (swm->publish-point new-point :id smarter :r 1.0 :g 1.0 :b 0.0 :a 0.9)
+                                (location-costmap::publish-pose new-point :id smarter)
+                                 (setf elem (append (list (nth jndex sem-keys)) elem))
                                 (return))
-                               (t())))
+                               (t ())))
                       ;; (format t "end loop om swm_instructions~%")
 		       ;;(swm->publish-point new-point :id (+ smarter jndex) :r 1.0 :g 0.0 :b 0.0 :a 0.9)
 		       (setf incrementer (+ incrementer 2)))))
@@ -292,36 +292,52 @@
 
    (defun square(n) (* n n))
 
-
-(defun visualize-plane (point zaehler zaehler2)
- ;;(format t "func(): visualize-plane ~a~%" zaehler)
-  (let* ((temp NIL)
-         (new-pointA NIL)
-         (new-pointB NIL)
-         (new-pointC NIL)
-         (new-pointD NIL))
-(loop for jndex from zaehler to  zaehler2
-      do (loop for index from zaehler to zaehler2
-            do (setf new-pointA (cl-transforms:make-3d-vector
-                              (+ (cl-transforms:x point) (* jndex 0.4))
-                              (+ (cl-transforms:y point)  (* index 0.4))
-                              (cl-transforms:z point)))
-             (setf new-pointB (cl-transforms:make-3d-vector
-                              (+ (cl-transforms:x point) (* jndex 0.4))
-                              (+ (cl-transforms:y point) (* index (- 0.4)))
-                              (cl-transforms:z point)))
-             (setf new-pointC (cl-transforms:make-3d-vector
-                              (+ (cl-transforms:x point) (* jndex (- 0.4)))
-                              (+ (cl-transforms:y point)  (* index 0.4))
-                              (cl-transforms:z point)))
-             (setf new-pointD (cl-transforms:make-3d-vector
-                              (+ (cl-transforms:x point) (* jndex (- 0.4)))
-                              (+ (cl-transforms:y point) (* index (- 0.4)))
-                              (cl-transforms:z point)))
-             (setf temp (append (list new-pointA new-pointB new-pointC new-pointD) temp))))
-  ;;   (loop for intel from 0 to (- (length temp) 1)
-   ;;     do (swm->publish-point (nth intel temp) :id (+ intel 100) :r 1 :g 0 :b 0 :a 0.9))
-temp))
+;;TODO FERESHTA
+(defun visualize-plane (point num)
+(let* ((temp '())
+         (ori (cl-transforms:origin point))
+         (quat (cl-transforms:orientation point)))
+    (loop for jindex from 5 to num
+          do (loop for index from 1 to 30
+                   do(setf new-point (cl-transforms:make-pose
+                                       (cl-transforms:make-3d-vector
+                                        (+ (cl-transforms:x ori) jindex)
+                                        (cl-transforms:y ori)
+                                        (cl-transforms:z ori))
+                                       quat))
+                      (setf new-point1 (cl-transforms:make-pose
+                                       (cl-transforms:make-3d-vector
+                                        (+ (cl-transforms:x ori) jindex)
+                                        (cl-transforms:y ori)
+                                        (+ (cl-transforms:z ori) index))
+                                       quat))
+                      (setf new-point2 (cl-transforms:make-pose
+                                       (cl-transforms:make-3d-vector
+                                        (+ (cl-transforms:x ori) jindex)
+                                        (cl-transforms:y ori)
+                                        (- (cl-transforms:z ori) index))
+                                       quat))
+                      (setf Apoint (cl-transforms:make-pose
+                                    (cl-transforms:make-3d-vector
+                                     (cl-transforms:x (cl-transforms:origin new-point))
+                                     (+ (cl-transforms:y (cl-transforms:origin new-point)) index)
+                                     (cl-transforms:z (cl-transforms:origin new-point)))
+                                    quat))
+                       (setf Bpoint (cl-transforms:make-pose
+                                    (cl-transforms:make-3d-vector
+                                     (cl-transforms:x (cl-transforms:origin new-point))
+                                     (- (cl-transforms:y (cl-transforms:origin new-point)) index)
+                                     (cl-transforms:z (cl-transforms:origin new-point)))
+                                    quat))
+                       (setf Cpoint (cl-transforms:make-pose
+                                       (cl-transforms:make-3d-vector
+                                        (cl-transforms:x (cl-transforms:origin new-point1))
+                                        (+ (cl-transforms:y (cl-transforms:origin new-point1)) index)
+                                        (cl-transforms:z (cl-transforms:origin new-point1)))
+                                    quat))
+                    ;;   (format t "temo ~a~%" temp)
+                       (setf temp (cons Cpoint (cons Bpoint (cons Apoint (cons new-point2 (cons new-point1 (cons new-point temp)))))))))
+(reverse temp)))
 
 (defun swm->publish-point (point &key id r g b a)
   (setf *marker-publisher*
