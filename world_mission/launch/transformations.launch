@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+
+  <node pkg="world_mission" type="wgs2ned_server" name="wgs2ned_server" respawn="false" output="screen" />
+ 
+ <node pkg="world_mission" type="ned2wgs_server" name="ned2wgs_server" respawn="false" output="screen" />
+
+</launch>
