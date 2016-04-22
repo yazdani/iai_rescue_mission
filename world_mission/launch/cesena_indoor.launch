@@ -7,9 +7,11 @@
 
 
 
-  <node pkg="world_mission" type="wgs2ned_server" name="wgs2ned_server" respawn="false" output="screen" />
+  <!--node pkg="world_mission" type="wgs2ned_server" name="wgs2ned_server" respawn="false" output="screen" />
  
- <node pkg="world_mission" type="ned2wgs_server" name="ned2wgs_server" respawn="false" output="screen" />
+ <node pkg="world_mission" type="ned2wgs_server" name="ned2wgs_server" respawn="false" output="screen" /-->
+
+<include file="$(find world_mission)/launch/transformations.launch"/>  
    
 
  <node pkg="tf" type="static_transform_publisher" name="world_map" args="0 0 0 0 0 0 1 /world /map 100"  />
@@ -29,10 +31,10 @@
 
  <node pkg="instruct_mission" type="multimodal_actionsubscriber" name="multimodal_actionsubscriber" respawn="false" output="screen" />
 
- <node pkg="startup_mission" type="starter" name="starter" respawn="false"
+ <!--node pkg="startup_mission" type="starter" name="starter" respawn="false"
  output="screen" />
 
- <node pkg="instruct_mission" type="checker" name="checker" respawn="false" output="screen" />
+ <node pkg="instruct_mission" type="checker" name="checker" respawn="false" output="screen" /-->
 
 
  <!--node pkg="world_mission" type="unihb_reasoning.sh" name="unihb_reasoning" /-->

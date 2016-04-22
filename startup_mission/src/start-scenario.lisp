@@ -28,49 +28,28 @@
 
 (in-package :startup-mission)
 
-(defvar *obj-pose*)
-(defvar *pub*)
-
-(defparameter *liste-name* NIL)
-(defparameter *liste-pose* NIL)
-(defparameter *liste-dim* NIL)
-(defparameter *distance* 25)
-(defparameter *swm-liste* NIL)
-(defparameter *gesture*  (cl-transforms:make-pose (cl-transforms:make-3d-vector 2 3 4) (cl-transforms:make-quaternion 0 0 0 1)))
-
-
 (defun service-call ()
   (roslisp-utilities:startup-ros :name "service_node");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
   (roslisp:ros-info (basics-system) "the msg.")
-  (roslisp:spin-until nil 1000));;)
+  (roslisp:spin-until nil 1000))
 
  (defun start-mission ()
-   (format t "start-mission ~%")
-;;   (setf *pub* (cl-tf:make-transform-broadcaster))
    (service-call))
 
-(roslisp:def-service-callback instruct_mission-srv:multimodal_lisp (selected type command gesture location)
-  (format t "def-service-callback~%")
-  (format t "gesture ~a~%" gesture)
+(roslisp:def-service-callback instruct_mission-srv:multimodal_lisp (robot type cmd gesture)
   (visualize-world)
-  (let*((agent (substitute #\_ #\Space selected))
+  (let*((agent (substitute #\_ #\Space robot))
         (type (read-from-string type))
-        (icmd command)
+        (icmd (instruct-mission::parser cmd))
         (msg NIL)
-        (ge-vector (cl-transforms::make-3d-vector (svref gesture 0)
+        (ge-vector (cl-transforms::make-3d-vector (svref gesture 0) ;;ned -> nwu
                                                   (* (svref gesture 1) (- 1))
-                                                   (* (svref gesture 2) (- 1))))      
-         ;; (gps-vector (cl-transforms::make-3d-vector (svref location 0)
-         ;;                                            (svref location 1)
-         ;;                                            (svref location 2)))
-         (gesture-elem  (swm->give-obj-pointed-at ge-vector))
-       (desig-list  (instruct-mission::create-the-msg agent type icmd gesture-elem))  
+                                                  (* (svref gesture 2) (- 1))))    	(gesture-elem  (sem-map->give-obj-pointed-at ge-vector))
+	(desig-list  (instruct-mission::create-the-msg agent type icmd gesture-elem))  
  
         (tmp (instruct-mission::create-mhri-msg desig-list)))
-    (format t "desiglist ~a~% and tmp ~a~%" desig-list tmp)
-    (format t " what is desig-list ~a~%" desig-list)
     (cond ((= (length tmp) 1)
            (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp)))))
           ((= (length tmp) 2)
@@ -80,34 +59,3 @@
          (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp) (second tmp) (third tmp))))))
     (roslisp:make-response :interpretation msg)))
 
-    ;; (format t "desig: ~a~%" desig)
-   ;; (format t "desig2: ~a~%" (instruct-mission::designator-into-mhri-msg desig))
-   ;; (roslisp:make-response :action (instruct-mission::designator-into-mhri-msg desig))))
-
-;; (defun service-call ()
-;; (let*((index 0))
-;;   (loop while (= index 0)
-;;         do(;; (roslisp:with-ros-node ("starting_ros_node" :spin t)
-;;            (roslisp:register-service "multimodal_lisp" 'instruct_mission-srv:multimodal_lisp)
-;;     (roslisp:ros-info (basics-system) "the msg.")
-;;    ))))
-
-
-
-;; (defun parse-cmd-into-designator (selected type command gesture location)
-;;   (let* ((agent (read-from-string (substitute #\- #\Space selected)))
-;;          (type (read-from-string type))
-;;          (icmd command)
-;;          (ge-vector (cl-transforms::make-3d-vector (svref gesture 0)
-;;                                                    (svref gesture 1)
-;;                                                    (svref gesture 2)))         
-;;          ;; (gps-vector (cl-transforms::make-3d-vector (svref location 0)
-;;          ;;                                            (svref location 1)
-;;          ;;                                            (svref location 2)))
-;;          (gesture-elem  (swm->give-obj-pointed-at ge-vector)))
-;;          ;;   (gesture-elem  (give-obj-pointed-at ge-vector)))
-;;     (format t "gesture elem ~a~%" gesture-elem)
-;;     (instruct-mission::count-actions type agent icmd gesture-elem)))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;DCM STUFF;;;;;;;;;;;;;;;;;;;;;;;;

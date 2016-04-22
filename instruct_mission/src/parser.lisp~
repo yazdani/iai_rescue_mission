@@ -1,4 +1,4 @@
-;;; Copyright (c) 2014, Fereshta Yazdani <yazdani@cs.uni-bremen.de>
+;;; Copyright (c) 2016, Fereshta Yazdani <yazdani@cs.uni-bremen.de>
 ;;; All rights reserved.
 ;; 
 ;;; Redistribution and use in source and binary forms, with or without
@@ -26,19 +26,15 @@
 ;;; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ;;; POSSIBILITY OF SUCH DAMAGE.
 
-(defsystem instruct-mission
-  :author "yazdani"
-  :license "BSD"
-  :depends-on (cram-designators mhri_msgs-msg)
-  ;; bullet-reasoning-utilities)
-  :components
-  ((:module "src"
-    :components
-    ((:file "package")
-     (:file "ros-interactor" :depends-on ("package"))
-     (:file "parser" :depends-on ("package"))
-     (:file "auxiliaries" :depends-on ("package" "ros-interactor"))
-     (:file "grammar" :depends-on ("package" "auxiliaries"))
-     (:file "action-designators" :depends-on ("package" "grammar"))
-     (:file "swm_designators" :depends-on ("package" "grammar"))
-     ))))
+(in-package :instruct-mission)
+
+
+(defun parser (cmd)
+  (let*((seq (split-sequence:split-sequence #\; cmd))
+	(tmp NIL))
+	(loop for i from 0 to (length seq)
+	      do (let*((action (first (split-sequence:split-sequence #\( (nth i seq))))
+		       (direction (first (split-sequence:split-sequence #\, split-sequence:split-sequence #\( (nth i seq))))
+	(adjective (second (split-sequence:split-sequence #\, split-sequence:split-sequence #\( (nth i seq))))
+	(object (split-sequence:split-sequence #\) (third (split-sequence:split-sequence #\, split-sequence:split-sequence #\( (nth i seq))))))
+(setf tmp (append (list (list action direction adjective object)) tmp))))))

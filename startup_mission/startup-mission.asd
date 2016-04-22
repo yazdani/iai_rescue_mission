@@ -48,6 +48,7 @@
                instruct_mission-msg
 	       instruct_mission-srv
 	       cl-tf
+	       world-mission
                cram-semantic-map-designators
 	       world_mission-srv
 	       instruct-mission
@@ -61,6 +62,6 @@
      (:file "gesture-calculation" :depends-on("package"))
      (:file "cost-functions" :depends-on ("package"))
      (:file "designators" :depends-on ("package"))
-     (:file "swm_instructions" :depends-on ("package"))
-     (:file "reasoning" :depends-on ("package" "cost-functions" "swm_instructions"))
-     (:file "start-scenario" :depends-on ("package" "costmap-knowledge" "reasoning" "gesture-calculation" "swm_instructions"))))))
+     (:file "map-calculation" :depends-on ("package"))
+     (:file "reasoning" :depends-on ("package" "cost-functions"))
+     (:file "start-scenario" :depends-on ("package" "costmap-knowledge" "reasoning" "gesture-calculation"))))))

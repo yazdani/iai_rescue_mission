@@ -26,37 +26,17 @@
 ;;; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ;;; POSSIBILITY OF SUCH DAMAGE.
 
-(in-package :startup-mission)
+(in-package :instruct-mission)
 
-;; (defun visualize-bbox (abbox bbbox point)
-;;   (let ((index 0)
-;; 	(iks-small (cl-transforms:x abbox))
-;; 	(yps-small (cl-transforms:y abbox))
-;; 	(zet-small (cl-transforms:z abbox))
-;; 	(iks-big (cl-transforms:x bbbox))
-;; 	(yps-big (cl-transforms:x bbbox)))
-;;   (loop while (<= zet-small (cl-transforms:z bbbox))
-;;         do(loop while (<= iks-small (cl-transforms:x bbox)
-;; 			  do(let*((pose (cl-transforms:make-pose 
-;; 					  (cl-transforms:make-3d-vector (+ (cl-transforms:x abbox) 1)
-;; 									(cl-transforms:y abbox)
-;; 									(cl-transforms:z abbox))
-;; 					  (cl-transforms:make-identity-rotation))))
-;; 			      (set-my-point pose (* 100 iks-small) 
+;;parses the instructions into a sequence of lists
+(defun parser (cmd)
+  (let*((seq (split-sequence:split-sequence #\; cmd))
+	(tmp '()))
+    (dotimes (i (length seq))
+      do (let*((action (first (split-sequence:split-sequence #\( (nth i seq))))
+	       (direction (first (split-sequence:split-sequence #\, (second (split-sequence:split-sequence #\( (nth i seq))))))
+	       (adjective (second (split-sequence:split-sequence #\, (second (split-sequence:split-sequence #\( (nth i seq))))))
+	       (object (first (split-sequence:split-sequence #\) (third (split-sequence:split-sequence #\, (second (split-sequence:split-sequence #\( (nth i seq)))))))))
+	   (setf tmp (cons (list action direction adjective object) tmp))))
+    (reverse tmp)))
 
-;; set-my-point
-
-;;      (loop while (< (cl-transforms:x abbox) (cl-transforms:y bbbox))
-;;         do(
-;;   (let*((x-axis (cl-transforms:make-3d-vector (+ (cl-transforms:x vec1) index)
-;;                                               (cl-transforms:y vec1)
-;;                                               (cl-transforms:z vec1)))
-;;         (y-axis (cl-transforms:make-3d-vector  (cl-transforms:x vec1) 
-;;                                               (+ (cl-transforms:y vec1) index)
-;;                                               (cl-transforms:z vec1)))
-;;         (z-axis (cl-transforms:make-3d-vector  (cl-transforms:x vec1) 
-;;                                               (cl-transforms:y vec1)
-;;                                               (+ (cl-transforms:z vec1) index))))
-     
-
-;;(defun calculate-smallest-object (semmap)

@@ -35,6 +35,5 @@
   ((:module "src"
     :components
     ((:file "package")
-     (:file "map-calculations" :depends-on ("package"))
      (:file "world-facts" :depends-on ("package"))
      ))))
