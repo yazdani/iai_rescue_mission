@@ -36,7 +36,7 @@
 (defparameter *collision-point* NIL)
 (defparameter *distance* 25)
 (defparameter *s* 0)
-(defvar *pub*)
+
 
 (defun swm->intern-tf-creater ()
   (let*((gen-pose (swm->get-cartesian-pose-agent "genius"));;(get-genius-pose->map-frame "genius_link")) ;;(instruct-mission::swm->get-cartesian-pose-agent "genius"))
@@ -312,6 +312,7 @@
        (liste-front (all-fronts liste-tr))
        (liste-back (all-backs liste-tr))
        (value NIL))
+   (format t "TEEEEEEEEEEEEEEEEEEEEEEST (car liste-tr) ~a~%" (car liste-tr))
    (dotimes (jindex (length liste-tr))
      do ;(format t "nth index ~a~%" (cl-transforms:origin (nth jindex liste-tr)))
      ;(if (equal elem NIL)
@@ -497,18 +498,18 @@ objects))
     list-all))
  
 ;; this function gives the name of the object back
-(defun give-obj-pointed-at (vec)
-  (let*((*gesture* vec)
-        (ret NIL))
-    (give-objs-close-to-human *distance* (get-genius-pose->map-frame "genius_link"))
-    (setf ret (get-the-direction vec))
-    (car ret)))
+;; (defun give-obj-pointed-at (vec)
+;;   (let*((*gesture* vec)
+;;         (ret NIL))
+;;     (give-objs-close-to-human *distance* (get-genius-pose->map-frame "genius_link"))
+;;     (setf ret (get-the-direction vec))
+;;     (car ret)))
 
 
 
 ;; visualization in rviz and computation of the gesture 
 (defun get-the-direction (point)
-  (format t "pointi ~a~%" point)
+ ;; (format t "pointi ~a~%" point)
 (let*((elem NIL)
       (eps 0)
       (var 0)
@@ -518,7 +519,7 @@ objects))
                                                                                        (cl-transforms:y point)
                                                                                        (+ (cl-transforms:z point) 1.5)))))
             (setf eps (+ eps 1))
-            (format t "new-pint ~a~%" new-point)
+          ;;  (format t "new-pint ~a~%" new-point)
             (if (equal elem NIL)
                 (set-my-marker new-point eps)
                 (setf var 1))

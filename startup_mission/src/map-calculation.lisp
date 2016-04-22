@@ -84,15 +84,18 @@
                      keys))
 
 ;; calculating all objects which are close in front of the human
-(defun sem->objects-next-human (distance pose sem-map)
-  (format t "func(): swm->objects-next-human ~a~%" pose)
-  (let* ((new-liste (visualize-plane pose distance))
+(defun sem->objects-next-human (distance sem-map)
+;;  (format t "func(): swm->objects-next-human ~%")
+  (setf *pub* (swm->intern-tf-creater))
+  (let* ((new-liste (visualize-plane distance))
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
          (sem-keys (hash-table-keys sem-hash))
          (elem NIL)
          (incrementer 1)
          (value NIL))
-      (format t "func(): swm->objects-next-human1234~%")
+    (swm->intern-tf-remover)
+     ;; (format t "func(): swm->objects-next-human1234~%")
+  ;;  (format t "~a~%" new-liste)
     (dotimes (index (length new-liste))
       do(let*((new-point (nth index new-liste))
                (smarter (+ (* 10 incrementer) index)))
@@ -105,14 +108,16 @@
                          (cond ((equal value T)
                                 ;;(swm->publish-point new-point :id smarter :r 1.0 :g 1.0 :b 0.0 :a 0.9)
                                 (setf elem (append (list (nth jndex sem-keys)) elem))
+                              ;;  (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
                                 (remove-duplicates elem)
                                 (return))
                                (t;;(swm->publish-point  new-point :id smarter :r 1.0 :g 0.0 :b 0.0 :a 0.9))))
-                                (location-costmap::publish-point new-point :id smarter)
+                             ;;   (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
                                 )))
                        ;;(swm->publish-point new-point :id (+ smarter jndex) :r 1.0 :g 0.0 :b 0.0 :a 0.9)
-		       (setf incrementer (+ incrementer 2))))) 
-             (reverse (remove-duplicates elem))))
+                       (setf incrementer (+ incrementer 2)))))
+    
+    (reverse (remove-duplicates elem))))
 
 ;;;;;;;;;;;;;;;;;;;; SEMANTIC MAP CALCULATIONS
 
@@ -199,72 +204,84 @@
                              (a color) a)))))
 
 
-(defun visualize-plane (point num)
-(let* ((temp '())
-         (ori (cl-transforms:origin point))
-         (quat (cl-transforms:orientation point)))
-    (loop for jindex from 5 to num
-          do (loop for mass from 1 to 10 
-            do  (let*((new-point2 (cl-transforms:make-pose
-                                           (cl-transforms:make-3d-vector
-                                            (+ (cl-transforms:x ori) jindex)
-                                            (cl-transforms:y ori)
-                                            (- (cl-transforms:z ori) mass))
-                                           quat))
-                      (new-point (cl-transforms:make-pose
-                                          (cl-transforms:make-3d-vector
-                                           (+ (cl-transforms:x ori) jindex)
-                                           (cl-transforms:y ori)
-                                           (cl-transforms:z ori))
-                                          quat))
-                      (new-point1 (cl-transforms:make-pose
-                                        (cl-transforms:make-3d-vector
-                                         (+ (cl-transforms:x ori) jindex)
-                                         (cl-transforms:y ori)
-                                         (+ (cl-transforms:z ori) mass))
-                                        quat)))
-                 (loop for index from 1 to 30
-                       do
-                          (setf Apoint (cl-transforms:make-pose
-                                        (cl-transforms:make-3d-vector
-                                         (cl-transforms:x (cl-transforms:origin new-point))
-                                        (+ (cl-transforms:y (cl-transforms:origin new-point)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point)))
-                                        quat))
-                          (setf Bpoint (cl-transforms:make-pose
-                                        (cl-transforms:make-3d-vector
-                                         (cl-transforms:x (cl-transforms:origin new-point))
-                                        (- (cl-transforms:y (cl-transforms:origin new-point)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point)))
-                                        quat))
-                          (setf Cpoint (cl-transforms:make-pose
-                                       (cl-transforms:make-3d-vector
-                                        (cl-transforms:x (cl-transforms:origin new-point1))
-                                        (+ (cl-transforms:y (cl-transforms:origin new-point1)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point1)))
-                                       quat))
-                         (setf Dpoint (cl-transforms:make-pose
-                                       (cl-transforms:make-3d-vector
-                                        (cl-transforms:x (cl-transforms:origin new-point1))
-                                        (- (cl-transforms:y (cl-transforms:origin new-point1)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point1)))
-                                       quat))
-                         (setf Epoint (cl-transforms:make-pose
-                                       (cl-transforms:make-3d-vector
-                                        (cl-transforms:x (cl-transforms:origin new-point2))
-                                        (+ (cl-transforms:y (cl-transforms:origin new-point2)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point2)))
-                                       quat))
-                         (setf Fpoint (cl-transforms:make-pose
-                                       (cl-transforms:make-3d-vector
-                                        (cl-transforms:x (cl-transforms:origin new-point2))
-                                        (- (cl-transforms:y (cl-transforms:origin new-point2)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point2)))
-                                       quat))
+;; (defun visualize-plane (point num)
+;; (let* ((temp '())
+;;          (ori (cl-transforms:origin point))
+;;          (quat (cl-transforms:orientation point)))
+;;     (loop for jindex from 5 to num
+;;           do (loop for mass from 1 to 10 
+;;             do  (let*((new-point2 (cl-transforms:make-pose
+;;                                            (cl-transforms:make-3d-vector
+;;                                             (+ (cl-transforms:x ori) jindex)
+;;                                             (cl-transforms:y ori)
+;;                                             (- (cl-transforms:z ori) mass))
+;;                                            quat))
+;;                       (new-point (cl-transforms:make-pose
+;;                                           (cl-transforms:make-3d-vector
+;;                                            (+ (cl-transforms:x ori) jindex)
+;;                                            (cl-transforms:y ori)
+;;                                            (cl-transforms:z ori))
+;;                                           quat))
+;;                       (new-point1 (cl-transforms:make-pose
+;;                                         (cl-transforms:make-3d-vector
+;;                                          (+ (cl-transforms:x ori) jindex)
+;;                                          (cl-transforms:y ori)
+;;                                          (+ (cl-transforms:z ori) mass))
+;;                                         quat)))
+;;                  (loop for index from 1 to 30
+;;                        do
+;;                           (setf Apoint (cl-transforms:make-pose
+;;                                         (cl-transforms:make-3d-vector
+;;                                          (cl-transforms:x (cl-transforms:origin new-point))
+;;                                         (+ (cl-transforms:y (cl-transforms:origin new-point)) index)
+;;                                         (cl-transforms:z (cl-transforms:origin new-point)))
+;;                                         quat))
+;;                           (setf Bpoint (cl-transforms:make-pose
+;;                                         (cl-transforms:make-3d-vector
+;;                                          (cl-transforms:x (cl-transforms:origin new-point))
+;;                                         (- (cl-transforms:y (cl-transforms:origin new-point)) index)
+;;                                         (cl-transforms:z (cl-transforms:origin new-point)))
+;;                                         quat))
+;;                           (setf Cpoint (cl-transforms:make-pose
+;;                                        (cl-transforms:make-3d-vector
+;;                                         (cl-transforms:x (cl-transforms:origin new-point1))
+;;                                         (+ (cl-transforms:y (cl-transforms:origin new-point1)) index)
+;;                                         (cl-transforms:z (cl-transforms:origin new-point1)))
+;;                                        quat))
+;;                          (setf Dpoint (cl-transforms:make-pose
+;;                                        (cl-transforms:make-3d-vector
+;;                                         (cl-transforms:x (cl-transforms:origin new-point1))
+;;                                         (- (cl-transforms:y (cl-transforms:origin new-point1)) index)
+;;                                         (cl-transforms:z (cl-transforms:origin new-point1)))
+;;                                        quat))
+;;                          (setf Epoint (cl-transforms:make-pose
+;;                                        (cl-transforms:make-3d-vector
+;;                                         (cl-transforms:x (cl-transforms:origin new-point2))
+;;                                         (+ (cl-transforms:y (cl-transforms:origin new-point2)) index)
+;;                                         (cl-transforms:z (cl-transforms:origin new-point2)))
+;;                                        quat))
+;;                          (setf Fpoint (cl-transforms:make-pose
+;;                                        (cl-transforms:make-3d-vector
+;;                                         (cl-transforms:x (cl-transforms:origin new-point2))
+;;                                         (- (cl-transforms:y (cl-transforms:origin new-point2)) index)
+;;                                         (cl-transforms:z (cl-transforms:origin new-point2)))
+;;                                        quat))
 
-                           ;; (format t "temo ~a~%" temp)
-                         (setf temp (cons Fpoint (cons Epoint (cons new-point1 (cons new-point2 (cons Dpoint (cons Cpoint (cons Bpoint (cons Apoint (cons new-point temp))))))))))))))
-               (reverse temp))) 
+;;                            ;; (format t "temo ~a~%" temp)
+;;                          (setf temp (cons Fpoint (cons Epoint (cons new-point1 (cons new-point2 (cons Dpoint (cons Cpoint (cons Bpoint (cons Apoint (cons new-point temp))))))))))))))
+;;                (reverse temp))) 
+
+
+(defun visualize-plane (num)
+  (let* ((temp '()))
+    (loop for jindex from 5 to num
+          do(loop for smart from 0 to 30
+                  do(loop for mass from 1 to 41 
+                   do  (let*((new-point (swm->get-gesture->relative-genius
+                                          (cl-transforms:make-3d-vector
+                                            jindex  (- mass 11) (- smart 15)))))
+                                 (setf temp (cons new-point temp))))))
+                 (reverse temp))) 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;RSG ROSJAVA ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Interface to robot scene graph
@@ -465,16 +482,17 @@
                                  (t ())))
                    pose))
 
-(defun swm->find-elem-in-map (pose elem)
+(defun swm->find-elem-in-map (elem)
   (let*((value NIL)
         (sem-map (swm->initialize-semantic-map))
         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
         (sem-keys (hash-table-keys sem-hash))
         (ret NIL))
+  ;;  (format t "elems ~a~%" value)
     (loop for i in '(5 10 17 30 50 70 90 120 150 170 190 210 230 260 280 300 320 340 360 380 400)
 	  do(if (equal ret NIL)
-           (let*((elems (sem->objects-next-human i pose sem-map)))
-          ;   (format t "elems ~a~%" elems)
+          (let*((elems (sem->objects-next-human i sem-map)))
+          ;;   (format t "elems ~a~%" elems)
              (if (equal elems NIL)
                  (format t "")
                  (loop for jndex from 0 to (- (length sem-keys) 1)
@@ -493,101 +511,47 @@
   ret))
 
 
-(defun swm->close-to-gesture (aliste)
+;; GROUND FOR GESTURE
+
+(defun swm->close-to-gesture ()
   (let* ((elem NIL)
          (sem-map (swm->initialize-semantic-map))
-        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
-        (sem-keys (hash-table-keys sem-hash))
-        (ret NIL)
+         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
+         (sem-keys (hash-table-keys sem-hash))
          (incrementer 0))
-    (loop for i in '(5 10 20 30 45 60 85 100 120)
-          do(let*((liste (visualize-plane-gesture aliste i)))
-              (dotimes (index (length liste))
-                do(let*((new-point (nth index liste))
-                        (smarter (+ (* 10 incrementer) index)))
-                    (loop for jndex from 0 to (- (length sem-keys) 1)
-                     do(let* ((elem1 (first (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
-                              (elem2 (second (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
+    (loop for i in '(5 10 20 30 45 60 85 100 120 140 160)
+          do;(format t "~a~%" i)
+             (let*((liste (visualize-plane-gesture i)))
+                   (dotimes (mo (length liste))
+                   do (let*((new-point (nth mo liste))
+                            (smarter (+ (* 10 incrementer) i)))
+                        (dotimes (jndex (length sem-keys))
+                          do(let* ((elem1 (first (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
+                                   (elem2 (second (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
                               (smarter (+ smarter jndex)))
-                         (setf value
+                              (setf value
                                (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)))
                          (cond ((equal value T)
-                                ;;(swm->publish-point new-point :id smarter :r 1.0 :g 1.0 :b 0.0 :a 0.9)
-                             ;;   (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
+                                (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
                                 (setf elem (append (list (nth jndex sem-keys)) elem))
-                                (remove-duplicates elem)
-                               )
-                               (t;;(swm->publish-point  new-point :id smarter :r 1.0 :g 0.0 :b 0.0 :a 0.9))))
-                             ;;   (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
-                                )))
-                       ;;(swm->publish-point new-point :id (+ smarter jndex) :r 1.0 :g 0.0 :b 0.0 :a 0.9)
+                                (remove-duplicates elem))
+                               (t
+                               ;(location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
+                               )))
 		       (setf incrementer (+ incrementer 2))))))) 
              (reverse (remove-duplicates elem))))
 
 
-(defun visualize-plane-gesture (point num)
-  (let* ((temp '())
-         (ori (cl-transforms:origin point))
-         (quat (cl-transforms:orientation point)))
-    (loop for jindex from 1 to num
-          do (loop for mass from 1 to 5 
-            do  (let*((new-point2 (cl-transforms:make-pose
-                                           (cl-transforms:make-3d-vector
-                                            (+ (cl-transforms:x ori) jindex)
-                                            (cl-transforms:y ori)
-                                            (- (cl-transforms:z ori) mass))
-                                           quat))
-                      (new-point (cl-transforms:make-pose
+(defun visualize-plane-gesture (num)
+  (setf *pub* (swm->intern-tf-creater))
+  (let* ((temp '()))
+    (loop for jindex from 2 to num
+          do(loop for smart from 0 to 20
+                  do(loop for mass from 1 to 21 
+                   do  (let*((new-point (swm->get-gesture->relative-genius
                                           (cl-transforms:make-3d-vector
-                                           (+ (cl-transforms:x ori) jindex)
-                                           (cl-transforms:y ori)
-                                           (cl-transforms:z ori))
-                                          quat))
-                      (new-point1 (cl-transforms:make-pose
-                                        (cl-transforms:make-3d-vector
-                                         (+ (cl-transforms:x ori) jindex)
-                                         (cl-transforms:y ori)
-                                         (+ (cl-transforms:z ori) mass))
-                                        quat)))
-                 (loop for index from 1 to 5
-                       do
-                          (setf Apoint (cl-transforms:make-pose
-                                        (cl-transforms:make-3d-vector
-                                         (cl-transforms:x (cl-transforms:origin new-point))
-                                        (+ (cl-transforms:y (cl-transforms:origin new-point)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point)))
-                                        quat))
-                          (setf Bpoint (cl-transforms:make-pose
-                                        (cl-transforms:make-3d-vector
-                                         (cl-transforms:x (cl-transforms:origin new-point))
-                                        (- (cl-transforms:y (cl-transforms:origin new-point)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point)))
-                                        quat))
-                          (setf Cpoint (cl-transforms:make-pose
-                                       (cl-transforms:make-3d-vector
-                                        (cl-transforms:x (cl-transforms:origin new-point1))
-                                        (+ (cl-transforms:y (cl-transforms:origin new-point1)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point1)))
-                                       quat))
-                         (setf Dpoint (cl-transforms:make-pose
-                                       (cl-transforms:make-3d-vector
-                                        (cl-transforms:x (cl-transforms:origin new-point1))
-                                        (- (cl-transforms:y (cl-transforms:origin new-point1)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point1)))
-                                       quat))
-                         (setf Epoint (cl-transforms:make-pose
-                                       (cl-transforms:make-3d-vector
-                                        (cl-transforms:x (cl-transforms:origin new-point2))
-                                        (+ (cl-transforms:y (cl-transforms:origin new-point2)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point2)))
-                                       quat))
-                         (setf Fpoint (cl-transforms:make-pose
-                                       (cl-transforms:make-3d-vector
-                                        (cl-transforms:x (cl-transforms:origin new-point2))
-                                        (- (cl-transforms:y (cl-transforms:origin new-point2)) index)
-                                        (cl-transforms:z (cl-transforms:origin new-point2)))
-                                       quat))
-
-                           ;; (format t "temo ~a~%" temp)
-                         (setf temp (cons Fpoint (cons Epoint (cons new-point1 (cons new-point2 (cons Dpoint (cons Cpoint (cons Bpoint (cons Apoint (cons new-point temp))))))))))))))
-               (reverse temp))) 
+                                            jindex  (- mass 11) (- smart 10)))))
+                        ;; (format t "~a~%" new-point)
+                         (setf temp (cons new-point temp))))))
+    (swm->intern-tf-remover)
+    (reverse temp))) 

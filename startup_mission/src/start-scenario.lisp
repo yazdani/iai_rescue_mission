@@ -28,6 +28,8 @@
 
 (in-package :startup-mission)
 
+(defvar *pub*)
+
 (defun service-call ()
   (roslisp-utilities:startup-ros :name "service_node");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
