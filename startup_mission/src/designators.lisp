@@ -1,4 +1,4 @@
-;;; Copyright (c) 2014, Fereshta Yazdani <yazdani@cs.uni-bremen.de>
+;;; Copyright (c) 2016, Fereshta Yazdani <yazdani@cs.uni-bremen.de>
 ;;; All rights reserved.
 ;; 
 ;;; Redistribution and use in source and binary forms, with or without
@@ -28,9 +28,34 @@
 
 (in-package :startup-mission)
 
-;; (defun test()
-;;  (make-designator :action `((robot ,(get-agent))
-;;                             (action ,(get-command))
-;;                             (direction ,(get-direction))
-;;                             (cmd-type ,(get-cmd-type)))))
-                            
+(defun create-the-desiglist (robot type cmd pelem)
+  (let*((adjective NIL)
+        (desig NIL))
+    (dotimes (index (length cmd))
+      (cond ((string-equal (first (nth index cmd)) "take")
+             (format t "take is inside~%")
+             (setf desig (cons "This is take" desig)))
+            ((string-equal (first (nth index cmd)) "move")
+             (setf desig (cons (move-desig (nth index cmd) pelem) desig)))      
+            (t (format t "take and move is it not ~%"))))
+    desig))
+
+
+
+
+(defun move-desig (cmd pelem)
+  (let*((desig NIL)
+        (object NIL))
+    (cond ((string-equal "nil" (third cmd))
+           (setf object (swm->find-elem-in-map (fourth cmd)))
+           (setf desig (make-designator :location `((,(direction-symbol (second cmd)) ,object)))))
+          ((string-equal "small" (third cmd))
+           (setf object (calculate-small-object (fourth cmd)))
+           (setf desig (make-designator :location `((,(direction-symbol (second cmd)) ,object)))))
+          ((string-equal "big" (third cmd))
+           (setf object (calculate-big-object (fourth cmd)))
+           (setf desig (make-designator :location `((,(direction-symbol (second cmd)) ,object)))))
+          ((string-equal "pointed_at" (third cmd))
+           (setf desig (make-designator :location `((,(direction-symbol (second cmd)) ,pelem)))))
+          (t (format t "something went wrong in create-the-desiglist~%")))
+    desig))

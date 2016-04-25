@@ -41,7 +41,7 @@
 (defun swm->intern-tf-creater ()
   (let*((gen-pose (swm->get-cartesian-pose-agent "genius"));;(get-genius-pose->map-frame "genius_link")) ;;(instruct-mission::swm->get-cartesian-pose-agent "genius"))
     (pub (cl-tf:make-transform-broadcaster)))
-    (cl-tf:send-static-transforms pub 1.0 "meineGeste" (cl-transforms-stamped:make-transform-stamped "map" "genius_link" (roslisp:ros-time)  (cl-transforms:origin gen-pose)(cl-transforms:orientation gen-pose)))))
+    (cl-tf:send-static-transforms pub 1.0 "meineGeste" (cl-transforms-stamped:make-transform-stamped "map" "genius_link" (roslisp:ros-time)  (cl-transforms:origin gen-pose) (cl-transforms:orientation gen-pose)))))
 
 
 (defun swm->get-gesture->relative-genius (gesture-vec) 
@@ -312,7 +312,7 @@
        (liste-front (all-fronts liste-tr))
        (liste-back (all-backs liste-tr))
        (value NIL))
-   (format t "TEEEEEEEEEEEEEEEEEEEEEEST (car liste-tr) ~a~%" (car liste-tr))
+;   (format t "TEEEEEEEEEEEEEEEEEEEEEEST (car liste-tr) ~a~%" (car liste-tr))
    (dotimes (jindex (length liste-tr))
      do ;(format t "nth index ~a~%" (cl-transforms:origin (nth jindex liste-tr)))
      ;(if (equal elem NIL)
@@ -334,7 +334,7 @@
                        (lvalue (semantic-map-costmap::inside-aabb elem1 elem2 lpoint))
                        (fvalue (semantic-map-costmap::inside-aabb elem1 elem2 fpoint))
                        (bvalue (semantic-map-costmap::inside-aabb elem1 elem2 bpoint)))
-                 (cond ((and (or (equal value T)
+                  (cond ((and (or (equal value T)
                                  (equal uvalue T)
                                  (equal dvalue T)
                                  (equal rvalue T)
@@ -450,7 +450,7 @@ objects))
       
 ;; getting all the objects close to the rescuer...
 (defun give-objs-close-to-human (distance position)
-  (format t "Give objs close to human ~%")
+  ;(format t "Give objs close to human ~%")
   (sem-map-utils:get-semantic-map)
   (let*((liste-name NIL)
         (liste-pose NIL)
@@ -586,24 +586,24 @@ objects))
 
 
 (defun all-ups (liste)
-  (format t "all-ups~%")
+  ;(format t "all-ups~%")
   (let*((test '()))
-     (format t "all-ups2~%")
+     ;(format t "all-ups2~%")
     (dotimes (index (length liste))
-       (format t "all-ups2 ~a~%"(nth index liste))
+      ; (format t "all-ups2 ~a~%"(nth index liste))
       (setf test (cons 
             (cl-transforms:make-pose
              (cl-transforms:make-3d-vector (cl-transforms:x (cl-transforms:origin (nth index liste)))
                                            (cl-transforms:y (cl-transforms:origin (nth index liste)))
                                            (+ (cl-transforms:z (cl-transforms:origin (nth index liste))) 1))
-             (cl-transforms:orientation (nth index liste))) test))
-       (format t "all-upwewews~%"))
+             (cl-transforms:orientation (nth index liste))) test)))
+       ;(format t "all-upwewews~%"))
     (reverse test)))
                                           
             
 
 (defun all-downs (liste)
-    (format t "all-downs~%")
+   ; (format t "all-downs~%")
    (let*((test '()))
     (dotimes (index (length liste))
       (setf test (cons 
@@ -615,7 +615,7 @@ objects))
     (reverse test)))
 
 (defun all-rights (liste)
-  (format t "all-rights~%")
+  ;(format t "all-rights~%")
     (let*((test '()))
     (dotimes (index (length liste))
       (setf test (cons 
@@ -624,12 +624,12 @@ objects))
                                            (+ (cl-transforms:y (cl-transforms:origin (nth index liste))) 1)
                                            (cl-transforms:z (cl-transforms:origin (nth index liste))))
              (cl-transforms:orientation (nth index liste))) test))
-      (format t "END MORPG~%")
+      ;(format t "END MORPG~%")
       )
     (reverse test)))
 
 (defun all-lefts (liste)
-  (format t "all-lefts~%")
+ ; (format t "all-lefts~%")
     (let*((test '()))
     (dotimes (index (length liste))
       (setf test (cons 
@@ -641,7 +641,7 @@ objects))
     (reverse test)))
 
 (defun all-fronts (liste)
-  (format t "all-fronts~%")
+  ;(format t "all-fronts~%")
   (let*((test '()))
     (dotimes (index (length liste))
       (setf test (cons 
@@ -653,7 +653,7 @@ objects))
     (reverse test)))
 
 (defun all-backs (liste)
-  (format t "all-backs~%")
+  ;(format t "all-backs~%")
     (let*((test '()))
     (dotimes (index (length liste))
       (setf test (cons 
@@ -663,3 +663,109 @@ objects))
                                            (cl-transforms:z (cl-transforms:origin (nth index liste))))
              (cl-transforms:orientation (nth index liste))) test)))
     (reverse test)))
+
+
+(defun swm->find-elem-in-map (elem)
+  (let*((value NIL)
+        (sem-map (swm->initialize-semantic-map))
+        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
+        (sem-keys (hash-table-keys sem-hash))
+        (ret NIL))
+  ;;  (format t "elems ~a~%" value)
+    (loop for i in '(5 10 17 30 50 70 90 120 150 170 190 210 230 260 280 300 320 340 360 380 400)
+	  do(if (equal ret NIL)
+          (let*((elems (sem->objects-next-human i sem-map)))
+          ;;   (format t "elems ~a~%" elems)
+             (if (equal elems NIL)
+                 (format t "")
+                 (loop for jndex from 0 to (- (length sem-keys) 1)
+                       do(if (equal ret NIL)
+                             (loop for index from 0 to (- (length sem-keys) 1)
+                               do (if (equal NIL value)
+                                      (cond ((and (string-equal (nth index sem-keys) (nth jndex elems))
+                                                  (string-equal (slot-value (gethash (nth index sem-keys) sem-hash) 'sem-map-utils::type) elem))
+                                             (setf value T)
+                                             (setf ret (nth index sem-keys))
+                                             (return))
+                                      (t ()))
+                                      (format t "")))
+                             (return)))))  
+           (return)))
+  ret))
+
+
+;; GROUND FOR GESTURE
+
+(defun swm->close-to-gesture (vec)
+  (setf *pub* (swm->intern-tf-creater))
+  (let* ((elem NIL)
+         (sem-map (swm->initialize-semantic-map))
+         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
+         (sem-keys (hash-table-keys sem-hash))
+         (incrementer 0)
+         (num (make-list 300))
+         (valuable (swm->list-values num vec)))
+   ; (loop for i in '(5 10 20 30 45 60 85 100 120 140 160 180 200)
+    ;      do(format t "~a~%" i)
+             (let*((liste (five-down-levels valuable)))
+               (dotimes (mo (length liste))
+                   do (let*((new-point (nth mo liste))
+                            (smarter (+ (* 10 incrementer) 2)))
+                        (dotimes (jndex (length sem-keys))
+                          do(let* ((elem1 (first (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
+                                   (elem2 (second (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash))))
+                           ;  (smarter (+ smarter jndex)))
+                              (setf value
+                               (semantic-map-costmap::inside-aabb elem1 elem2  (cl-transforms:origin new-point)))
+                         (cond ((equal value T)
+               ;;                 (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
+                                (setf elem (append (list (nth jndex sem-keys)) elem))
+                                (remove-duplicates elem))
+                               (t
+                   ;    (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
+                                )))
+		       (setf incrementer (+ incrementer 2))))))
+    ;)
+         (swm->intern-tf-remover)
+             (reverse (remove-duplicates elem)))) 
+
+
+(defun visualize-plane-gesture (num)
+  (setf *pub* (swm->intern-tf-creater))
+  (let* ((temp '()))
+    (loop for jindex from 2 to num
+          do(loop for smart from 0 to 20
+                  do(loop for mass from 1 to 21 
+                   do  (let*((new-point (swm->get-gesture->relative-genius
+                                          (cl-transforms:make-3d-vector
+                                            jindex  (- mass 11) (- smart 10)))))
+                        ;; (format t "~a~%" new-point)
+                         (setf temp (cons new-point temp))))))
+    (swm->intern-tf-remover)
+    (reverse temp))) 
+
+
+
+(defun five-down-levels (liste)
+   (let*((test '()))
+         (dotimes (index (length liste))
+           do(loop for mass from 1 to 21
+                   do(loop for jindex from 1 to 11
+                           do(setf test (cons 
+                                         (cl-transforms:make-pose
+                                          (cl-transforms:make-3d-vector (cl-transforms:x (cl-transforms:origin (nth index liste)))
+                                                          (+ (cl-transforms:y (cl-transforms:origin (nth index liste))) (- 11 mass)) 
+                                                          (+ (cl-transforms:z (cl-transforms:origin (nth index liste))) (- 6 jindex)))
+                                            (cl-transforms:orientation (nth index liste))) test))
+                (setf test (cons 
+                            (cl-transforms:make-pose
+                            (cl-transforms:make-3d-vector (+ (cl-transforms:x (cl-transforms:origin (nth index liste))) (- 11 mass))
+                                                          (cl-transforms:y (cl-transforms:origin (nth index liste)))  
+                                                          (+ (cl-transforms:z (cl-transforms:origin (nth index liste))) (- 6 jindex)))
+                              (cl-transforms:orientation (nth index liste))) test)))))
+                                   
+    (reverse test)))
+   
+;;;;;;;;;;;;;;;;;;;INTERNAL GESTURE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
