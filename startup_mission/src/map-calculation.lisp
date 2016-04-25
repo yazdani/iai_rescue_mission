@@ -32,11 +32,11 @@
 
 ;;; CREATE SEMANTIC MAP
 (defun swm->initialize-semantic-map ()
-  (format t "zeiuhdisdqweer~%")
+ ;; (format t "zeiuhdisdqweer~%")
   (let* ((obj (make-instance 'sem-map-utils::semantic-map
                  :parts
                  (sem-map->hash-function))))
-     (format t "zeiuhdisdqweer ~a~%" obj)
+   ;;  (format t "zeiuhdisdqweer ~a~%" obj)
     (setf *get-semantic-map* obj)
     *get-semantic-map*))
 
@@ -124,32 +124,54 @@
 ;;
 ;; Getting the smallest object inside the map
 ;;
-(defun calculate-small-object (sem-map)
-  (let*((sem-hash (slot-value sem-map 'sem-map-utils:parts))
+(defun calculate-small-object (nom)
+  (let*((sem-map (swm->initialize-semantic-map))
+        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
         (sem-keys (hash-table-keys sem-hash))
-        (name (first sem-keys))
-        (value (swm->bbox-sum name sem-hash)))
-    (loop for index from 1 to (- (length sem-keys) 1)
-          do(cond((> value (swm->bbox-sum (nth index sem-keys) sem-hash))
-                  (setf name (nth index sem-keys))
-                  (setf value (swm->bbox-sum (nth index sem-keys) sem-hash)))
-                 (t ())))
+        (name NIL)
+        (list-keys '())
+        (value 1000000))
+    (dotimes (mass (length sem-keys))
+      do(if(string-equal (swm->elem-type (nth mass sem-keys)) nom)
+           (setf list-keys (cons (nth mass sem-keys) list-keys))
+           (format t "")))
+    (dotimes (index (length list-keys))
+      do(cond((> value (swm->bbox-sum (nth index list-keys) sem-hash))
+              (setf name (nth index list-keys))
+              (setf value (swm->bbox-sum (nth index list-keys) sem-hash)))
+             (t ())))
     name))
 
+
+(defun swm->bbox-sum (name sem-hash)
+  (let*((liste (swm->get-bbox-as-aabb name sem-hash))
+        (erst (first liste))
+        (zweit (second liste))
+        (sum NIL))
+    (setf sum (+ (+ (cl-transforms:x erst) (cl-transforms:x zweit))
+                 (+ (cl-transforms:y erst) (cl-transforms:y zweit))
+                 (+ (cl-transforms:z erst) (cl-transforms:z zweit))))
+    sum))
 
 ;;
 ;; Getting the biggest object inside the map
 ;;
-(defun calculate-big-object (sem-map)
-  (let*((sem-hash (slot-value sem-map 'sem-map-utils:parts))
+(defun calculate-big-object (nom)
+  (let*((sem-map (swm->initialize-semantic-map))
+        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
         (sem-keys (hash-table-keys sem-hash))
-        (name (first sem-keys))
-        (value (swm->bbox-sum name sem-hash)))
-    (loop for index from 1 to (- (length sem-keys) 1)
-          do (cond((< value (swm->bbox-sum (nth index sem-keys) sem-hash))
-                  (setf name (nth index sem-keys))
-                  (setf value (swm->bbox-sum (nth index sem-keys) sem-hash)))
-                 (t ())))
+        (name NIL)
+        (list-keys '())
+        (value 0))
+    (dotimes (mass (length sem-keys))
+      do(if(string-equal (swm->elem-type (nth mass sem-keys)) nom)
+           (setf list-keys (cons (nth mass sem-keys) list-keys))
+           (format t "")))
+    (dotimes (index (length list-keys))
+      do(cond((< value (swm->bbox-sum (nth index list-keys) sem-hash))
+              (setf name (nth index list-keys))
+              (setf value (swm->bbox-sum (nth index list-keys) sem-hash)))
+             (t ())))
     name))
     
 
@@ -426,7 +448,7 @@
 (defun swm->get-cartesian-pose-agents (agent)
   (let* ((pose (swm->get-geopose-agent agent)) ;;(cl-transforms:make-pose (cl-transforms:make-3d-vector 44.1533088684 12.2414226532 42.7000007629) (cl-transforms:make-quaternion 0 0 0 1))) ;;(swm->get-geopose-agent agent))
         (call (roslisp:call-service "mywgs2ned_server" 'world_mission-srv::Mywgs2ned_server :data (cl-transforms-stamped::to-msg pose))))
-   (splitgeometry->poses call)))
+   (splitgeometry->pose call)))
 
 
 (defun swm->get-geopose-agent (agent)
@@ -482,76 +504,3 @@
                                  (t ())))
                    pose))
 
-(defun swm->find-elem-in-map (elem)
-  (let*((value NIL)
-        (sem-map (swm->initialize-semantic-map))
-        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
-        (sem-keys (hash-table-keys sem-hash))
-        (ret NIL))
-  ;;  (format t "elems ~a~%" value)
-    (loop for i in '(5 10 17 30 50 70 90 120 150 170 190 210 230 260 280 300 320 340 360 380 400)
-	  do(if (equal ret NIL)
-          (let*((elems (sem->objects-next-human i sem-map)))
-          ;;   (format t "elems ~a~%" elems)
-             (if (equal elems NIL)
-                 (format t "")
-                 (loop for jndex from 0 to (- (length sem-keys) 1)
-                       do(if (equal ret NIL)
-                             (loop for index from 0 to (- (length sem-keys) 1)
-                               do (if (equal NIL value)
-                                      (cond ((and (string-equal (nth index sem-keys) (nth jndex elems))
-                                                  (string-equal (slot-value (gethash (nth index sem-keys) sem-hash) 'sem-map-utils::type) elem))
-                                             (setf value T)
-                                             (setf ret (nth index sem-keys))
-                                             (return))
-                                      (t ()))
-                                      (format t "")))
-                             (return)))))  
-           (return)))
-  ret))
-
-
-;; GROUND FOR GESTURE
-
-(defun swm->close-to-gesture ()
-  (let* ((elem NIL)
-         (sem-map (swm->initialize-semantic-map))
-         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
-         (sem-keys (hash-table-keys sem-hash))
-         (incrementer 0))
-    (loop for i in '(5 10 20 30 45 60 85 100 120 140 160)
-          do;(format t "~a~%" i)
-             (let*((liste (visualize-plane-gesture i)))
-                   (dotimes (mo (length liste))
-                   do (let*((new-point (nth mo liste))
-                            (smarter (+ (* 10 incrementer) i)))
-                        (dotimes (jndex (length sem-keys))
-                          do(let* ((elem1 (first (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
-                                   (elem2 (second (swm->get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
-                              (smarter (+ smarter jndex)))
-                              (setf value
-                               (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)))
-                         (cond ((equal value T)
-                                (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
-                                (setf elem (append (list (nth jndex sem-keys)) elem))
-                                (remove-duplicates elem))
-                               (t
-                               ;(location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
-                               )))
-		       (setf incrementer (+ incrementer 2))))))) 
-             (reverse (remove-duplicates elem))))
-
-
-(defun visualize-plane-gesture (num)
-  (setf *pub* (swm->intern-tf-creater))
-  (let* ((temp '()))
-    (loop for jindex from 2 to num
-          do(loop for smart from 0 to 20
-                  do(loop for mass from 1 to 21 
-                   do  (let*((new-point (swm->get-gesture->relative-genius
-                                          (cl-transforms:make-3d-vector
-                                            jindex  (- mass 11) (- smart 10)))))
-                        ;; (format t "~a~%" new-point)
-                         (setf temp (cons new-point temp))))))
-    (swm->intern-tf-remover)
-    (reverse temp))) 

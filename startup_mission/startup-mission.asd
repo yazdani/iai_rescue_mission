@@ -62,5 +62,6 @@
      (:file "gesture-calculation" :depends-on("package"))
      (:file "cost-functions" :depends-on ("package"))
      (:file "map-calculation" :depends-on ("package"))
+     (:file "designators" :depends-on ("package" "prolog"))
      (:file "prolog" :depends-on ("package" "cost-functions"))
-     (:file "start-scenario" :depends-on ("package" "costmap-knowledge" "prolog" "gesture-calculation"))))))
+     (:file "start-scenario" :depends-on ("package" "costmap-knowledge" "prolog" "gesture-calculation" "designators"))))))
