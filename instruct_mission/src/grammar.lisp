@@ -28,9 +28,6 @@
 
 (in-package :instruct-mission)
 
-(defun direction-symbol (sym)
-  (intern (string-upcase sym) "KEYWORD"))
-  
 (defun method-with-one-seq (type agent cmd gesture)
   (let*((desig NIL)
         (alist (list (instruct-mission::get-action (first (split-cmd-by-colons cmd))))))

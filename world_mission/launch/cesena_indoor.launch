@@ -28,17 +28,25 @@
      </rosparam>
    </node>
 -->
+<param name="iai_quadrotor"
+         command="$(find xacro)/xacro.py
+                  '$(find agent_mission)/urdf/quadrotor_with_asus_with_hokuyo_utm30lx-01.urdf'"/>
 
  <node pkg="instruct_mission" type="multimodal_actionsubscriber" name="multimodal_actionsubscriber" respawn="false" output="screen" />
 
  <!--node pkg="startup_mission" type="starter" name="starter" respawn="false"
- output="screen" />
+ output="screen" /-->
 
- <node pkg="instruct_mission" type="checker" name="checker" respawn="false" output="screen" /-->
+ <node pkg="instruct_mission" type="checker" name="checker" respawn="false" output="screen" />
 
 
  <!--node pkg="world_mission" type="unihb_reasoning.sh" name="unihb_reasoning" /-->
-   
+ <node pkg="robot_state_chain_publisher" type="state_chain_publisher"
+	name="mountain_state_publisher" output="screen">
+    <param name="tf_prefix" value="/"/>
+    <param name="publish_frequency" value="1000"/>
+    <remap from="robot_description" to="iai_quadrotor" />
+  </node>
 
 </launch>
 

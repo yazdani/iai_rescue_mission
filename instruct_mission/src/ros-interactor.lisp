@@ -39,56 +39,10 @@
 
 ;;; INTERPRETATION OF INSTRUCTION ;;;
 
-;;WURDE UMGEÄNDERT FÜR SWM->Integration
 
-(defun create-mhri-msgs (desig-list)
-  (let* ((boolean (cl-transforms-stamped::make-msg "std_msgs/Bool" :data  (first desig-list)))
-         (error-msg (cl-transforms-stamped::make-msg "std_msgs/String" :data  (second desig-list)))
-         (action-msg (cl-transforms-stamped::make-msg "std_msgs/String" :data  (third desig-list)))
-         (pose-msg (cl-transforms-stamped::to-msg (fourth desig-list))))
-  ))
-
-(defun designator-into-mhri-msg (desig)
- ;;  (format t "endlich gehts voranCDE------> ~a~%" desig) 
-(let* ((combiner NIL)
-       (msg NIL)
-       (msg2 NIL))
-  (cond ((equal 'cons (type-of desig))
-         (setf combiner (make-array (length desig) :fill-pointer 0))
-        ;; (format t "length of combiner ~a~%" (length combiner))
-         (loop while (/=  (length desig) 0)
-               do;;(format t "length ~a~%" (length desig))
-                  (let*((descriptive (first desig))
-                        (elem (desig:description descriptive))
-                        (pose (second (assoc ':loc elem)))
-                        (type (string (second (assoc ':type elem)))))
-                      ;; (format t "pose is : ~a~%" pose)
-                 ;;   (format t "pose is a : ~a~%" (cl-transforms-stamped::to-msg pose))
-                    (setf desig (cdr desig))
-                    (setf str (cl-transforms-stamped::make-msg "std_msgs/String"
-                                                               :data  type))
-                    (setf msg (roslisp:make-message "mhri_msgs/interpretation"
-                                                    :type str
-                                                    :pose (cl-transforms-stamped::to-msg pose)))
-                    (format t "msg ~a~%" msg)
-                    (vector-push msg combiner)
-                    (format t "whats combiner ~a~%" combiner)))
-         (setf msg combiner))
-        (t (let*((description (desig:description desig))
-                 (pose (second (assoc ':loc description)))
-                 (type (string (second (assoc ':type description)))))
-          ;;   (format t "pose is : ~a~%" pose)
-          ;;    (format t "pose is a : ~a~%" (cl-transforms-stamped::to-msg pose))
-             (setf str (cl-transforms-stamped::make-msg "std_msgs/String"
-                                                        :data  type))
-             (setf msg (vector (roslisp:make-message "mhri_msgs/interpretation"
-                                             :type str
-                                             :pose
-                                             (slot-value (roslisp:call-service "myned2wgs_server" 'world_mission-srv::Mywgs2ned_server :data (cl-transforms-stamped::to-msg pose)) 'WORLD_MISSION-SRV:SUM)))))))
-            ;;(cl-transforms-stamped::to-msg pose)))))))
-  ;;(format t "ääääääHAAAAAALLOOOää +~a~%" msg)
-  (setf msg2 (roslisp:make-message "mhri_msgs/multimodal"
-                                   :action   msg))
-  ;;(format t "new tests +~a~%" msg2)
-    msg2))
-
+(defun mhri-list-into-client-msg (liste)
+  (let*((vec (make-array (length liste) :fill-pointer 0)))
+    (dotimes (index (length liste))
+      (vector-push (nth index liste) vec))
+  (roslisp:make-message "mhri_msgs/multimodal"
+                                   :action vec)))

@@ -29,6 +29,8 @@
 (in-package :startup-mission)
 
 (defvar *pub*)
+(defvar *puber* NIL)
+(defvar *get-semantic-map*)
 
 (defun service-call ()
   (roslisp-utilities:startup-ros :name "service_node");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
@@ -42,22 +44,60 @@
 
 (roslisp:def-service-callback instruct_mission-srv:multimodal_lisp (robot type cmd gesture)
   (visualize-world)
+  ;; (setf puber (swm->intern-tf-creater))
   (let*((agent (substitute #\_ #\Space robot))
         (type (read-from-string type))
         (icmd (instruct-mission::parser cmd))
-        (msg NIL)
+        (sem-map (swm->initialize-semantic-map))
         (ge-vector (cl-transforms::make-3d-vector (svref gesture 0) ;;ned -> nwu
                                                   (* (svref gesture 1) (- 1))
-                                                  (* (svref gesture 2) (- 1))))    	(gesture-elem  (sem-map->give-obj-pointed-at ge-vector))
-	(desig-list  (instruct-mission::create-the-msg agent type icmd gesture-elem))  
+                                                  (* (svref gesture 2) (- 1))))
+        (liste (create-the-desiglist icmd ge-vector sem-map))
+        (aliste (liste-with-locs liste))
+        (bliste (liste-with-referenced-locs aliste))
+        (mhri-msgs (instruct-mission::create-mhri-msg bliste)))
+    (instruct-mission::mhri-list-into-client-msg mhri-msgs)))
+   
+
+(defun checker-of-pointer (elem gesture sem-map)
+  (format t "checker-of-pointer~%")
+  (let*((sym1 NIL)
+        (sym2 NIL)
+        (sym NIL))
+    (cond ((not (equal NIL (swm->is-elem-in-list elem sem-map)))
+           (setf sym (swm->is-elem-in-list elem sem-map)))
+          (t (setf sym1 (sem-map->give-obj-pointed-at gesture sem-map))
+             (if (equal sym1 NIL)
+                 (setf sym2 (swm->close-to-gesture gesture sem-map))
+                 (format t ""))
+             (cond ((> (length sym1) 0)
+                    (dotimes(index (length sym1))
+                      do(cond((and (string-equal elem  (swm->elem-type (nth index sym1) sem-map))
+                                   (equal sym NIL))
+                              (setf sym (nth index sym1)))
+                             (t ()))))
+                   ((and (= (length sym1) 0)(> (length sym2) 0))
+                    (dotimes(index (length sym2))
+                      do(cond((and (string-equal elem  (swm->elem-type (nth index sym2) sem-map))
+                                   (equal sym NIL))
+                              (setf sym (nth index sym2)))
+                             (t ()))))
+                   (t ()))))
+    sym))
+
+    ;; (desig-list  (instruct-mission::create-the-msg agent type icmd gesture-elem))  
  
-        (tmp (instruct-mission::create-mhri-msg desig-list)))
-    (cond ((= (length tmp) 1)
-           (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp)))))
-          ((= (length tmp) 2)
-         (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp) (second tmp)))))
+    ;;     (tmp (instruct-mission::create-mhri-msg desig-list)))
+    ;; (cond ((= (length tmp) 1)
+    ;;        (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp)))))
+    ;;       ((= (length tmp) 2)
+    ;;      (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp) (second tmp)))))
 
-          ((= (length tmp) 3)
-         (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp) (second tmp) (third tmp))))))
-    (roslisp:make-response :interpretation msg)))
+    ;;       ((= (length tmp) 3)
+    ;;      (setf msg  (roslisp:make-message "mhri_msgs/multimodal" :action (vector (first tmp) (second tmp) (third tmp))))))
+    ;; (roslisp:make-response :interpretation msg)))
 
+
+
+          
+        

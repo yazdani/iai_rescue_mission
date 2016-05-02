@@ -123,10 +123,11 @@ string without_brakets(string value)
       std::vector<string> testing = splitString(cmds[sup], ",");
       if(testing.size() == 1)
 	{
-	  boost::replace_all(cmds[sup],"picture)","nil,nil,picture)");
+	  boost::replace_all(cmds[sup],"picture)","picture,nil,nil)");
 	  boost::replace_all(cmds[sup],"right)","right,nil,nil)");
 	  boost::replace_all(cmds[sup],"left)","left,nil,nil)");
 	  boost::replace_all(cmds[sup],"ahead)","ahead,nil,nil)");
+	  boost::replace_all(cmds[sup],"around)","around,nil,nil)");
 	}else 
 	if(testing.size() == 2)
 	  {
