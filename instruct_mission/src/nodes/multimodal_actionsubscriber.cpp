@@ -258,11 +258,11 @@ void startChecking(const mhri_msgs::multimodal_action::ConstPtr& msg)
       srv.request.gesture.push_back(msg->direction[0]);
       srv.request.gesture.push_back(msg->direction[1]);
       srv.request.gesture.push_back(msg->direction[2]);
-      std::vector<float> vect;
-      vect.push_back(msg->location[0]);
-      vect.push_back(msg->location[1]);
-      vect.push_back(msg->location[2]);
-      srv.request.location = wgs84ToNed(vect[0], vect[1], vect[2], LAT, LON, ALT );
+      // std::vector<float> vect;
+      // vect.push_back(msg->location[0]);
+      // vect.push_back(msg->location[1]);
+      // vect.push_back(msg->location[2]);
+      // srv.request.location = wgs84ToNed(vect[0], vect[1], vect[2], LAT, LON, ALT );
       ROS_INFO_STREAM("Lisp");
       // calling lisp and waiting for the result
       ros::NodeHandle new_pub;
