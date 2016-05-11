@@ -61,18 +61,6 @@
                 0.0d0)
             0.0d0)))))
 
-(defun make-bb-height-function (obj-name height)
-  (sem-map-utils::get-semantic-map)
-  (let* ((sem-hash (slot-value semantic-map-utils::*cached-semantic-map* 'sem-map-utils:parts))
-         (dim  (slot-value (gethash obj-name sem-hash) 'sem-map-utils:dimensions)))
-    (setf height (/ (cl-transforms:z dim) 2))
-    (if (< height 1)
-	(setf height 1.5)
-	(setf height height))
-    (lambda (x y)
-      (declare (ignore x y))
-      (list height))))
-
 (defun swm->make-height-human (pose height)
    (setf height (+ 1 4))
   (format t "inside human height~%")
@@ -88,8 +76,7 @@
       (declare (ignore x y))
       (list height))))
 
-(defun make-constant-height-function (obj-name height)
-  (sem-map-utils::get-semantic-map)
+(defun make-constant-height-function (obj-name height &optional (sem-map-utils::get-semantic-map))
   (let* ((sem-hash (slot-value semantic-map-utils::*cached-semantic-map* 'sem-map-utils:parts))
          (dim  (slot-value (gethash obj-name sem-hash) 'sem-map-utils:dimensions)))
     (setf height  (+ (cl-transforms:z dim) 1))
@@ -119,30 +106,6 @@
                      (< y (+ (cl-transforms:y bb-center) dimensions-y/2))
                      (> y (- (cl-transforms:y bb-center) dimensions-y/2)))
                 (return (if invert 0.0d0 1.0d0)))))))))) 
-
-(defun make-costmap-bbox-gen-obj (obj-name &key invert padding)
-  (let*((sem-hash (slot-value semantic-map-utils::*cached-semantic-map* 'sem-map-utils:parts))
-        (sem-obj (gethash obj-name sem-hash))
-        (pose (slot-value sem-obj 'cram-semantic-map-utils:pose))
-        (dim (slot-value sem-obj 'cram-semantic-map-utils:dimensions))
-        (z/2-dim (/ (cl-transforms:z (slot-value sem-obj 'cram-semantic-map-utils:dimensions)) 2)))
-    (lambda (a b)
-      (block nil
-        (let*((bb-center (cl-transforms:make-3d-vector 
-                           (cl-transforms:x (cl-transforms:origin pose)) (cl-transforms:y (cl-transforms:origin pose)) (+ (cl-transforms:z (cl-transforms:origin pose)) z/2-dim)))
-              (dim-x/2 (+ (/ (cl-transforms:x dim) 2) padding))
-              (dim-y/2 (+ (/ (cl-transforms:y dim) 2) padding)))
-          (format t "edli~%")
-          (format t "x ~a and y~a~%" a b)
-          (format t "bb-center ~a~%" bb-center)
-          (format t "~a~%" (+ (cl-transforms:x bb-center) dim-x/2))
-          (format t "~a~%" (+ (cl-transforms:x bb-center) dim-y/2))
-          (when (and
-                 (< a (+ (cl-transforms:x bb-center) dim-x/2))
-                 (> a (- (cl-transforms:x bb-center) dim-x/2))
-                 (< b (+ (cl-transforms:y bb-center) dim-y/2))
-                 (> b (- (cl-transforms:y bb-center) dim-y/2)))
-            (return (if invert 0.0d0 1.0d0))))))))
 
 (defun make-location-cost-function (loc std-dev)
   (let ((loc (cl-transforms:origin loc)))
@@ -189,13 +152,11 @@
 		(t (setf geom-list (cdr geom-list)))))
 (list object)))
 
-
 (defun get-gesture->relative-genius (gesture-vec) 
   (let*((pose (cl-transforms-stamped:make-pose-stamped "genius_link" 0.0
                                                         gesture-vec
                                                         (cl-transforms:make-quaternion 0 0 -1 1))))
     (cl-transforms-stamped:pose-stamped->pose  (cl-tf:transform-pose *tf* :pose pose :target-frame "map"))))
-
 
 (defun semantic-map->geom-objects (geom-objects param object-pose)
 ;;  (format t "method semantic map ~a ~%" geom-objects)

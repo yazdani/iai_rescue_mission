@@ -330,7 +330,6 @@
  (let*((elem NIL)
        (num (make-list 300))
        (eps 0)(var 0)
-    ;   (sem-map (swm->initialize-semantic-map)) ;;change the method
        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
        (sem-keys (hash-table-keys sem-hash))
        (liste-tr (swm->list-values num point))
@@ -341,12 +340,8 @@
        (liste-front (all-fronts liste-tr))
        (liste-back (all-backs liste-tr))
        (value NIL))
-  ; (format t "TEEEEEEEEEEEEEEEEEEEEEEST (car liste-tr) ~a~%"  liste-tr)
-  ; (format t "TEEEEEEEEEEEEEEEEEEEEEEST (car liste-up) ~a~%"  liste-up)
    (dotimes (jindex (length liste-tr))
-     do ;(format t "nth index ~a~%" (cl-transforms:origin (nth jindex liste-tr)))
-     ;(if (equal elem NIL)
-            (dotimes(jo (length sem-keys))
+     do (dotimes(jo (length sem-keys))
               do(let* ((all (swm->get-bbox-as-aabb (nth jo sem-keys) sem-hash))
                        (elem1 (first all))
                        (elem2 (second all))
@@ -401,40 +396,6 @@
 
   
 
-;; getting all the objects close to the rescuer...
-(defun swm->semantic-map->geom-objects (geom-objects param object-pose)
-  (let*((geom-list geom-objects)
-      (objects NIL))
-     (loop while (/= (length geom-list) 0) 
-	do;;(format t "inital ~a~%" geom-list)
-     (cond ((and T
-                (swm->compare-distance-of-objects (slot-value (car geom-list) 'sem-map-utils:pose) object-pose param))
-      ;;      (format t "tester ~a~%" geom-list)
-		 (setf objects
-           (append objects (list (first geom-list))))
-            (setf geom-list (cdr geom-list)))
-          (t (setf geom-list (cdr geom-list)))))
- ;; (format t "und objects sind ~a~%" objects)
-objects))
-
-(defun swm->compare-distance-of-objects (genius_position pose param)
-  (let*((vector (cl-transforms:origin pose))
-        (x-vec (cl-transforms:x vector))
-        (y-vec (cl-transforms:y vector))
-        (z-vec (cl-transforms:z vector))
-        (ge-vector (cl-transforms:origin genius_position))
-        (x-ge (cl-transforms:x ge-vector))
-        (y-ge (cl-transforms:y ge-vector))
-        (z-ge (cl-transforms:z ge-vector))
-        (test NIL))
-    (if (> param (sqrt (+ (square (- x-vec x-ge))
-                          (square (- y-vec y-ge))
-                          (square (- z-vec z-ge)))))
-     (setf test T)
-     (setf test NIL))
-    test))
-  
-
 (defun swm->intern-tf-remover (thread)
   ;; (format t "swm->intern-tf-remover~%")
  ; (format t "*pub123* ~a~%" thread)
@@ -481,68 +442,8 @@ objects))
       (max-vec (cl-transforms:make-3d-vector (+ pose-x (/ dim-x 2))
                                              (+ pose-y (/ dim-y 2))
                                              dim-z)))
-    (semantic-map-costmap::get-aabb min-vec max-vec)))
-                 
+    (semantic-map-costmap::get-aabb min-vec max-vec)))                 
       
-;; getting all the objects close to the rescuer...
-(defun give-objs-close-to-human (distance position)
-  ;(format t "Give objs close to human ~%")
-  (sem-map-utils:get-semantic-map)
-  (let*((liste-name NIL)
-        (liste-pose NIL)
-        (liste-dim NIL)
-        (list-all NIL)
-        (var 0)
-        (sem-hash (slot-value semantic-map-utils::*cached-semantic-map* 'sem-map-utils:parts))
-        (keys (hash-keys sem-hash)))
-    (loop for i in keys
-          do (cond ((and T
-                         (compare-distance-with-genius-position
-                          position (slot-value (gethash i sem-hash) 'sem-map-utils:pose)
-                          distance))
-                  ;;  (format t "not working~%")
-                    (setf liste-name
-                          (append liste-name
-                                  (list i)))
-                   ;; (format t "name ~a~%" liste-name)
-                    (setf liste-pose
-                          (append liste-pose
-                                  (list 
-                                   (slot-value (gethash i sem-hash) 'sem-map-utils:pose))))
-                   ;; (format t "pose ~a~%" liste-pose)
-                    
-                    (setf liste-dim
-                          (append liste-dim
-                                  (list 
-                                   (slot-value (gethash i sem-hash) 'sem-map-utils:dimensions))))
-                   ;; (format t "dim ~a~%" liste-dim)
-
-                    (setf list-all
-                          (append list-all
-                                  (list
-                                   (list i 
-                                         (slot-value (gethash i sem-hash) 'sem-map-utils:pose)
-                                         (slot-value (gethash i sem-hash) 'sem-map-utils:dimensions)))))
-                    ;;(format t "all ~a~%" list-all)
-
-                    )
-                   (t (setf var 0))))
-    (setf *list-all* list-all)
-    (setf *liste-pose* liste-pose)
-    (setf *liste-name* liste-name)
-    (setf *liste-dim* liste-dim)
-    list-all))
- 
-;; this function gives the name of the object back
-;; (defun give-obj-pointed-at (vec)
-;;   (let*((*gesture* vec)
-;;         (ret NIL))
-;;     (give-objs-close-to-human *distance* (get-genius-pose->map-frame "genius_link"))
-;;     (setf ret (get-the-direction vec))
-;;     (car ret)))
-
-
-
 ;; visualization in rviz and computation of the gesture 
 (defun get-the-direction (point)
  ;; (format t "pointi ~a~%" point)
@@ -597,46 +498,36 @@ objects))
 (defun hash-keys (hash-table)
   (loop for key being the hash-keys of hash-table collect key))
 
-(defun compare-distance-with-genius-position (genius_position pose param)
-  (let*((vector (cl-transforms:origin pose))
-        (x-vec (cl-transforms:x vector))
-        (y-vec (cl-transforms:y vector))
-        (z-vec (cl-transforms:z vector))
-        (ge-vector (cl-transforms:origin genius_position))
-        (x-ge (cl-transforms:x ge-vector))
-        (y-ge (cl-transforms:y ge-vector))
-        (z-ge (cl-transforms:z ge-vector))
-        (test NIL))
-    (if (> param (sqrt (+ (square (- x-vec x-ge))
-                          (square (- y-vec y-ge))
-                          (square (- z-vec z-ge)))))
-     (setf test T)
-     (setf test NIL))
-    test))
+;; (defun compare-distance-with-genius-position (genius_position pose param)
+;;   (let*((vector (cl-transforms:origin pose))
+;;         (x-vec (cl-transforms:x vector))
+;;         (y-vec (cl-transforms:y vector))
+;;         (z-vec (cl-transforms:z vector))
+;;         (ge-vector (cl-transforms:origin genius_position))
+;;         (x-ge (cl-transforms:x ge-vector))
+;;         (y-ge (cl-transforms:y ge-vector))
+;;         (z-ge (cl-transforms:z ge-vector))
+;;         (test NIL))
+;;     (if (> param (sqrt (+ (square (- x-vec x-ge))
+;;                           (square (- y-vec y-ge))
+;;                           (square (- z-vec z-ge)))))
+;;      (setf test T)
+;;      (setf test NIL))
+;;     test))
   
 (defun square (x)
   (* x x))
 
-
-
-
-
 (defun all-ups (liste)
-  ;(format t "all-ups~%")
   (let*((test '()))
-     ;(format t "all-ups2~%")
     (dotimes (index (length liste))
-      ; (format t "all-ups2 ~a~%"(nth index liste))
       (setf test (cons 
             (cl-transforms:make-pose
              (cl-transforms:make-3d-vector (cl-transforms:x (cl-transforms:origin (nth index liste)))
                                            (cl-transforms:y (cl-transforms:origin (nth index liste)))
                                            (+ (cl-transforms:z (cl-transforms:origin (nth index liste))) 1))
              (cl-transforms:orientation (nth index liste))) test)))
-       ;(format t "all-upwewews~%"))
     (reverse test)))
-                                          
-            
 
 (defun all-downs (liste)
    ; (format t "all-downs~%")
@@ -651,17 +542,14 @@ objects))
     (reverse test)))
 
 (defun all-rights (liste)
-  ;(format t "all-rights~%")
-    (let*((test '()))
+  (let*((test '()))
     (dotimes (index (length liste))
       (setf test (cons 
-            (cl-transforms:make-pose
-             (cl-transforms:make-3d-vector (cl-transforms:x (cl-transforms:origin (nth index liste)))
-                                           (+ (cl-transforms:y (cl-transforms:origin (nth index liste))) 1)
-                                           (cl-transforms:z (cl-transforms:origin (nth index liste))))
-             (cl-transforms:orientation (nth index liste))) test))
-      ;(format t "END MORPG~%")
-      )
+                  (cl-transforms:make-pose
+                   (cl-transforms:make-3d-vector (cl-transforms:x (cl-transforms:origin (nth index liste)))
+                                                 (+ (cl-transforms:y (cl-transforms:origin (nth index liste))) 1)
+                                                 (cl-transforms:z (cl-transforms:origin (nth index liste))))
+                   (cl-transforms:orientation (nth index liste))) test)))
     (reverse test)))
 
 (defun all-lefts (liste)

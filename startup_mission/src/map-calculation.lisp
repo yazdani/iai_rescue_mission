@@ -135,22 +135,11 @@
                     (setf list-keys (cons (nth mass sem-keys) list-keys))
                     (format t "")))
              (dotimes (index (length list-keys))
-               do(cond((> value (swm->bbox-sum (nth index list-keys) sem-hash))
+               do(cond((> value (sem-map->bbox-sum (nth index list-keys) sem-hash))
                        (setf name (nth index list-keys))
-                       (setf value (swm->bbox-sum (nth index list-keys) sem-hash)))
+                       (setf value (sem-map->bbox-sum (nth index list-keys) sem-hash)))
                       (t ())))))
     name))
-
-
-(defun swm->bbox-sum (name sem-hash)
-  (let*((liste (swm->get-bbox-as-aabb name sem-hash))
-        (erst (first liste))
-        (zweit (second liste))
-        (sum NIL))
-    (setf sum (+ (+ (cl-transforms:x erst) (cl-transforms:x zweit))
-                 (+ (cl-transforms:y erst) (cl-transforms:y zweit))
-                 (+ (cl-transforms:z erst) (cl-transforms:z zweit))))
-    sum))
 
 ;;
 ;; Getting the biggest object inside the map
@@ -170,9 +159,9 @@
                   (setf list-keys (cons (nth mass sem-keys) list-keys))
                   (format t "")))
            (dotimes (index (length list-keys))
-             do(cond((< value (swm->bbox-sum (nth index list-keys) sem-hash))
+             do(cond((< value (sem-map->bbox-sum (nth index list-keys) sem-hash))
                      (setf name (nth index list-keys))
-                     (setf value (swm->bbox-sum (nth index list-keys) sem-hash)))
+                     (setf value (sem-map->bbox-sum (nth index list-keys) sem-hash)))
              (t ())))))
     name))
     
@@ -236,75 +225,6 @@
                              (g color) g ; (random 1.0)
                              (b color) b ; (random 1.0)
                              (a color) a)))))
-
-
-;; (defun visualize-plane (point num)
-;; (let* ((temp '())
-;;          (ori (cl-transforms:origin point))
-;;          (quat (cl-transforms:orientation point)))
-;;     (loop for jindex from 5 to num
-;;           do (loop for mass from 1 to 10 
-;;             do  (let*((new-point2 (cl-transforms:make-pose
-;;                                            (cl-transforms:make-3d-vector
-;;                                             (+ (cl-transforms:x ori) jindex)
-;;                                             (cl-transforms:y ori)
-;;                                             (- (cl-transforms:z ori) mass))
-;;                                            quat))
-;;                       (new-point (cl-transforms:make-pose
-;;                                           (cl-transforms:make-3d-vector
-;;                                            (+ (cl-transforms:x ori) jindex)
-;;                                            (cl-transforms:y ori)
-;;                                            (cl-transforms:z ori))
-;;                                           quat))
-;;                       (new-point1 (cl-transforms:make-pose
-;;                                         (cl-transforms:make-3d-vector
-;;                                          (+ (cl-transforms:x ori) jindex)
-;;                                          (cl-transforms:y ori)
-;;                                          (+ (cl-transforms:z ori) mass))
-;;                                         quat)))
-;;                  (loop for index from 1 to 30
-;;                        do
-;;                           (setf Apoint (cl-transforms:make-pose
-;;                                         (cl-transforms:make-3d-vector
-;;                                          (cl-transforms:x (cl-transforms:origin new-point))
-;;                                         (+ (cl-transforms:y (cl-transforms:origin new-point)) index)
-;;                                         (cl-transforms:z (cl-transforms:origin new-point)))
-;;                                         quat))
-;;                           (setf Bpoint (cl-transforms:make-pose
-;;                                         (cl-transforms:make-3d-vector
-;;                                          (cl-transforms:x (cl-transforms:origin new-point))
-;;                                         (- (cl-transforms:y (cl-transforms:origin new-point)) index)
-;;                                         (cl-transforms:z (cl-transforms:origin new-point)))
-;;                                         quat))
-;;                           (setf Cpoint (cl-transforms:make-pose
-;;                                        (cl-transforms:make-3d-vector
-;;                                         (cl-transforms:x (cl-transforms:origin new-point1))
-;;                                         (+ (cl-transforms:y (cl-transforms:origin new-point1)) index)
-;;                                         (cl-transforms:z (cl-transforms:origin new-point1)))
-;;                                        quat))
-;;                          (setf Dpoint (cl-transforms:make-pose
-;;                                        (cl-transforms:make-3d-vector
-;;                                         (cl-transforms:x (cl-transforms:origin new-point1))
-;;                                         (- (cl-transforms:y (cl-transforms:origin new-point1)) index)
-;;                                         (cl-transforms:z (cl-transforms:origin new-point1)))
-;;                                        quat))
-;;                          (setf Epoint (cl-transforms:make-pose
-;;                                        (cl-transforms:make-3d-vector
-;;                                         (cl-transforms:x (cl-transforms:origin new-point2))
-;;                                         (+ (cl-transforms:y (cl-transforms:origin new-point2)) index)
-;;                                         (cl-transforms:z (cl-transforms:origin new-point2)))
-;;                                        quat))
-;;                          (setf Fpoint (cl-transforms:make-pose
-;;                                        (cl-transforms:make-3d-vector
-;;                                         (cl-transforms:x (cl-transforms:origin new-point2))
-;;                                         (- (cl-transforms:y (cl-transforms:origin new-point2)) index)
-;;                                         (cl-transforms:z (cl-transforms:origin new-point2)))
-;;                                        quat))
-
-;;                            ;; (format t "temo ~a~%" temp)
-;;                          (setf temp (cons Fpoint (cons Epoint (cons new-point1 (cons new-point2 (cons Dpoint (cons Cpoint (cons Bpoint (cons Apoint (cons new-point temp))))))))))))))
-;;                (reverse temp))) 
-
 
 (defun visualize-plane (num)
   (let* ((temp '()))
@@ -471,7 +391,6 @@
          (b-seq (first (split-sequence:split-sequence #\] (second seq))))
          (a-nums (split-sequence:split-sequence #\, a-seq))
          (b-nums (split-sequence:split-sequence #\, b-seq)))
-    ;;(format t "(typeof) ~a and ~a ~%" b-nums a-nums)
         (cl-transforms:make-pose (cl-transforms:make-3d-vector
                                         (read-from-string (first a-nums))
                                         (read-from-string (second a-nums))
@@ -491,28 +410,42 @@
                   (qua (cl-transforms:orientation (nth 1 (nth i elems)))))
              (cl-tf:send-transforms pub (cl-transforms-stamped:make-transform-stamped "map"  frame-id (roslisp:ros-time) ori qua))))))
 
-
-;; (defun swm->elem-name->type (name)
-;;  (let*((pose NIL)
-;;        (liste *geo-list*)); (swm->geopose-elements)))
-;;                    (loop for i from 0 to (length liste)
-;;                          do(cond ((string-equal name (car (nth i liste)))
-;;                                 (setf pose (second (nth i liste))))
-;;                                (t (setf var 1))))
-;;                    pose))
-
-
 (defun swm->elem-name->position (name &optional (sem-map (swm->initialize-semantic-map)))
- ;; (format t "swm->elem-name->position~%")
  (let*((pose NIL)
        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
        (sem-keys (hash-table-keys sem-hash)))
-   (format t "name is ~a~%" name)
        (dotimes (i (length sem-keys))
          do(if (string-equal name (nth i sem-keys))
                (setf pose (slot-value (gethash name sem-hash) 'sem-map-utils:pose))
-               (format t ""))
-        ; (format t "(nth i sem-keys) ~a~%"(nth i sem-keys))
-         )
+               (format t "")))
    pose))
 
+;; getting all the objects close to the rescuer...
+(defun swm->semantic-map->geom-objects (geom-objects param object-pose)
+  (let*((geom-list geom-objects)
+	(objects NIL))
+    (loop while (/= (length geom-list) 0) 
+	  do(cond ((and T
+			(swm->compare-distance-of-objects (slot-value (car geom-list) 'sem-map-utils:pose) object-pose param))
+		   (setf objects
+			 (append objects (list (first geom-list))))
+		   (setf geom-list (cdr geom-list)))
+		  (t (setf geom-list (cdr geom-list)))))
+    objects))
+
+(defun swm->compare-distance-of-objects (obj_position pose param)
+  (let*((vector (cl-transforms:origin pose))
+        (x-vec (cl-transforms:x vector))
+        (y-vec (cl-transforms:y vector))
+        (z-vec (cl-transforms:z vector))
+        (ge-vector (cl-transforms:origin obj_position))
+        (x-ge (cl-transforms:x ge-vector))
+        (y-ge (cl-transforms:y ge-vector))
+        (z-ge (cl-transforms:z ge-vector))
+        (test NIL))
+    (if (> param (sqrt (+ (square (- x-vec x-ge))
+                          (square (- y-vec y-ge))
+                          (square (- z-vec z-ge)))))
+     (setf test T)
+     (setf test NIL))
+    test))
