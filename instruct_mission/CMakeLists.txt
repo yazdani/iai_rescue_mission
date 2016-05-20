@@ -56,6 +56,7 @@ add_message_files(
    multimodal_msgs.msg
    multimodal_values.msg
    multikulti.msg
+   MultiArrays.msg
 )
 
 ## Generate services in the 'srv' folder
