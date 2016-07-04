@@ -81,9 +81,18 @@
                      (maphash (lambda (k _v) (push k keys)) hash-table)
                      keys))
 
+(defun copy-hash-table (hash-table)
+  (let ((ht (make-hash-table
+             :test 'equal
+             :size (hash-table-size hash-table))))
+    (loop for key being each hash-key of hash-table
+            using (hash-value value)
+          do (setf (gethash key ht) value)
+          finally (return ht))))
+
 ;; calculating all objects which are close in front of the human
-(defun sem->objects-next-human (distance sem-map)
-;;  (format t "func(): swm->objects-next-human ~%")
+(defun sem->objects-next-human (distance &optional (sem-map (swm->initialize-semantic-map))))
+  (let*((puber NIL))
   (setf puber (swm->intern-tf-creater))
   (let* ((new-liste (visualize-plane distance))
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
@@ -114,14 +123,14 @@
                                 )))
                        ;;(swm->publish-point new-point :id (+ smarter jndex) :r 1.0 :g 0.0 :b 0.0 :a 0.9)
                        (setf incrementer (+ incrementer 2)))))
-    (reverse (remove-duplicates elem))))
+    (reverse (remove-duplicates elem)))))
 
 ;;;;;;;;;;;;;;;;;;;; SEMANTIC MAP CALCULATIONS
 
 ;;
 ;; Getting the smallest object inside the map
 ;;
-(defun calculate-small-object (nom sem-map)
+(defun calculate-small-object (nom &optional (sem-map (swm->initialize-semantic-map)))
   (format t "calculate small~%")
   (let*((sem-hash (slot-value sem-map 'sem-map-utils:parts))
         (sem-keys (hash-table-keys sem-hash))
@@ -144,7 +153,7 @@
 ;;
 ;; Getting the biggest object inside the map
 ;;
-(defun calculate-big-object (nom sem-map)
+(defun calculate-big-object (nom &optional (sem-map (swm->initialize-semantic-map)))
   (format t "calculate big~%")
   (let*((sem-hash (slot-value sem-map 'sem-map-utils:parts))
         (sem-keys (hash-table-keys sem-hash))
@@ -166,7 +175,7 @@
     name))
     
 
-(defun swm->elem-type (name sem-map)
+(defun swm->elem-type (name &optional (sem-map (swm->initialize-semantic-map)))
  (let*((type NIL)
        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
        (sem-keys (hash-table-keys sem-hash)))
@@ -177,7 +186,7 @@
                      (t ())))
    type))
 
-(defun swm->elem-pose (name sem-map)
+(defun swm->elem-pose (name &optional (sem-map (swm->initialize-semantic-map)))
   (let*((pose NIL)
        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
        (sem-keys (hash-table-keys sem-hash)))
@@ -188,7 +197,7 @@
                      (t ())))
     pose))
  
-(defun swm->is-elem-in-list (name sem-map)
+(defun swm->is-elem-in-list (name &optional (sem-map (swm->initialize-semantic-map)))
   (let*((sem-hash (slot-value sem-map 'sem-map-utils:parts))
         (sem-keys (hash-table-keys sem-hash))
         (ret NIL))

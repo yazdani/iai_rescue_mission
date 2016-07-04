@@ -1,0 +1,15 @@
+#!/usr/bin/env python  
+import rospy
+import string
+
+def test_the_string(req):
+    print "return the given string %s"%(req.a)
+    return
+def start_server():
+    rospy.init_node('start_my_server')
+    s = rospy.Service('test_string',TestString,test_the_string)
+    print "Ready to test the string"
+    rospy.spin()
+
+if __name__ == '__main__':
+    start_server()

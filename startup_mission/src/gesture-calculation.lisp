@@ -375,7 +375,7 @@
           (setf value T)))
   value))
 
-(defun give-pointed-at-no-bbox (point sem-map)
+(defun give-pointed-at-no-bbox (point &optional (sem-map (swm->initialize-semantic-map)))
   (let*((elem NIL)
        (num (make-list 300))
        (eps 0)(var 0)
@@ -440,7 +440,7 @@
   ;            (swm->intern-tf-remover *puber*)
              (reverse elem)))
 
-(defun sem-map->give-obj-pointed-at (point sem-map)
+(defun sem-map->give-obj-pointed-at (point &optional (sem-map (swm->initialize-semantic-map)))
  ; (setf *puber* (swm->intern-tf-creater))
   (format t "sem-map->give-obj-pointed-at~%")
  (let*((elem NIL)
